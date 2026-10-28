@@ -45,6 +45,25 @@ dotnet run --project . -p:Platform=x64
 
 Alternatively, open `Clay.csproj` in Visual Studio, select `x64`, `x86`, or `ARM64`, and press F5. The application is unpackaged and self-contained, so it does not require a separate Windows App SDK runtime installation.
 
+## Portable builds
+
+Clay can be distributed as a self-contained portable folder. The folder includes `Clay.exe` and the native/runtime files required by WinUI 3; copy the complete folder to another compatible Windows machine rather than copying only the executable.
+
+From PowerShell, publish the default x64 build with:
+
+```powershell
+.\publish-portable.ps1
+```
+
+To publish another supported architecture:
+
+```powershell
+.\publish-portable.ps1 -Architecture x86
+.\publish-portable.ps1 -Architecture arm64
+```
+
+The output is written to `publish\win-x64`, `publish\win-x86`, or `publish\win-arm64`. Run `Clay.exe` from the complete output folder. These builds are self-contained and do not require the .NET 8 runtime or a separately installed Windows App SDK runtime.
+
 ## Project structure
 
 - `Engine/` — calculator lexer, parser, values, units, and evaluation logic
