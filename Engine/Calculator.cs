@@ -23,8 +23,31 @@ public sealed class Calculator
     private static readonly Regex LabelRx = new(@"^\p{L}[^:=]*:\s*(?<rest>\S.*)$", RegexOptions.Compiled);
     private static readonly Regex AssignRx =
         new(@"^(?<name>[\p{L}_][\p{L}\p{N}_]*)\s*=(?!=)\s*(?<expr>.+)$", RegexOptions.Compiled);
+	private static Match MatchAssign(string t)
+	{
+		var m = AssignRx.Match(t);
+		if (m.Success) return m;
 
-    public List<LineResult> Evaluate(string text)
+		// Shortcuts that expand to "=" (e.g. "is") also count as assignment
+		var words = Lexer.Shortcuts
+			.Where(kv => kv.Value.Trim() == "=")
+			.Select(kv => Regex.Escape(kv.Key))
+			.ToList();
+		if (words.Count == 0) return m;
+
+		var rx = new Regex(
+			$@"^(?<name>[\p{{L}}_][\p{{L}}\p{{N}}_]*)\s+(?:{string.Join("|", words)})\s+(?<expr>.+)$",
+			RegexOptions.IgnoreCase);
+
+		var alt = rx.Match(t);
+		// "what is 3" must stay an expression, not become what = 3
+		if (alt.Success && !Lexer.Shortcuts.ContainsKey(alt.Groups["name"].Value))
+			return alt;
+
+		return m;
+	}
+
+	public List<LineResult> Evaluate(string text)
     {
         var scope = new Scope(AngleMode);
         var results = new List<LineResult>();
@@ -32,6 +55,8 @@ public sealed class Calculator
             results.Add(EvaluateLine(line, scope));
         return results;
     }
+
+
 
 	private LineResult EvaluateLine(string line, Scope scope)
     {
@@ -65,8 +90,8 @@ public sealed class Calculator
         if (label.Success) t = label.Groups["rest"].Value;
 
         string? name = null;
-        var assign = AssignRx.Match(t);
-        if (assign.Success)
+        var assign = MatchAssign(t);    
+		if (assign.Success)
         {
             name = assign.Groups["name"].Value;
             t = assign.Groups["expr"].Value;
