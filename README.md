@@ -2,6 +2,8 @@
 
 Clay is a Numi-style natural-language calculator for Windows, built with WinUI 3 and .NET 8. Type expressions on the left and see one result per line on the right.
 
+**Current version: 1.0.0** — see the [changelog](CHANGELOG.md).
+
 ## Features
 
 - Arithmetic, percentages, variables, labels, and comments
