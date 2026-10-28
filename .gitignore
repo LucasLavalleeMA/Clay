@@ -1,0 +1,27 @@
+# Build output
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.pdb
+*.log
+
+# Local and secret configuration
+.env
+.env.*
+appsettings*.json
+secrets.json
+
+# Signing and certificate material
+*.pfx
+*.p12
+*.key
+
+# Editable icon source files; exported runtime icons remain tracked
+Icon/build_icon.py
+Icon/drawing.svg
+Icon/logo.vectorcraft
+Icon/Notes.txt
+Icon/New folder/
