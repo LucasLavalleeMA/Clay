@@ -1,0 +1,36 @@
+<Project Sdk="WixToolset.Sdk/4.0.5">
+  <PropertyGroup>
+    <OutputType>Package</OutputType>
+    <OutputName>ClayInstaller</OutputName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <PublishDir Condition="'$(PublishDir)' == ''">$(MSBuildProjectDirectory)\..\publish\win-$(Platform)</PublishDir>
+    <DefineConstants>ProductVersion=$(ProductVersion);PublishDir=$(PublishDir)</DefineConstants>
+    <SuppressIces>ICE03</SuppressIces>
+    <HarvestedWxs>$(IntermediateOutputPath)HarvestedFiles.wxs</HarvestedWxs>
+    <HeatExePath>$(NuGetPackageRoot)wixtoolset.heat\4.0.5\tools\net472\x86\heat.exe</HeatExePath>
+    <ClayRid Condition="'$(Platform)' == 'x86'">win-x86</ClayRid>
+    <ClayRid Condition="'$(Platform)' == 'x64'">win-x64</ClayRid>
+    <ClayRid Condition="'$(Platform)' == 'ARM64'">win-arm64</ClayRid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Package.wxs" />
+    <PackageReference Include="WixToolset.Heat" Version="4.0.5" />
+    <BindPath Include="$(PublishDir)" />
+  </ItemGroup>
+  <!-- Publish the app into PublishDir so a normal Build is enough. Pass -p:SkipPublish=true if your script already published. -->
+  <Target Name="PublishApp" Condition="'$(SkipPublish)' != 'true'">
+    <MSBuild Projects="$(MSBuildProjectDirectory)\..\Clay.csproj" Targets="Publish" Properties="Configuration=$(Configuration);Platform=$(Platform);RuntimeIdentifier=$(ClayRid);SelfContained=true;PublishDir=$(PublishDir)\" />
+  </Target>
+  <Target Name="GenerateHarvestedFiles" DependsOnTargets="PublishApp" BeforeTargets="CoreCompile">
+    <PropertyGroup>
+      <HarvestDir>$([System.IO.Path]::GetFullPath('$(PublishDir)'))</HarvestDir>
+      <HarvestDir>$(HarvestDir.TrimEnd('\'))</HarvestDir>
+      <HarvestedWxs>$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(IntermediateOutputPath)', 'HarvestedFiles.wxs'))</HarvestedWxs>
+    </PropertyGroup>
+    <MakeDir Directories="$([System.IO.Path]::GetDirectoryName('$(HarvestedWxs)'))" />
+    <Exec Command="&quot;$(HeatExePath)&quot; dir &quot;$(HarvestDir)&quot; -nologo -dr INSTALLFOLDER -cg AppFiles -gg -scom -sreg -srd -var var.PublishDir -out &quot;$(HarvestedWxs)&quot;" />
+    <ItemGroup>
+      <Compile Include="$(HarvestedWxs)" />
+    </ItemGroup>
+  </Target>
+</Project>

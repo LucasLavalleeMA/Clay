@@ -1,0 +1,55 @@
+name: Release Installer
+
+on:
+  push:
+	tags:
+	  - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+	runs-on: windows-latest
+
+	steps:
+	  - name: Checkout
+		uses: actions/checkout@v4
+
+	  - name: Setup .NET
+		uses: actions/setup-dotnet@v4
+		with:
+		  dotnet-version: 8.0.x
+
+	  - name: Resolve version
+		id: version
+		shell: pwsh
+		run: |
+		  $ref = "${{ github.ref_name }}"
+		  if ($ref.StartsWith("v")) {
+			$version = $ref.Substring(1)
+		  } else {
+			$version = $ref
+		  }
+		  "value=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+	  - name: Publish app
+		shell: pwsh
+		run: dotnet publish .\Clay.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishProfile=portable-win-x64 -o .\artifacts\publish\win-x64
+
+	  - name: Build MSI
+		shell: pwsh
+		run: dotnet build .\Installer\Clay.Installer.wixproj --configuration Release -p:ProductVersion=${{ steps.version.outputs.value }} -p:PublishDir=${{ github.workspace }}\artifacts\publish\win-x64 -p:OutputPath=${{ github.workspace }}\artifacts\installer\
+
+	  - name: Build bootstrapper EXE
+		shell: pwsh
+		run: dotnet build .\Installer\Clay.Bundle.wixproj --configuration Release -p:ProductVersion=${{ steps.version.outputs.value }} -p:MsiPath=${{ github.workspace }}\artifacts\installer\ClayInstaller.msi -p:OutputPath=${{ github.workspace }}\artifacts\installer\
+
+	  - name: Publish release
+		uses: softprops/action-gh-release@v2
+		with:
+		  files: |
+			artifacts/installer/ClayInstaller.msi
+			artifacts/installer/ClaySetup.exe
+		  generate_release_notes: true

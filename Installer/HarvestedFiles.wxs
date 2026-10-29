@@ -1,0 +1,1437 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Directory Id="dirDvc37M0ejBr5Cd1Xb7DrjmIJoxw" Name="af-ZA" />
+            <Directory Id="dir.LghdtQ8_v17qU8szizbH0hDltg" Name="am-ET" />
+            <Directory Id="dirk6K7j3EfZZQtGv01_MuWHii3ZQg" Name="ar-SA" />
+            <Directory Id="dirzhUlGBPcpfa4jAklLtRBzR5JUT4" Name="as-IN" />
+            <Directory Id="dirVv4TaqZeOUYH6XhGQ8z71VvBw4U" Name="az-Latn-AZ" />
+            <Directory Id="dirUhyrMRrf8HWLChOvaHnual0imGI" Name="bg-BG" />
+            <Directory Id="dirwKS5HM8reGdoY3OIO7UXRnOqGRc" Name="bn-IN" />
+            <Directory Id="dirtrkQmIaIm2DrGMGr3vDvKHBxM3Y" Name="bs-Latn-BA" />
+            <Directory Id="dirvxqZUo5cUaNWM3cZ66OLUnesEw0" Name="ca-ES" />
+            <Directory Id="dirRDVSdR_ioKCHm8JBDJ02vowTp7U" Name="ca-Es-VALENCIA" />
+            <Directory Id="dirPncATwb126Mt6sv7PiPswVrn7Bo" Name="cs-CZ" />
+            <Directory Id="dirdWaoYT39H0dndZ4Gn7.wMYdClhI" Name="cy-GB" />
+            <Directory Id="dirRFuOW_lSinxx95rjUqaO.XEHuAQ" Name="da-DK" />
+            <Directory Id="dirikeutCzKHT97AGHlPP9bqIP7LBg" Name="de-DE" />
+            <Directory Id="diriGps_OKcIhmFy4YbGimdiLxRKeA" Name="el-GR" />
+            <Directory Id="dirEQthGinAd.mTZHh44_42tUXI9iM" Name="en-GB" />
+            <Directory Id="dir5eeSNrFsw0D02sNIIb1va_M0q5U" Name="en-us" />
+            <Directory Id="dirbcgQILbB6TbWH3H7aoABiuLbgvI" Name="es-ES" />
+            <Directory Id="dirQqlZYg5B1XHyGMytaAUrxExRJSo" Name="es-MX" />
+            <Directory Id="dir1S4KMkIfY3sClY.RXAMIHBqhAgs" Name="et-EE" />
+            <Directory Id="dirSq192b9kYf0_60T6vI83zq46vKA" Name="eu-ES" />
+            <Directory Id="dirsY2bUXDsWS41Kkp1fx9.dYH7vJs" Name="fa-IR" />
+            <Directory Id="dirkFAsQUbt0T5Q7z3GNAfhcW_3FvQ" Name="fi-FI" />
+            <Directory Id="dir_snFwldDcHH9dwnC0FykzEzEjkE" Name="fil-PH" />
+            <Directory Id="dirzIG6E9PE_67Hd1ZtAygnZmLNOII" Name="fr-CA" />
+            <Directory Id="dirWx93xLnU9ao.JB1XLtXfPMB0aoQ" Name="fr-FR" />
+            <Directory Id="diraeFV0DhLroZo1b.4seNg1j4p4_I" Name="ga-IE" />
+            <Directory Id="dirQU.gfNhEKuduFJnW25uGyqpI6uo" Name="gd-gb" />
+            <Directory Id="dirl68SWs33xHTtxBD7bjdU3jL2vAM" Name="gl-ES" />
+            <Directory Id="dirBWekdMeEq_pA9qiHfgwVqSHrpDI" Name="gu-IN" />
+            <Directory Id="diriWZni2b4338HuZdozEt0BDmEqwg" Name="he-IL" />
+            <Directory Id="dirc02jD6l3UaWeKkijxyFumRlWJf4" Name="hi-IN" />
+            <Directory Id="dirghGleUkEUwg2Vl6Q5ldvzI2Zook" Name="hr-HR" />
+            <Directory Id="dirHNSpAW4AG4tSrfWb.OpqBS9qZ1E" Name="hu-HU" />
+            <Directory Id="dirKuQaC4LP95.9IPRiOoWLtxxPc9o" Name="hy-AM" />
+            <Directory Id="dirDtVfsdRZzwgpqcznMlODtymNxfE" Name="Icon" />
+            <Directory Id="dirS86piunYmniQUB_8n1QfsoBQR_8" Name="id-ID" />
+            <Directory Id="dirnZm3m0Dxo1VP0RgUmZiavH.6Nbc" Name="is-IS" />
+            <Directory Id="dirsMA3vrdtWQ_.Es4uhruvq.n.EwA" Name="it-IT" />
+            <Directory Id="dirn4yqPU6GUOd2tiXPUt70xqhSotE" Name="ja-JP" />
+            <Directory Id="dir.5WaC5.KuNoBLtLFTj9.RcHgP.k" Name="ka-GE" />
+            <Directory Id="dirDycsDWu3Zp2c1_JZz0FsWczXNqo" Name="kk-KZ" />
+            <Directory Id="dirCSgFusttILKzIOMStc7.ANhzl1E" Name="km-KH" />
+            <Directory Id="dir7FhfbxdE3yYlfxF.p.s8nI1nHGI" Name="kn-IN" />
+            <Directory Id="dir3zpLsl1VAqlftDI1EX8ZLHGyq.Q" Name="ko-KR" />
+            <Directory Id="dirxEBuC_EJehKkj1WLFJy9NQUR2Bg" Name="kok-IN" />
+            <Directory Id="dirS1vZV6p5.wytgHew3QbCvYNMPsM" Name="lb-LU" />
+            <Directory Id="dirATic5CbDL.XcalVNzgRAIDknbpc" Name="lo-LA" />
+            <Directory Id="direaPJNUsPDh84YvwmYIdS6SypAM8" Name="lt-LT" />
+            <Directory Id="dirIA3Co.kdD1RI_DuuRaX.EMq8bI8" Name="lv-LV" />
+            <Directory Id="dir7J8sRPe4Qwyz56p8rexNmjcDnoA" Name="mi-NZ" />
+            <Directory Id="dirv4BDvj0WpQK2avlmpEQIWyOj_vA" Name="Microsoft.UI.Xaml" />
+            <Directory Id="dir1.eD3jWg4al.2H.5ZBd5s3I9la0" Name="mk-MK" />
+            <Directory Id="dir3nCCh.RCclUfj84kcdmoH6EjQFA" Name="ml-IN" />
+            <Directory Id="dirV1mXHFDC_MlystG0iDRjCpKzgjA" Name="mr-IN" />
+            <Directory Id="dirVraEvelbxJugOPFBFQN2A7KUYjo" Name="ms-MY" />
+            <Directory Id="dirEbgXPk8__vyYLUAWFD8obO8gwDU" Name="mt-MT" />
+            <Directory Id="dir3GRLmTtZ2qfzBZtR.4XfpDJm5Kk" Name="nb-NO" />
+            <Directory Id="dirAtNqJtrtDJA0J3l.9hh6m75FTRE" Name="ne-NP" />
+            <Directory Id="dirAk9lWeCKdADZXtAonfsv1onLex8" Name="nl-NL" />
+            <Directory Id="diroEMs0L.rYR70YmUmEi0pxGaV.Eg" Name="nn-NO" />
+            <Directory Id="dirzbE6eY9qT2GKMlKewNEj2jx9kJg" Name="or-IN" />
+            <Directory Id="dir6D8S59myb_KmstG4TUhLTjwjnDI" Name="pa-IN" />
+            <Directory Id="dirGIrDj2bWPdNFADqvN5OsU1X6LHE" Name="pl-PL" />
+            <Directory Id="dirbkyp9oCMQ0cQV_mcNgdow2C3q6M" Name="pt-BR" />
+            <Directory Id="dirWyWOvZKJtFBSHOEyXCkfAok81ro" Name="pt-PT" />
+            <Directory Id="dirFIhJcabdQOoUy5yayXFDsGMSosE" Name="quz-PE" />
+            <Directory Id="dir27buWzSOD6YJe7rba3YBEJf09NE" Name="ro-RO" />
+            <Directory Id="dirJwiI2v9OS4Ljl6qOWaIb0XlYbps" Name="ru-RU" />
+            <Directory Id="dirfAQ.n.ugMbQFLycEA_Wx792dYiI" Name="runtimes" />
+            <Directory Id="dir770SMQoRaUPX7WZsUFx4lDawQzI" Name="sk-SK" />
+            <Directory Id="dir5M4OmfN2G7pc0i4eES0eUElYhNQ" Name="sl-SI" />
+            <Directory Id="dir5dawP7kaftad_cLmRfu85y5cr_o" Name="sq-AL" />
+            <Directory Id="dirl2KEirU9A6CvdOp73BJXDKwmeVE" Name="sr-Cyrl-BA" />
+            <Directory Id="dirHFYLybg1LCGE9RK8.w.KvvlBsag" Name="sr-Cyrl-RS" />
+            <Directory Id="dir5BJokHNJs07qHcvzuYlxH8lK6Ng" Name="sr-Latn-RS" />
+            <Directory Id="dirqBKH6O4Ad57at6VhUPxPY7_FpaU" Name="sv-SE" />
+            <Directory Id="dir55IJH2O0FLjzvdWXP7b92laRK6c" Name="ta-IN" />
+            <Directory Id="dir4GkYkv7xle31Kkpn2gL7KiPtnoc" Name="te-IN" />
+            <Directory Id="dirhPtGnufVSnrgvb3RyrXOgDvKqmk" Name="th-TH" />
+            <Directory Id="dirtc_1PH0qlQo6d4IpLL.wR0vu1gw" Name="tr-TR" />
+            <Directory Id="dirIaB.AwdfdSDyB4NreJjn4l0PKKc" Name="tt-RU" />
+            <Directory Id="dirnaBxnF7D2s3PZIEALUL_wDDKjwQ" Name="ug-CN" />
+            <Directory Id="dirm4JPxGsTRBM2aXccsByZNz5SuTA" Name="uk-UA" />
+            <Directory Id="dirhFQczEuiLoaNwHhcBupvLSlD9Bk" Name="ur-PK" />
+            <Directory Id="dir0IFHmr99H1Z2cUBLYxkV.qGLjgM" Name="uz-Latn-UZ" />
+            <Directory Id="diriG5zihhehS6hNZioL3KWJ3FELfE" Name="vi-VN" />
+            <Directory Id="dirZ7xJMXuGmDxrptzyT.ZdOdeIGcw" Name="zh-CN" />
+            <Directory Id="dir7CKDZpyHQcGx9w9HsvXW6P8DxJQ" Name="zh-TW" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="AppFiles">
+            <Component Id="cmpfc7W7XTCEhq1sqoSHsDZfz1KHk0" Directory="INSTALLFOLDER" Guid="{117E72A0-5989-4A75-A7C9-9A503DDC67EE}">
+                <File Id="filWakZCLmKDrR7VIB3uYNg5mDxoBs" KeyPath="yes" Source="$(var.PublishDir)\Clay.deps.json" />
+            </Component>
+            <Component Id="cmpwGBi8ZdH_4BkR81gBy330XjDX78" Directory="INSTALLFOLDER" Guid="{7356A765-D36A-49D3-9386-4AEDA56F1D1F}">
+                <File Id="fil5x3ESfGmsW1hreUJxMHl2OSajyU" KeyPath="yes" Source="$(var.PublishDir)\Clay.dll" />
+            </Component>
+            <Component Id="cmpjmRXjk8rDtF.291hzpMl4iROZHI" Directory="INSTALLFOLDER" Guid="{508DD5CC-4EE9-4176-8076-50E3D6FA6069}">
+                <File Id="filMQ6vCLJ_aRvdQ7_NKC0Ncx.6Wbs" KeyPath="yes" Source="$(var.PublishDir)\Clay.exe" />
+            </Component>
+            <Component Id="cmp4GnShmzttYhNUnMi3hQkSwbn8wo" Directory="INSTALLFOLDER" Guid="{1ED3AE0F-2EA0-40BD-A0BD-6172667F548C}">
+                <File Id="filEcTWxhszzJTvuiEYeTrPeySI72U" KeyPath="yes" Source="$(var.PublishDir)\Clay.runtimeconfig.json" />
+            </Component>
+            <Component Id="cmpDDwfGRaK.PbMNqT8P_xnuR22Cqk" Directory="INSTALLFOLDER" Guid="{7B2C2EA5-2C39-405E-93BF-EAB865975450}">
+                <File Id="fil5eyL3VWZfgwpb.S1j7nCyqQ7LZU" KeyPath="yes" Source="$(var.PublishDir)\clretwrc.dll" />
+            </Component>
+            <Component Id="cmpBXrVN_DNK6jteVMCMsXnRnMNJgw" Directory="INSTALLFOLDER" Guid="{D2A35363-DFFF-4E1C-AD30-FFEAB7FF9015}">
+                <File Id="filZc8Brjvv_nnGJ5hQM5O8KQtUUtA" KeyPath="yes" Source="$(var.PublishDir)\clrgc.dll" />
+            </Component>
+            <Component Id="cmpe.1aIvMmil7jToEXFgsIVQwDr3E" Directory="INSTALLFOLDER" Guid="{0B092A15-C05D-4AEE-A8D5-8737475607BE}">
+                <File Id="fil_IJaFN0xB4luE1dL0CaQCtIvi0I" KeyPath="yes" Source="$(var.PublishDir)\clrjit.dll" />
+            </Component>
+            <Component Id="cmpp2y4SRoiAo7w9Sm6sIDpUExRG8w" Directory="INSTALLFOLDER" Guid="{CE021F1F-2169-4C0A-B92D-1FC18797429B}">
+                <File Id="fildBq469uBCzZ0jtEYexn6nDff9UY" KeyPath="yes" Source="$(var.PublishDir)\coreclr.dll" />
+            </Component>
+            <Component Id="cmphP9MHXByWoYNohY1rSKHTZgxrAw" Directory="INSTALLFOLDER" Guid="{AD1D11A4-409E-4EA3-A431-7725941D032B}">
+                <File Id="fil5fy2dgRVSCStuquFMFHtC3TTxjQ" KeyPath="yes" Source="$(var.PublishDir)\CoreMessagingXP.dll" />
+            </Component>
+            <Component Id="cmp4HttzxJIxRw2lCGSlHEwmVqRBqY" Directory="INSTALLFOLDER" Guid="{A721D9D4-0B85-45E5-8126-90E273992E9F}">
+                <File Id="fileLQPdnmzSkQqma4EFqc5.TH0oJI" KeyPath="yes" Source="$(var.PublishDir)\createdump.exe" />
+            </Component>
+            <Component Id="cmp1MwaddBYxMTb3AW4q1W3egSoN4Y" Directory="INSTALLFOLDER" Guid="{DA2D0233-60F7-4D48-BEE4-19E11618AFAB}">
+                <File Id="filpDYUfiYV8PteLfJV.CGSEQpDMBs" KeyPath="yes" Source="$(var.PublishDir)\dcompi.dll" />
+            </Component>
+            <Component Id="cmpoZFd0KBdCcuhyIHQRd4xt58H1PQ" Directory="INSTALLFOLDER" Guid="{5D3481AD-8FA5-44E0-B1CE-C39546BA2290}">
+                <File Id="filLYBPSxQsuvjhUxHH6jCbpliSw0I" KeyPath="yes" Source="$(var.PublishDir)\dwmcorei.dll" />
+            </Component>
+            <Component Id="cmpw1n1cKCbOr8Y8CACHns1bP09mc8" Directory="INSTALLFOLDER" Guid="{EBDA085B-5FD8-4FF4-A168-865D29DE112E}">
+                <File Id="fil3BvWRO2MPp090.4n5yycCd4IpJk" KeyPath="yes" Source="$(var.PublishDir)\DwmSceneI.dll" />
+            </Component>
+            <Component Id="cmp8OkrR8HwLmH.TAfW7_tAAA.LHfc" Directory="INSTALLFOLDER" Guid="{C6E42C4C-3328-4293-B9E1-6A8A727D56A5}">
+                <File Id="fil6JQAMtukBUTynzeiyp.u5jBO8io" KeyPath="yes" Source="$(var.PublishDir)\DWriteCore.dll" />
+            </Component>
+            <Component Id="cmpaxlfxuJitwzw.gxMO_lQWxV1IXE" Directory="INSTALLFOLDER" Guid="{046241B1-7778-440F-9064-11B3A61CC575}">
+                <File Id="fil5ebUASNkKAXZda8iPNYOqYRGXrs" KeyPath="yes" Source="$(var.PublishDir)\hostfxr.dll" />
+            </Component>
+            <Component Id="cmpnEKXZAWcaw9bKLlB9ACvFwA_ovE" Directory="INSTALLFOLDER" Guid="{B6E2744A-683A-4110-B9C9-2067B0532E25}">
+                <File Id="filGtE2zzr3U0QlXxd0w4vGKQiXuMQ" KeyPath="yes" Source="$(var.PublishDir)\hostpolicy.dll" />
+            </Component>
+            <Component Id="cmpcTfyPcXw0Xh4uZrEl5UE6yX5Bvg" Directory="INSTALLFOLDER" Guid="{FBBAA9B7-1596-43B8-8C10-C21D5843D08D}">
+                <File Id="filnFwkzoixJ0qZFmhWewM.nivakmw" KeyPath="yes" Source="$(var.PublishDir)\marshal.dll" />
+            </Component>
+            <Component Id="cmpiX7UJ2HuX2ERxetlXqFCHxd8ZY4" Directory="INSTALLFOLDER" Guid="{66F1F9E5-7EF6-47CA-ADCB-C99F60E1819B}">
+                <File Id="filsVaufsOpVG2prq7Xs1GoiEIR_Aw" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.CSharp.dll" />
+            </Component>
+            <Component Id="cmpe.AmYlQ65szgLmp0YMfC0k2QDik" Directory="INSTALLFOLDER" Guid="{79A851BE-D624-46FD-A252-1C86DEE3FAA5}">
+                <File Id="filpBxXRNCcMlrQw._gimePjaai5c4" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.DiaSymReader.Native.amd64.dll" />
+            </Component>
+            <Component Id="cmpTtHgDjSALLxQ5UQ0WvI5DtuNFBs" Directory="INSTALLFOLDER" Guid="{F0E9AFD1-7548-48A4-9576-4FC89531A4D4}">
+                <File Id="fila2B5Kt68mQof6JF2WAtF80qR5v8" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.DirectManipulation.dll" />
+            </Component>
+            <Component Id="cmpQO.ZRgTTqMyiBN..yXd6DPkOzTc" Directory="INSTALLFOLDER" Guid="{9C7B03EB-E88A-4745-94E0-9B3BCB46F4F2}">
+                <File Id="fil02avXnXU6.IIaQbYNCIkwTTQzNU" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Foundation.winmd" />
+            </Component>
+            <Component Id="cmpDwGkofV3POWWn3Ml5LwCoUp8WoE" Directory="INSTALLFOLDER" Guid="{DA63F08A-C539-4083-B475-4A56B78E2E66}">
+                <File Id="filhEcSiQRQMrol8MUxGxKRTySN8KU" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Graphics.Display.dll" />
+            </Component>
+            <Component Id="cmpmAexDKfQtINNrQOjZan_4CmrZ7g" Directory="INSTALLFOLDER" Guid="{0E131E5F-B930-4942-B13E-8B45AD4AD049}">
+                <File Id="filj8h5gwnpJ3dwFuX0YQxA.OKA0MI" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Graphics.winmd" />
+            </Component>
+            <Component Id="cmpufu5r8xVd8vSH8ZX5Drg4pztwkA" Directory="INSTALLFOLDER" Guid="{48DFC89C-8B63-4DAB-A386-2F31BF94A4F3}">
+                <File Id="fil3hPWDq7khIDllAOs7jUho1PhBLg" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.InputStateManager.dll" />
+            </Component>
+            <Component Id="cmpCXhuWmiHTfI8nX.8VO3Ek.AylSw" Directory="INSTALLFOLDER" Guid="{EBD4F9C1-5A1C-429F-9B94-2F215A779633}">
+                <File Id="filsCnHltBx1P6v8tF97OvfBMhRpS4" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.InteractiveExperiences.Projection.dll" />
+            </Component>
+            <Component Id="cmpJSoqHYhHE1JVAQdlcrsYhJ0tkV0" Directory="INSTALLFOLDER" Guid="{F16124B9-343B-4D53-9E16-1B6DCC1918B7}">
+                <File Id="filNuHH_p9lwpcQ0X4luNNvR_u5SAY" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Internal.FrameworkUdk.dll" />
+            </Component>
+            <Component Id="cmpXtc.jp8hpr1t.Cf9WpMqL23B7hQ" Directory="INSTALLFOLDER" Guid="{A3827D1E-8086-422A-9492-BF77B5EB180A}">
+                <File Id="fil2UYqoPlSiC4fVX2uBqGswLFuLLA" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.Composition.OSSupport.dll" />
+            </Component>
+            <Component Id="cmpJwJHIxAu9kMHJYQT9kwLmTZQD_w" Directory="INSTALLFOLDER" Guid="{02CB55F1-B281-4BF7-926F-61C651A21531}">
+                <File Id="fil2YcZlNiKQ8RO5snZ4twrruP6dUw" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.dll" />
+            </Component>
+            <Component Id="cmpa7Uoudrnyv0W2RBeYMO1b3qki5M" Directory="INSTALLFOLDER" Guid="{87F1BD21-3169-4E4B-B782-7CAEEC1CA122}">
+                <File Id="filbZAel7la2X1qe1y3FzDFuyttUNo" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.Input.dll" />
+            </Component>
+            <Component Id="cmp_ds_4Ut.AWKhDDLQrRqwRFPNQcc" Directory="INSTALLFOLDER" Guid="{91C4B5FB-E264-4CE9-BEF5-EA514781C78D}">
+                <File Id="fil5nehDRnVLqFJ2wGhQZXyUdHs3R0" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.pri" />
+            </Component>
+            <Component Id="cmpy3Iyew7wAx3Pz0bCSXOb.aVAco8" Directory="INSTALLFOLDER" Guid="{A7B9D354-DC79-47F3-8A52-BC6FF22D1F55}">
+                <File Id="filG12CUcZNJ8.jBK_CUqNyqd4fSBY" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.Text.winmd" />
+            </Component>
+            <Component Id="cmp0aAoEAQrnIbr7GFfsBGhhiOkb1E" Directory="INSTALLFOLDER" Guid="{D954FCDD-D46C-4191-8A47-95B6933DC31F}">
+                <File Id="filFmDkqWmbnXJ_Jj2cKEyUMnWX2HA" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.Windowing.Core.dll" />
+            </Component>
+            <Component Id="cmpTavmA6SHOTZMJTzDMZlwz7YSKN4" Directory="INSTALLFOLDER" Guid="{EF721B51-5231-4404-BE4D-80800C64F3E3}">
+                <File Id="filpzebOOuuWWBv.XrXfFmy6jBCn_M" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.Windowing.dll" />
+            </Component>
+            <Component Id="cmpE14SW7FwRyFqBv700VKjXoghpuA" Directory="INSTALLFOLDER" Guid="{388A37BB-80D3-4CDA-AF64-598335C9CB9E}">
+                <File Id="fila5yHKQNoNFUB6oGllWdtUZeYTS0" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.winmd" />
+            </Component>
+            <Component Id="cmpIDe_PrgFQmSfqnIbqhvkBGzFql8" Directory="INSTALLFOLDER" Guid="{52AFA7E5-7095-4A64-BEDB-57FCA33F0902}">
+                <File Id="filjB__C69gqlDvo6DJ9fHbt9OEX1k" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.Xaml.Controls.dll" />
+            </Component>
+            <Component Id="cmpf77cqfexgXRVQqIOyeJPII75p0U" Directory="INSTALLFOLDER" Guid="{8773138A-66C5-478D-8FE9-82E6ADA3E6E5}">
+                <File Id="filEhH5AMy5844xcGOXtVEruBOejyc" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.Xaml.Controls.pri" />
+            </Component>
+            <Component Id="cmp.wPMaZjVY24Aa2UMbfaR9jfKYa4" Directory="INSTALLFOLDER" Guid="{9F1B74DD-CCB0-4B18-B9C9-FA4A97513889}">
+                <File Id="filJj1Q_9a0P4O8xX.TQGYCDmtO5G4" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.ui.xaml.dll" />
+            </Component>
+            <Component Id="cmp_QPEabw0tek_1duqWww3x4o.lQU" Directory="INSTALLFOLDER" Guid="{8AC77D77-D42A-4812-B185-AD41B96FC31B}">
+                <File Id="fil4txLoSkaubaA2XbKP6dpMus8_5k" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.Xaml.Internal.dll" />
+            </Component>
+            <Component Id="cmpk3MADJWOUKY7tshB4AabkCNSseM" Directory="INSTALLFOLDER" Guid="{46ECDA30-8F84-44C6-9C5A-8A0140972DC7}">
+                <File Id="filDJp2_vUWHrM2JHybF1.u4ZpGJa4" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.Xaml.Phone.dll" />
+            </Component>
+            <Component Id="cmpo_h8WFGD7e4BQPRiNZBTUKWQkNE" Directory="INSTALLFOLDER" Guid="{83009C70-9B78-4F45-BFD4-3C8193EB57CC}">
+                <File Id="filx6gc_I5T4noxldexeEbRl3J1U30" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.ui.xaml.resources.19h1.dll" />
+            </Component>
+            <Component Id="cmpCFhpkomQblRE.r9tDsJAPPLZyw8" Directory="INSTALLFOLDER" Guid="{8A67839E-51C4-420C-AFD8-C7FB37154808}">
+                <File Id="filcUS_08YKrK5IJthvH6pKexy9HGE" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.ui.xaml.resources.common.dll" />
+            </Component>
+            <Component Id="cmp2fZqPVAq9Gpfbg.bkN1DXRkjqmw" Directory="INSTALLFOLDER" Guid="{64C3B0E4-680B-49D0-85A5-D5B1E9336A41}">
+                <File Id="filUaNpky8WwvNlwgbn3rnkO6liMwY" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.Xaml.winmd" />
+            </Component>
+            <Component Id="cmp49q1MNXMnkDsGTWj6Wi2iLOmuRI" Directory="INSTALLFOLDER" Guid="{0B873194-8534-49B8-AD14-52A76E54F8B2}">
+                <File Id="filFtLw7oGlqOsiCaEP0Bg3c9n61ts" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.VisualBasic.Core.dll" />
+            </Component>
+            <Component Id="cmpril0441Y0QEkBSR7pIdYqiYpiuo" Directory="INSTALLFOLDER" Guid="{B0F2ADFC-C81D-4450-9C06-75036A18A377}">
+                <File Id="fil0OyoHlGa3ttT3rgGx5HOW4_8Poo" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.VisualBasic.dll" />
+            </Component>
+            <Component Id="cmpMU.ceUZ2qlSnluMYJaQxCqUn9xc" Directory="INSTALLFOLDER" Guid="{0DFF10CE-AEE2-4F2A-92B6-935C9301809D}">
+                <File Id="fil9iADy6qHIuY22GuisidCTYdgunw" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Web.WebView2.Core.dll" />
+            </Component>
+            <Component Id="cmpLXJh.H0ewk60FAgHgR23qpbu4zg" Directory="INSTALLFOLDER" Guid="{8DED3C0A-6C72-452C-A7EA-6F15385B3B5E}">
+                <File Id="filzCnhausNys6qW_oYX4oJ4zM6AUU" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Web.WebView2.Core.Projection.dll" />
+            </Component>
+            <Component Id="cmpH8YPWuj1FxB45CrfGrtz77AR4Gg" Directory="INSTALLFOLDER" Guid="{ADFDD0BA-2278-42C5-A573-2AB54585CA9C}">
+                <File Id="filUSRpL2vjIsZMSC97whshyKKuFWA" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Win32.Primitives.dll" />
+            </Component>
+            <Component Id="cmpk9QO_sV4Sxphb0Rg9QWG59U5tyI" Directory="INSTALLFOLDER" Guid="{36C7AF8F-E7F1-4D33-81FB-5050E33F87BF}">
+                <File Id="fil5jLLnUKY0jRAl.xHYtBC_rHlVeM" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Win32.Registry.dll" />
+            </Component>
+            <Component Id="cmpNI2MVDJQFYa.0rEDIav93TvJEMg" Directory="INSTALLFOLDER" Guid="{AB7C14A0-8770-46AC-849B-C9C2BAD814E3}">
+                <File Id="fil41rlKbdRJFhAu8h2x_khJh8hAJ8" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.ApplicationModel.DynamicDependency.Projection.dll" />
+            </Component>
+            <Component Id="cmpKVJCpcziLfQRKmQpbGyKv9yq6Ss" Directory="INSTALLFOLDER" Guid="{52A82290-3D58-43E9-ADE8-05BBA7C4E1D3}">
+                <File Id="filYc7tfv1WxK2h8EOjNraXDiTWeBY" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.ApplicationModel.DynamicDependency.winmd" />
+            </Component>
+            <Component Id="cmpCyPdX9tYtExEhUmcdntZWIfDu94" Directory="INSTALLFOLDER" Guid="{042FC6E0-3ABF-4DDB-B118-549B6E3D694A}">
+                <File Id="filqmEWpcOjf1MCSvdhOUGvEue5IuM" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.ApplicationModel.Resources.dll" />
+            </Component>
+            <Component Id="cmp40EFZw0reh8ULVoSh86MSV1JdR8" Directory="INSTALLFOLDER" Guid="{71DBD988-4C6C-4B39-B1DD-7BC322B3F76E}">
+                <File Id="filKQmFgnMDXUhP0sK.a_yt.lRfOZM" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.ApplicationModel.Resources.Projection.dll" />
+            </Component>
+            <Component Id="cmpTffRdf9o0x2B6WW2FYYXxIFDiY0" Directory="INSTALLFOLDER" Guid="{AB955B1B-7C2A-4C6C-8D4A-C1055A4FF68D}">
+                <File Id="filJto24J7nI1vCFTUeI3HjbzPRG0I" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.ApplicationModel.Resources.winmd" />
+            </Component>
+            <Component Id="cmpvwAFG7vxcwbPABhRn1o3aLc0eYs" Directory="INSTALLFOLDER" Guid="{2465AB98-0CAC-48C6-824D-12A6C97CFABA}">
+                <File Id="filDYP7dgEUPJeGnn..SydfvONhB_g" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.ApplicationModel.WindowsAppRuntime.Projection.dll" />
+            </Component>
+            <Component Id="cmpTNCzqMsgOdQxdPilVacei6v.3fM" Directory="INSTALLFOLDER" Guid="{0A75E38C-815C-4A81-A5DC-480DB2D75AA4}">
+                <File Id="filCFYfGKRw2OghF4ft45GsQOXDvkY" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.ApplicationModel.WindowsAppRuntime.winmd" />
+            </Component>
+            <Component Id="cmpKMWP45SGKCDRdCI0uFLrtuqYi_w" Directory="INSTALLFOLDER" Guid="{AE7081D2-F853-492C-AD2D-717F6F57EC13}">
+                <File Id="filsewliX0UjhEpH9JUxCLD9jkBqxw" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.AppLifecycle.Projection.dll" />
+            </Component>
+            <Component Id="cmpKnvPxMh8QZ9tMpg0LWduORfRZ5c" Directory="INSTALLFOLDER" Guid="{56036834-89CD-473E-B3F1-C33B5578BE38}">
+                <File Id="filHmPTHpDFQa3jk7jLS8QEaSX27YQ" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.AppLifecycle.winmd" />
+            </Component>
+            <Component Id="cmpbGSMO8PwkTNUeQC.2wpOPu0KOAg" Directory="INSTALLFOLDER" Guid="{E43A4046-0184-463E-953E-8D842C8D6704}">
+                <File Id="filmraCqh.ZQlEw1ShlyblXYLteIgM" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.AppNotifications.Builder.Projection.dll" />
+            </Component>
+            <Component Id="cmpP9swrkbiAwK1qNqM_LY3ubcE5LI" Directory="INSTALLFOLDER" Guid="{3929FA68-5746-4E5F-A6CE-124C1B3F77DA}">
+                <File Id="filWLFurblugmdWn50Pe7lGAXfaKHw" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.AppNotifications.Builder.winmd" />
+            </Component>
+            <Component Id="cmpeI_oodGVUoJ3.MJGHr4HQtNnRMU" Directory="INSTALLFOLDER" Guid="{123B56E5-30DA-4ED0-9F82-FF28A108DBA3}">
+                <File Id="fil.Rr9ZnUtcmJDLJvqjX.PLFlrTDE" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.AppNotifications.Projection.dll" />
+            </Component>
+            <Component Id="cmpjodZbH_EiCaPGFNKnZGS1R5pxFw" Directory="INSTALLFOLDER" Guid="{33565BAD-5EF7-44E8-B0B7-8272FBBB1550}">
+                <File Id="fileK2MC_CprwUuCn6qW0STTB.Vxig" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.AppNotifications.winmd" />
+            </Component>
+            <Component Id="cmppbncmddhqNNC9b7hGOvEXjJPTxw" Directory="INSTALLFOLDER" Guid="{EE9D2FEE-B311-4491-A0AB-E657B0674E7F}">
+                <File Id="filEJn_FS6R3GSo.j0RzKDQmYoRINs" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.Globalization.winmd" />
+            </Component>
+            <Component Id="cmpxVdKwxsdyJE7neCmFCg5McXj.EE" Directory="INSTALLFOLDER" Guid="{A5762D5F-B2BC-4BA3-965A-2A29C39A9132}">
+                <File Id="filNQBiDmZdjRb1HMnP9RKZwyVLG1k" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.Management.Deployment.Projection.dll" />
+            </Component>
+            <Component Id="cmpvgwWkGq3DXcWvEFhr9aypQKfUyc" Directory="INSTALLFOLDER" Guid="{56C65A6F-D2E0-4608-B894-33C60955CA8F}">
+                <File Id="filZ2tNwKl40qDASgGiPidFJmzyAaI" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.Management.Deployment.winmd" />
+            </Component>
+            <Component Id="cmpCCVCb0.OjP5.c8VOWrM3Zt2VTOQ" Directory="INSTALLFOLDER" Guid="{F73B9E35-C901-4A1D-A37B-50BB9A2D1A7B}">
+                <File Id="filNubs3eqNdFo43Q5OqBvYilp6aeI" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.PushNotifications.Projection.dll" />
+            </Component>
+            <Component Id="cmpUNCYDDlZHlL0A6wTBwXq7YeuqUk" Directory="INSTALLFOLDER" Guid="{36F3C2CF-AB88-4E35-8605-B6E15141A02C}">
+                <File Id="fil21WxW7q4viRRSaOUBGbkBFQBCi4" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.PushNotifications.winmd" />
+            </Component>
+            <Component Id="cmpuO0.rYCmG_DRrjalopk40Zsk1dI" Directory="INSTALLFOLDER" Guid="{0A1C52C6-90B0-4AFC-ABF2-FBCC42220BDB}">
+                <File Id="filiIP7ofsBjqU20AY_UG0V6ie8jf0" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.SDK.NET.dll" />
+            </Component>
+            <Component Id="cmpMO58BuSsqAzn7cwdPhsF_yaJ81k" Directory="INSTALLFOLDER" Guid="{2B6EB826-DED8-46AE-A349-CA8A766B1C04}">
+                <File Id="filjMwS5TLARkJd5dKCYMwXpKvVrR8" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.Security.AccessControl.Projection.dll" />
+            </Component>
+            <Component Id="cmp1QUeDGsJzC55_U8vJf20n_oqzWo" Directory="INSTALLFOLDER" Guid="{782A007F-E27D-444A-978E-85A912FFBF47}">
+                <File Id="filD1JhOLzS_UVl2meAFVGTusIMtds" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.Security.AccessControl.winmd" />
+            </Component>
+            <Component Id="cmpXOhGSpwkItiTUe5arHah5XgV6hU" Directory="INSTALLFOLDER" Guid="{D412E36C-8C82-4456-92FE-A9BBE821F8E5}">
+                <File Id="fil9ciKRK2Lq.fbdRaNf4lw18zpeJ4" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.Storage.Projection.dll" />
+            </Component>
+            <Component Id="cmpgO1R6Nu6Imus2Ll43nGiqHvj93E" Directory="INSTALLFOLDER" Guid="{B73DB5E7-C0B7-4A56-8267-08639B4ABCFB}">
+                <File Id="filqT0KMAVdRonhiUiEoYaeAF9yuxw" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.Storage.winmd" />
+            </Component>
+            <Component Id="cmpC5YVyLXrFwOnGpQzVwE4RMZ7VT8" Directory="INSTALLFOLDER" Guid="{DB255FA0-0EA3-4677-BD1D-ED9C802CAABB}">
+                <File Id="fildWaecykqyNrx3UoVVkKY6VYE0mg" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.System.Power.Projection.dll" />
+            </Component>
+            <Component Id="cmplvk1IolJ5piZ5ym3hokWpu7jFHg" Directory="INSTALLFOLDER" Guid="{58AEC6B7-9D61-41DB-A7EF-0A56A075AD10}">
+                <File Id="filwFLJxQjQgWuQWqmGKIEYfI0GgN0" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.System.Power.winmd" />
+            </Component>
+            <Component Id="cmp2n_Wr53KeJLxJLWt0EEhqpBoesA" Directory="INSTALLFOLDER" Guid="{8BF413AD-A168-4F7E-8C02-5D8CEB598CE3}">
+                <File Id="fil6z14DHhx9tE2ObwUyJZrvtbnuF0" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.System.Projection.dll" />
+            </Component>
+            <Component Id="cmpNINwTys_nkCgWd6ibunreqBqOcI" Directory="INSTALLFOLDER" Guid="{597188F3-FC8F-4138-BF91-7A62765221D8}">
+                <File Id="filCGFf9yinXwHrBP9Lp2gvV1y4AiQ" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.System.winmd" />
+            </Component>
+            <Component Id="cmp.4UgHV.IPYmBqXCqwzsEl0gUa6Y" Directory="INSTALLFOLDER" Guid="{09DF0A6E-AFD9-48C8-87A0-EC529A3750A1}">
+                <File Id="filwqMjcBg.Af2035n8XoEideYFhbA" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.Widgets.dll" />
+            </Component>
+            <Component Id="cmp1VN3yiT1QWmp8PG5UvXYHuVRQYY" Directory="INSTALLFOLDER" Guid="{6EC31760-95DA-412B-8D14-E98B054883E7}">
+                <File Id="filr43nNYQUyBbvKu7ixW4yHSVZFjs" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.Widgets.Projection.dll" />
+            </Component>
+            <Component Id="cmpNq6qeht72LxkLKHXBdwKyO0bVkc" Directory="INSTALLFOLDER" Guid="{F8BA4B83-01B2-4963-A426-1585BE7C75C1}">
+                <File Id="filu3C_yYvYSlayDT0RGmkADpH3SN0" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.Windows.Widgets.winmd" />
+            </Component>
+            <Component Id="cmpkWFu6mExbmo6sWXAxyXWiSTMLSI" Directory="INSTALLFOLDER" Guid="{284E24C7-D0BD-4850-AA91-ACEF4DA9C4C9}">
+                <File Id="filLHHE2KfTWoSjDgKENbNcEAK4mXw" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.WindowsAppRuntime.Bootstrap.dll" />
+            </Component>
+            <Component Id="cmpYkfURMJbFdhOA86wQnAgtAu5Z8o" Directory="INSTALLFOLDER" Guid="{5CB48402-30BF-49EA-9B10-788385E08790}">
+                <File Id="filmJTpTyp1SBa8hRwA978.W9JnWJI" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.WindowsAppRuntime.Bootstrap.Net.dll" />
+            </Component>
+            <Component Id="cmp7LP1Oi1yP6C9TcLhoQrEA4XO6xw" Directory="INSTALLFOLDER" Guid="{3949132B-0B80-47A8-8234-BA80950762EE}">
+                <File Id="filodQsUY2JZ22ayUggLzHJvrGlXkg" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.WindowsAppRuntime.dll" />
+            </Component>
+            <Component Id="cmpKyGWdj2mkcyy3Yq8Qr420ZynF2U" Directory="INSTALLFOLDER" Guid="{4776CD1F-93FC-41B6-B322-DD2DA317F1DA}">
+                <File Id="filLGsO0S3rKB1HuVmtDc.7Bh1qlBE" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.WindowsAppRuntime.Insights.Resource.dll" />
+            </Component>
+            <Component Id="cmpmo0mdC_1YlqAEjV4YlYMnuYcB_8" Directory="INSTALLFOLDER" Guid="{22AA09E2-0DDB-40F7-A7C0-8A5BDC786A77}">
+                <File Id="fil_p1Aqtuy77cPahXKIMp_MRKLc1U" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.WinUI.dll" />
+            </Component>
+            <Component Id="cmpJtPeH62m58k4Wv9vNSHAtZIvqJE" Directory="INSTALLFOLDER" Guid="{8EC18CBB-71EB-480A-B1AE-C263CC9CDE5A}">
+                <File Id="filfKc4Ct6Pro1NX5aiuQXGvcgjotk" KeyPath="yes" Source="$(var.PublishDir)\MRM.dll" />
+            </Component>
+            <Component Id="cmpZZGN5VNE6UWPXEMDl1iI_EDNKf4" Directory="INSTALLFOLDER" Guid="{FA1B201B-4B51-4C41-ABE5-628840BD7BD1}">
+                <File Id="fil_yAupZ.7mkvipjlm4rgk2YDNl0U" KeyPath="yes" Source="$(var.PublishDir)\mscordaccore.dll" />
+            </Component>
+            <Component Id="cmpPDoqPkTSOyQdNk7sgZQfGTk_3Ho" Directory="INSTALLFOLDER" Guid="{C56CC24C-1D21-4C53-A11C-2AA50AF0D0F5}">
+                <File Id="filFKA.yoxjgfi11J.WdZx.woOHfuY" KeyPath="yes" Source="$(var.PublishDir)\mscordaccore_amd64_amd64_8.0.3026.36720.dll" />
+            </Component>
+            <Component Id="cmpmlXkCESTdbOKJlkxhNXhWeP2HxU" Directory="INSTALLFOLDER" Guid="{E5E22F1D-6370-4DB2-98DB-4478E649442E}">
+                <File Id="filzhacNGQoy8ZA37geK_sFwUbKDks" KeyPath="yes" Source="$(var.PublishDir)\mscordbi.dll" />
+            </Component>
+            <Component Id="cmp3prqO2G0elj2Ij2fIBoZ3LKPbKo" Directory="INSTALLFOLDER" Guid="{EEE824ED-B2AC-4D66-89E2-C67121529EC5}">
+                <File Id="filRU5tXEQ49yVJbxzcofa1cw2JcVE" KeyPath="yes" Source="$(var.PublishDir)\mscorlib.dll" />
+            </Component>
+            <Component Id="cmp_4spg4JOA3AUm2kPkpnIZCN7IcQ" Directory="INSTALLFOLDER" Guid="{15E4344E-7385-4A13-B457-CE5BEC083786}">
+                <File Id="filpDz_LFDbpTIefoGxcs2IzziM19Q" KeyPath="yes" Source="$(var.PublishDir)\mscorrc.dll" />
+            </Component>
+            <Component Id="cmpXOsKToHuA_96.g.uyQRt9ebt7Qc" Directory="INSTALLFOLDER" Guid="{7F3B1D8E-13D0-444A-8E54-2DE92442E887}">
+                <File Id="filp209UrXu.WzYW.vAwj2gjYWj27U" KeyPath="yes" Source="$(var.PublishDir)\msquic.dll" />
+            </Component>
+            <Component Id="cmpuT4jvOoPRruyTDp5FiKZ_gOfOyo" Directory="INSTALLFOLDER" Guid="{499AAA91-2395-4C3A-97CC-A79B476FEF47}">
+                <File Id="filoElUN0.Cq.vZFTS4lscRFyNpGYg" KeyPath="yes" Source="$(var.PublishDir)\netstandard.dll" />
+            </Component>
+            <Component Id="cmpx_aoFmNPFb0H8DVJ.WipgEeIWY4" Directory="INSTALLFOLDER" Guid="{ADD472B7-6358-42C6-A155-C43AC9284D11}">
+                <File Id="filf8UzXqx6sSD3lPEtdY2hMaX0go4" KeyPath="yes" Source="$(var.PublishDir)\PushNotificationsLongRunningTask.ProxyStub.dll" />
+            </Component>
+            <Component Id="cmpxtA33yQWV4ypTmGnDE1oHcV3w8M" Directory="INSTALLFOLDER" Guid="{AB9ECE3B-D3A7-47DF-9351-7F6F29F200FC}">
+                <File Id="filG0gGjykgTfBqwha1OZFymshu7g8" KeyPath="yes" Source="$(var.PublishDir)\resources.pri" />
+            </Component>
+            <Component Id="cmptU64MG.DQ9XfRrzLgkJovXebLGc" Directory="INSTALLFOLDER" Guid="{62EFD9E9-210B-400A-8684-C192C10A2898}">
+                <File Id="filv7vdwVPUPbgiHFsxxfpRHaD22Sk" KeyPath="yes" Source="$(var.PublishDir)\RestartAgent.exe" />
+            </Component>
+            <Component Id="cmpvhRvhLT6xf1gvYEIl0XU0blc.i8" Directory="INSTALLFOLDER" Guid="{E07C5E60-0E32-42BF-9A97-5F0715D05369}">
+                <File Id="fil0knQ5f8dE1vHefgGNk52eTkYv5U" KeyPath="yes" Source="$(var.PublishDir)\System.AppContext.dll" />
+            </Component>
+            <Component Id="cmpiI7V_2zLZ17Zs2kB_H1Ei1EXD8I" Directory="INSTALLFOLDER" Guid="{14472E84-3B3F-4799-8669-4AC6207DAD58}">
+                <File Id="filnw8gBMucjw3mJf554VEBiV1g6XE" KeyPath="yes" Source="$(var.PublishDir)\System.Buffers.dll" />
+            </Component>
+            <Component Id="cmphbTn3FABE04rpTqJGiyllBGVVE4" Directory="INSTALLFOLDER" Guid="{FB3FB104-7E47-4110-98A8-52EC220510FF}">
+                <File Id="filpNbbM23VYM5Kelibps4c2QNzVW0" KeyPath="yes" Source="$(var.PublishDir)\System.Collections.Concurrent.dll" />
+            </Component>
+            <Component Id="cmp3GfirnNkb7JN14DHjBW0P0dei6Y" Directory="INSTALLFOLDER" Guid="{529EBABB-C189-4D3E-A775-A0BA9B612E58}">
+                <File Id="filXV4HtW70pv7Nw1XglahCfH71RCM" KeyPath="yes" Source="$(var.PublishDir)\System.Collections.dll" />
+            </Component>
+            <Component Id="cmpRKu9CnNGbhWWvjtLUiO.2AfKEKg" Directory="INSTALLFOLDER" Guid="{94DAE8CC-A6A6-41CE-9FBF-EC0C15A97BB8}">
+                <File Id="fil.JGvZBmZ1tXS2JzX_CgTky7VCP8" KeyPath="yes" Source="$(var.PublishDir)\System.Collections.Immutable.dll" />
+            </Component>
+            <Component Id="cmpQ7GL0zMDmM.b1CFyHItsPROvi9g" Directory="INSTALLFOLDER" Guid="{CFAA54D8-6C1D-4E02-9E3A-9837CCB0EBFD}">
+                <File Id="filrVD0tb06_i4xpfRQw7zcgMUwekA" KeyPath="yes" Source="$(var.PublishDir)\System.Collections.NonGeneric.dll" />
+            </Component>
+            <Component Id="cmpXB4ODL00WA67Sqq.23D4tVDJrc4" Directory="INSTALLFOLDER" Guid="{57DB83A1-2774-4E59-95FF-5A257E5E43FF}">
+                <File Id="fil3BoZNJaQ659P3KxT2ua7zscqPUw" KeyPath="yes" Source="$(var.PublishDir)\System.Collections.Specialized.dll" />
+            </Component>
+            <Component Id="cmpy1Oegqy9xCuGMBzbCmS_ayy5xWU" Directory="INSTALLFOLDER" Guid="{9362F6C3-D9C5-4EFB-99B3-40571B2BC5C8}">
+                <File Id="filjrY5K3snMCpEHToW1.3fuOcOK.c" KeyPath="yes" Source="$(var.PublishDir)\System.ComponentModel.Annotations.dll" />
+            </Component>
+            <Component Id="cmp0TF8h4HNDRZ2ywSZ7xG2eCpY9g0" Directory="INSTALLFOLDER" Guid="{0931EFBA-B466-4ABC-8E22-552B1BF0BDE7}">
+                <File Id="filG3irUVgZhBHY5VDWkLEHmdEuNrw" KeyPath="yes" Source="$(var.PublishDir)\System.ComponentModel.DataAnnotations.dll" />
+            </Component>
+            <Component Id="cmp.oq7YD3RmGLJmbb00fvUz7Nt6nM" Directory="INSTALLFOLDER" Guid="{FB3F285C-E103-4F16-9E27-06A3EE6CC9D7}">
+                <File Id="filr.5uNieahFKGH81SmNMEuAbjvAg" KeyPath="yes" Source="$(var.PublishDir)\System.ComponentModel.dll" />
+            </Component>
+            <Component Id="cmp9Yxd8XdHyPqW60iLQUnpYBFV.Gs" Directory="INSTALLFOLDER" Guid="{BDC5D1EC-A83C-4A9E-A0F9-F1299CE2C077}">
+                <File Id="filqer3VzYQyuDoLd711wFoprRXSp8" KeyPath="yes" Source="$(var.PublishDir)\System.ComponentModel.EventBasedAsync.dll" />
+            </Component>
+            <Component Id="cmp7uq7wW7JqZi.CYngYOZrjtfWz_c" Directory="INSTALLFOLDER" Guid="{0FEE879F-8553-47F4-8AF5-B6CE43C722BA}">
+                <File Id="filcf0X43Jm9aAM8ZEG7PU9cWpA84g" KeyPath="yes" Source="$(var.PublishDir)\System.ComponentModel.Primitives.dll" />
+            </Component>
+            <Component Id="cmpVWuxMpT7MJXNW1NQq65Yl8jeshc" Directory="INSTALLFOLDER" Guid="{3A4BA808-06E7-42BF-8715-ADB5CD76F3BF}">
+                <File Id="filLQFEW5hBNyXBkoUSavZB3d0x5KM" KeyPath="yes" Source="$(var.PublishDir)\System.ComponentModel.TypeConverter.dll" />
+            </Component>
+            <Component Id="cmppliY6T1r04a8LZtXfIg6jpUZAJc" Directory="INSTALLFOLDER" Guid="{A7D0FCF2-07FE-462E-9C9F-D90830043E4A}">
+                <File Id="filu_UICB2gW0q.U316Ul1bu.bf06o" KeyPath="yes" Source="$(var.PublishDir)\System.Configuration.dll" />
+            </Component>
+            <Component Id="cmpboI0GQ4SmD60b7hVIUOrHKYWG8I" Directory="INSTALLFOLDER" Guid="{F5B637AA-154F-4998-92FA-3E2CE358851A}">
+                <File Id="fil9q_tRd9kexEee2xxYwa.eVCh.FE" KeyPath="yes" Source="$(var.PublishDir)\System.Console.dll" />
+            </Component>
+            <Component Id="cmptLNSYV8YJSRFRiCz1HBn_te9YF4" Directory="INSTALLFOLDER" Guid="{4610DAEF-6803-47E4-977E-CB7B3C3D0FF0}">
+                <File Id="filIyy1tkBmOGiOi3o3Ig8b22w3b5M" KeyPath="yes" Source="$(var.PublishDir)\System.Core.dll" />
+            </Component>
+            <Component Id="cmpZcnzrXu9nf53Vp5VK5vAEmSCRAQ" Directory="INSTALLFOLDER" Guid="{D226F0F1-5CEE-4643-A7DE-F85DBC3AF22D}">
+                <File Id="fil_cyh8OdAMJsq6QvEmLuCidxMKzM" KeyPath="yes" Source="$(var.PublishDir)\System.Data.Common.dll" />
+            </Component>
+            <Component Id="cmpqGmarXhrtM7qu7Dy87J.7xCH2is" Directory="INSTALLFOLDER" Guid="{E0A1E5A3-0727-4E46-A150-FFEB5B05F508}">
+                <File Id="filWiwLETQmxynzjs7uxZwmDjoy0bc" KeyPath="yes" Source="$(var.PublishDir)\System.Data.DataSetExtensions.dll" />
+            </Component>
+            <Component Id="cmpWk.GXk22g.ukon1Pz72uUSstEEM" Directory="INSTALLFOLDER" Guid="{DE5F3A5A-4C94-48AB-9F01-99AD554B7F00}">
+                <File Id="filQZU9jCFBhcjeCRJHgjzR8DoMqjI" KeyPath="yes" Source="$(var.PublishDir)\System.Data.dll" />
+            </Component>
+            <Component Id="cmpMKctQ.4Wi9FWwLtnXPEPma3FJX4" Directory="INSTALLFOLDER" Guid="{64203D88-9B77-4A8D-9EB7-15E7A354AA76}">
+                <File Id="fil.A8lDYsPkIEvoPYz_x5wB0fY.TA" KeyPath="yes" Source="$(var.PublishDir)\System.Diagnostics.Contracts.dll" />
+            </Component>
+            <Component Id="cmpGRbVWsFlIjYgon.AkVTKKRR1riM" Directory="INSTALLFOLDER" Guid="{A88D6405-4521-467D-B011-C953B533FC50}">
+                <File Id="fil2rTwVvE.IkoTZEpVVAhB7FMVI0Y" KeyPath="yes" Source="$(var.PublishDir)\System.Diagnostics.Debug.dll" />
+            </Component>
+            <Component Id="cmpauVbmOsvJ3VTnnxHg9UIigU8Uhg" Directory="INSTALLFOLDER" Guid="{5C438F08-6146-435C-915D-34E1ED06DB98}">
+                <File Id="fil2sGumHAdCeFVgzZhid6LC06jKXY" KeyPath="yes" Source="$(var.PublishDir)\System.Diagnostics.DiagnosticSource.dll" />
+            </Component>
+            <Component Id="cmpVq8VFn44ASCN4W19QIoA6ZOQuSk" Directory="INSTALLFOLDER" Guid="{321FDD21-A458-4E8C-AEF6-A1B4639DDDA9}">
+                <File Id="filY5wxCud58DmmMXqxm0L4DXiC7pA" KeyPath="yes" Source="$(var.PublishDir)\System.Diagnostics.FileVersionInfo.dll" />
+            </Component>
+            <Component Id="cmpm_RQPfsczMQu0LD7OsHsftK4ecA" Directory="INSTALLFOLDER" Guid="{74AA3E60-AEAC-488F-A0E6-218E96FBB09D}">
+                <File Id="filf5C_MNpyU6CjTXayeJfKROPSzqk" KeyPath="yes" Source="$(var.PublishDir)\System.Diagnostics.Process.dll" />
+            </Component>
+            <Component Id="cmpZ9Z_vXG7HARoVsf_Id7gP8hKhl0" Directory="INSTALLFOLDER" Guid="{5E196E2B-52CD-4D1E-81A1-E509D459A3F5}">
+                <File Id="filpwtjpj4O68i3xzT917nP1Yo7yEs" KeyPath="yes" Source="$(var.PublishDir)\System.Diagnostics.StackTrace.dll" />
+            </Component>
+            <Component Id="cmpJcVJi.3PmScD7bfXKZyYNfaptzs" Directory="INSTALLFOLDER" Guid="{5631970B-4CC8-49D3-B6DD-69C1972FC90C}">
+                <File Id="filmIjrOHsZE8w7X4NGBVwaUq4k8QI" KeyPath="yes" Source="$(var.PublishDir)\System.Diagnostics.TextWriterTraceListener.dll" />
+            </Component>
+            <Component Id="cmp7vbEc8JYawa2KWQ3HYs99Yp68dg" Directory="INSTALLFOLDER" Guid="{AB8B4FA3-E5E5-4A83-B160-D951F2EF8065}">
+                <File Id="filM1xTRaScpmCxn3Hs.jJ5gu.a_Fo" KeyPath="yes" Source="$(var.PublishDir)\System.Diagnostics.Tools.dll" />
+            </Component>
+            <Component Id="cmpyrKehQjYx4sKnMKmN1Yrr4Pg4vI" Directory="INSTALLFOLDER" Guid="{5542E421-8C94-46B9-A824-E92F4242BD3F}">
+                <File Id="filaLvAenIKlBnO7O49cz.4ebE9Ixg" KeyPath="yes" Source="$(var.PublishDir)\System.Diagnostics.TraceSource.dll" />
+            </Component>
+            <Component Id="cmpygvIw_b3UKATBuaT7a6P4u9r.7k" Directory="INSTALLFOLDER" Guid="{F1DF2181-AE1A-4A2B-90CA-FD1CC937B52A}">
+                <File Id="fillfc8F9d..tyOldkmfr1vli9NEXI" KeyPath="yes" Source="$(var.PublishDir)\System.Diagnostics.Tracing.dll" />
+            </Component>
+            <Component Id="cmppNblT7hNarWg0IESCX56_sYPRlE" Directory="INSTALLFOLDER" Guid="{27C8B9AE-1E6C-48C0-9739-12A46008CA48}">
+                <File Id="filunWEzXpPvXjBazd2n0PR5AA5LSw" KeyPath="yes" Source="$(var.PublishDir)\System.dll" />
+            </Component>
+            <Component Id="cmpfpuKqORBbA.gYaiPTGFH8Udpjbg" Directory="INSTALLFOLDER" Guid="{EF5F33D5-38BB-4903-974B-9E99B5A49ABB}">
+                <File Id="filI25WNRajklJxAAM0KWoEbyVfbCc" KeyPath="yes" Source="$(var.PublishDir)\System.Drawing.dll" />
+            </Component>
+            <Component Id="cmp.mZMnvjYWhAYfW50Bx2bbbtFgow" Directory="INSTALLFOLDER" Guid="{67192AFA-2E27-4F46-9190-B45882546498}">
+                <File Id="filliT1MbpUBwxVMUSiyeze1avBGu0" KeyPath="yes" Source="$(var.PublishDir)\System.Drawing.Primitives.dll" />
+            </Component>
+            <Component Id="cmpsBkFEkEMkoa3.4jzPo1E1eFvulM" Directory="INSTALLFOLDER" Guid="{3DDAD89B-D651-444C-AD48-C676BCBC399D}">
+                <File Id="filqvY2LgIv6vuv5t4yO6Ah4T9O7E4" KeyPath="yes" Source="$(var.PublishDir)\System.Dynamic.Runtime.dll" />
+            </Component>
+            <Component Id="cmpJcyz.dSdKLv.e3EGfqRua0f54Bs" Directory="INSTALLFOLDER" Guid="{FA7D33E9-38D8-4F08-AACC-C9CAC2C76A03}">
+                <File Id="filN8T7orki3C89GKtVtchiTJmQrKU" KeyPath="yes" Source="$(var.PublishDir)\System.Formats.Asn1.dll" />
+            </Component>
+            <Component Id="cmp_G271CGrC97a.QcZzCP1j9aw5gk" Directory="INSTALLFOLDER" Guid="{A946BA83-17D5-42BD-BA32-C7A0E0F536A6}">
+                <File Id="filK_uVN5yQTXQMJcN9DfKx4UDD8zI" KeyPath="yes" Source="$(var.PublishDir)\System.Formats.Tar.dll" />
+            </Component>
+            <Component Id="cmpAc47Fygj6GvmN9zGnontPSihWNQ" Directory="INSTALLFOLDER" Guid="{E487F40A-32C5-43F9-B711-406F3977AD03}">
+                <File Id="fil7RxJuGQWtzMtcFXLgqL.t7hjk6I" KeyPath="yes" Source="$(var.PublishDir)\System.Globalization.Calendars.dll" />
+            </Component>
+            <Component Id="cmp9yFtx50GxaJKgIS0Wzr7xz3Kr5w" Directory="INSTALLFOLDER" Guid="{05516559-36FC-4290-8442-6CB2D356FE9C}">
+                <File Id="fils79.yGz9AQyi4yGDFLddtzgNHX4" KeyPath="yes" Source="$(var.PublishDir)\System.Globalization.dll" />
+            </Component>
+            <Component Id="cmpgTK1PXPWK5dE5MpVds4aZQG7dq0" Directory="INSTALLFOLDER" Guid="{977A6A3E-682E-43D1-8799-9790ECDF4C61}">
+                <File Id="fil96oPt.KA8Wm6o7T6L5pnRxDoelg" KeyPath="yes" Source="$(var.PublishDir)\System.Globalization.Extensions.dll" />
+            </Component>
+            <Component Id="cmpUsdMeHPFdVsz16m3YvaiGMaL5qk" Directory="INSTALLFOLDER" Guid="{9EC46AA3-1F03-4A01-9E0A-A91AC744F2B7}">
+                <File Id="filFLxX7FtrydZzz7nwYvNuZ898vdU" KeyPath="yes" Source="$(var.PublishDir)\System.IO.Compression.Brotli.dll" />
+            </Component>
+            <Component Id="cmpmG1SXFubfqBSLg7ehxn6txEzN2w" Directory="INSTALLFOLDER" Guid="{CABC296D-E1F3-43D2-8B3B-BAA9A13EC69B}">
+                <File Id="filmAJ2B8xko72Kj65YtTyxhLdEnqc" KeyPath="yes" Source="$(var.PublishDir)\System.IO.Compression.dll" />
+            </Component>
+            <Component Id="cmp8.PourQ7UX2mHXykX2PbgrDgcYE" Directory="INSTALLFOLDER" Guid="{EA594F05-5760-4EA8-A640-D7A90492D88B}">
+                <File Id="filYhPummUADknN_CAQ9TJWS7cAF38" KeyPath="yes" Source="$(var.PublishDir)\System.IO.Compression.FileSystem.dll" />
+            </Component>
+            <Component Id="cmpRtjMeLdPzCcfBRRI1GRFdCRTg.Y" Directory="INSTALLFOLDER" Guid="{4BBC9758-3D08-4013-9E15-F6774FA30330}">
+                <File Id="filw8.htepF1PeXgB_0XIRI0nZjv78" KeyPath="yes" Source="$(var.PublishDir)\System.IO.Compression.Native.dll" />
+            </Component>
+            <Component Id="cmpBM3m37js0LhsYkRxHLojKDLdjPQ" Directory="INSTALLFOLDER" Guid="{3F5A355F-02F0-4D6F-AC1B-A14801425A8F}">
+                <File Id="fil5LsaBvbUSdAXBKhTp4wsw90_ugY" KeyPath="yes" Source="$(var.PublishDir)\System.IO.Compression.ZipFile.dll" />
+            </Component>
+            <Component Id="cmpi6gEc37fGqBDS9r.pqXFXbvlgJM" Directory="INSTALLFOLDER" Guid="{44AFE52D-8925-410C-9D1E-640A0240B3DE}">
+                <File Id="filsLPNAehW8690YTpCMbY4IKA4FII" KeyPath="yes" Source="$(var.PublishDir)\System.IO.dll" />
+            </Component>
+            <Component Id="cmp9zlXoMWkbG5uIyl3c3zsTaheLFQ" Directory="INSTALLFOLDER" Guid="{736D92F4-2FC8-4E6E-BE01-AC05A2D6A42C}">
+                <File Id="filMaGlq.wK6ziF4EDtaat9nyKVzZY" KeyPath="yes" Source="$(var.PublishDir)\System.IO.FileSystem.AccessControl.dll" />
+            </Component>
+            <Component Id="cmp5O0ons4qDrCHXaT_kk0HsRsOiOA" Directory="INSTALLFOLDER" Guid="{8D1A6D5B-64A3-4E27-80FB-A6DE1DA0150B}">
+                <File Id="file_Idbc9QXCt6qWrPkSbBIpuzU5M" KeyPath="yes" Source="$(var.PublishDir)\System.IO.FileSystem.dll" />
+            </Component>
+            <Component Id="cmp4Uh8YTite7fM74iqw45eTmTTeGY" Directory="INSTALLFOLDER" Guid="{964AD74D-7CBF-45A2-B15D-1498A32485ED}">
+                <File Id="fil._jehtWWJ563ZHXi5XePWiUVxCs" KeyPath="yes" Source="$(var.PublishDir)\System.IO.FileSystem.DriveInfo.dll" />
+            </Component>
+            <Component Id="cmprFBG.H.1joAAMZKeS2Md38hTWEE" Directory="INSTALLFOLDER" Guid="{D8057519-8C14-42C7-A00A-F2A7DC90F5CE}">
+                <File Id="filzDtaoNnDPPobAaRugAaDZKlNLZQ" KeyPath="yes" Source="$(var.PublishDir)\System.IO.FileSystem.Primitives.dll" />
+            </Component>
+            <Component Id="cmpKzaCIB8pAJn.r6MP72FnCmitSq0" Directory="INSTALLFOLDER" Guid="{EEFB5F25-CFF3-4129-8939-7AF10EC72756}">
+                <File Id="fil0RafEg7Ggm9A75KH4O1y2fytiiA" KeyPath="yes" Source="$(var.PublishDir)\System.IO.FileSystem.Watcher.dll" />
+            </Component>
+            <Component Id="cmpsP6H2AaJnIsSS0jTpsDz31.q4xE" Directory="INSTALLFOLDER" Guid="{CF6B9E2B-F63B-4BB6-B869-EA8EE9F6229A}">
+                <File Id="filw3zKl7VyDExSyc2oxL2bl57.ito" KeyPath="yes" Source="$(var.PublishDir)\System.IO.IsolatedStorage.dll" />
+            </Component>
+            <Component Id="cmpYz0SouQDXA2vo0ZrWrA3mfYpmT8" Directory="INSTALLFOLDER" Guid="{F39ACB9A-60DF-4EE7-9B6A-DEA86D1C378D}">
+                <File Id="filz33t2n7oKz3UsI78dcpvMLrCNXc" KeyPath="yes" Source="$(var.PublishDir)\System.IO.MemoryMappedFiles.dll" />
+            </Component>
+            <Component Id="cmpVjSzZW2iFUmNJmc3.NROO4Idyng" Directory="INSTALLFOLDER" Guid="{00531674-1D9E-4F7E-9EA3-7909AED56C3C}">
+                <File Id="filZ_UV1609ieYmK4IUCIZmOkVfo1Q" KeyPath="yes" Source="$(var.PublishDir)\System.IO.Pipes.AccessControl.dll" />
+            </Component>
+            <Component Id="cmpS2GqO79oHSsdpYm.VH57ilJrAz8" Directory="INSTALLFOLDER" Guid="{116F6CC6-B304-4A0E-A9A8-B37603C10EB1}">
+                <File Id="filv4fYSssdAj2RH3JTv7tXhTArcso" KeyPath="yes" Source="$(var.PublishDir)\System.IO.Pipes.dll" />
+            </Component>
+            <Component Id="cmp7DIfT.OQmqjM0A7HB6maQcKUFgo" Directory="INSTALLFOLDER" Guid="{551DEAC7-0967-4AD1-90DA-08E66ACF6ADB}">
+                <File Id="filCk19mPOwoEi5PldsVBl3BErEp7c" KeyPath="yes" Source="$(var.PublishDir)\System.IO.UnmanagedMemoryStream.dll" />
+            </Component>
+            <Component Id="cmpKW1rcfY_IoE7yaVhWo4TyW.YVYk" Directory="INSTALLFOLDER" Guid="{5BFFDF29-3E77-47D7-AF5C-032359CA0449}">
+                <File Id="filU1mjbcjXlhNtYS9OOhZmZTC0oV4" KeyPath="yes" Source="$(var.PublishDir)\System.Linq.dll" />
+            </Component>
+            <Component Id="cmpZVU29rFCIoGoaERSfLWysB6KjMw" Directory="INSTALLFOLDER" Guid="{A8B8A3BC-D7B5-4AA1-A991-338B0F69326C}">
+                <File Id="filhHJ1g7V2mnCMO6fDJefYUrwSeNA" KeyPath="yes" Source="$(var.PublishDir)\System.Linq.Expressions.dll" />
+            </Component>
+            <Component Id="cmpDAN9JoKIk_1Nh9xN5kjMxSiPNFk" Directory="INSTALLFOLDER" Guid="{CA6022AF-F1C9-4ABE-8002-4BCF75097D5B}">
+                <File Id="fildUWj0XGGdGGjBTw_o1KolwRBbeM" KeyPath="yes" Source="$(var.PublishDir)\System.Linq.Parallel.dll" />
+            </Component>
+            <Component Id="cmp7VCm5TG_5gWJBGlk9YCF.YW_ftE" Directory="INSTALLFOLDER" Guid="{D9BF36FD-A27F-4F87-8937-1DB156812222}">
+                <File Id="filR9Zz_vpu0_6mzvvl_4xP7bOxgYI" KeyPath="yes" Source="$(var.PublishDir)\System.Linq.Queryable.dll" />
+            </Component>
+            <Component Id="cmpGxKzGwzuerVtr5B4bM5Oj0wNiqc" Directory="INSTALLFOLDER" Guid="{DA724F88-9E8A-43D2-B9DB-704C53143E06}">
+                <File Id="filvtHxs8TuQtZexwpwEP5mwTc.Nts" KeyPath="yes" Source="$(var.PublishDir)\System.Memory.dll" />
+            </Component>
+            <Component Id="cmpxcJ3uVRf4D8xcCsoWXE6lWsz2Lw" Directory="INSTALLFOLDER" Guid="{1A9CB15D-B2F5-476C-AA6D-AC082DDDF207}">
+                <File Id="filnFLRPK53Rr20xdV81O_hSvhRqY0" KeyPath="yes" Source="$(var.PublishDir)\System.Net.dll" />
+            </Component>
+            <Component Id="cmpEFgaHPNoPbCF9fwbMM5308UgF2I" Directory="INSTALLFOLDER" Guid="{307AA3CA-8B34-4061-B64E-03561FBA1499}">
+                <File Id="filjsSx37gTFGBorz74gdKTzQ6Ejgs" KeyPath="yes" Source="$(var.PublishDir)\System.Net.Http.dll" />
+            </Component>
+            <Component Id="cmpzvKT4yZ6Og18RqHkyqZSmtKbt2c" Directory="INSTALLFOLDER" Guid="{9F3B2D8D-B1AB-4496-8CEF-056DD99654D4}">
+                <File Id="filP7GxXHCrwoXYoUaWb.pDxqC4nSY" KeyPath="yes" Source="$(var.PublishDir)\System.Net.Http.Json.dll" />
+            </Component>
+            <Component Id="cmpwIXp29JbDVDQR29qRSkAmN2e5aM" Directory="INSTALLFOLDER" Guid="{5F3BF44B-3FF4-4B98-B439-61301EB63CC1}">
+                <File Id="filu.gdNZ8YnWUVoMAIDKOzpXjX7qI" KeyPath="yes" Source="$(var.PublishDir)\System.Net.HttpListener.dll" />
+            </Component>
+            <Component Id="cmpH3rpZKUgSoh9kGqgn8L3Ze_vdRE" Directory="INSTALLFOLDER" Guid="{4BA6B9E8-6103-4E65-83D3-0590A915B922}">
+                <File Id="filFPA0oKSM6O8kMNZ7Fu1kOwtbhz8" KeyPath="yes" Source="$(var.PublishDir)\System.Net.Mail.dll" />
+            </Component>
+            <Component Id="cmp_EQ0wd3OAl5sq_A.ZUl7OLK8LBg" Directory="INSTALLFOLDER" Guid="{582FFA24-DE24-41D8-84B0-BF213FEEE0DA}">
+                <File Id="filTT0RDp7cFAVczRibP93.7n6k36c" KeyPath="yes" Source="$(var.PublishDir)\System.Net.NameResolution.dll" />
+            </Component>
+            <Component Id="cmpO8G60BuJLm6j1gK3Kizy0mhg4qs" Directory="INSTALLFOLDER" Guid="{35D5D478-F325-4595-B23A-A92CA33320D7}">
+                <File Id="filtNbg.JqMCQeaLerBhfnHlt.LkfA" KeyPath="yes" Source="$(var.PublishDir)\System.Net.NetworkInformation.dll" />
+            </Component>
+            <Component Id="cmpbeenqlxD7.8l2F3sq4D1qLliUJU" Directory="INSTALLFOLDER" Guid="{C7DDE0A4-FBD0-40F0-952D-EBB7CCBA1475}">
+                <File Id="filf_1YI1TCJ7ZOLORKFoOi3bH6S3k" KeyPath="yes" Source="$(var.PublishDir)\System.Net.Ping.dll" />
+            </Component>
+            <Component Id="cmp1JUtsDSk.jyBGrfxF.qU2zGJZh4" Directory="INSTALLFOLDER" Guid="{F63F94A4-7C92-4163-9A6B-AA825F553198}">
+                <File Id="fil3Ms9IOZr3jgipoifiVMuQvsErZg" KeyPath="yes" Source="$(var.PublishDir)\System.Net.Primitives.dll" />
+            </Component>
+            <Component Id="cmpUALuZe0yPUTpfJrWtGT0F4v7zy4" Directory="INSTALLFOLDER" Guid="{B3731F93-3568-4590-B41F-8BEA68CB724F}">
+                <File Id="fil4ktqlvfHplbTahzJtDYH7ghcxUw" KeyPath="yes" Source="$(var.PublishDir)\System.Net.Quic.dll" />
+            </Component>
+            <Component Id="cmpLCLwmwdC1LFnVqJrgy8ZeGB8yEw" Directory="INSTALLFOLDER" Guid="{AA5095CD-AF31-4513-8799-6AE0B516246A}">
+                <File Id="fil5uJJZnVZ01rr3WYZVw8nExMvwZs" KeyPath="yes" Source="$(var.PublishDir)\System.Net.Requests.dll" />
+            </Component>
+            <Component Id="cmpPcvEZ6P7ck.80WSrnfEOfnCU1R4" Directory="INSTALLFOLDER" Guid="{855B7C53-9EF5-4ED0-8564-C050C4224ED2}">
+                <File Id="fil7V.xJ_ri1H7Grs1MfsFHz8APaIM" KeyPath="yes" Source="$(var.PublishDir)\System.Net.Security.dll" />
+            </Component>
+            <Component Id="cmpVaJ9m4_h8XJ3FHPJeWNwBvxe0vg" Directory="INSTALLFOLDER" Guid="{C49AF8C4-619E-4AA1-B494-FB4F01068A99}">
+                <File Id="filHIu7t02YS_ODML0smgtgwu.Wu0Q" KeyPath="yes" Source="$(var.PublishDir)\System.Net.ServicePoint.dll" />
+            </Component>
+            <Component Id="cmp3y1vuIk6dlz7VrxeYyZElSAQf8A" Directory="INSTALLFOLDER" Guid="{D49298F2-FAE3-45CF-B23C-4FDEF09BCB0A}">
+                <File Id="filixvNKukqArC3gr8AsXAaV5vkVUY" KeyPath="yes" Source="$(var.PublishDir)\System.Net.Sockets.dll" />
+            </Component>
+            <Component Id="cmp6dhAhwbfPzklzBqmjvHTKWkKbSY" Directory="INSTALLFOLDER" Guid="{83A9DE35-FA7B-4EFD-8E1A-26F688395DD8}">
+                <File Id="fil3QcRNKvSrQ4zpVp3ofW6oHMujls" KeyPath="yes" Source="$(var.PublishDir)\System.Net.WebClient.dll" />
+            </Component>
+            <Component Id="cmpSBujO4ZjiToCcNvk3lGIU39DiXU" Directory="INSTALLFOLDER" Guid="{46BFD06F-77DD-4456-B2F5-E8088F8330CC}">
+                <File Id="fil3U_rP9E7x3kNwfLdpy33khrpS2Q" KeyPath="yes" Source="$(var.PublishDir)\System.Net.WebHeaderCollection.dll" />
+            </Component>
+            <Component Id="cmpEPUXlFlhgvC2HAr2chu86bEcAlg" Directory="INSTALLFOLDER" Guid="{23C43924-CC77-4C8F-8D80-B6DEA343D1E1}">
+                <File Id="filBfHRsH5zLVHzbyOknai2BoMhxJY" KeyPath="yes" Source="$(var.PublishDir)\System.Net.WebProxy.dll" />
+            </Component>
+            <Component Id="cmpXylfT9URdaJW3j_uMqkPpPhaNb0" Directory="INSTALLFOLDER" Guid="{B4561616-C479-4045-AB8A-0AF1107F67E3}">
+                <File Id="fileydCK9OR5yTQTQ.BTZx1uwE8p7k" KeyPath="yes" Source="$(var.PublishDir)\System.Net.WebSockets.Client.dll" />
+            </Component>
+            <Component Id="cmpabmD262w8qBSc5aOgvUR4n__Cwc" Directory="INSTALLFOLDER" Guid="{E5D35024-C953-4BE0-AF0E-0F1882073C9F}">
+                <File Id="filFlsg.CFoiGbjPH.1wdg_20.VgH8" KeyPath="yes" Source="$(var.PublishDir)\System.Net.WebSockets.dll" />
+            </Component>
+            <Component Id="cmpAYuoncVNN.W4XA230SEmUsJV9mI" Directory="INSTALLFOLDER" Guid="{168E091F-010C-42EA-9186-BB9357B6EE0B}">
+                <File Id="filcflD5hgkjASisOEh94X59gJfNDQ" KeyPath="yes" Source="$(var.PublishDir)\System.Numerics.dll" />
+            </Component>
+            <Component Id="cmpeif4wLah0FFlcoAMROoE79wILuI" Directory="INSTALLFOLDER" Guid="{01F563CD-A3AB-4944-86E8-21FCC2408077}">
+                <File Id="filXQUsZi.UGLUt_6QA9nUOmNT7mJg" KeyPath="yes" Source="$(var.PublishDir)\System.Numerics.Vectors.dll" />
+            </Component>
+            <Component Id="cmpLdS7MjXDHM4RTgCSUdnwLY2T42U" Directory="INSTALLFOLDER" Guid="{5AFA07E7-D092-4BA5-819E-ACBB48EC67B7}">
+                <File Id="filU_uKjaNLSUmbm_v6TpUykumnp20" KeyPath="yes" Source="$(var.PublishDir)\System.ObjectModel.dll" />
+            </Component>
+            <Component Id="cmprD07HnRdBKfQv64dGV5iueA8dt4" Directory="INSTALLFOLDER" Guid="{9BC55863-2C97-4305-8A05-F499266C4FCA}">
+                <File Id="filINSNdYThuH6Qc_OdQ89m7Rpg_pY" KeyPath="yes" Source="$(var.PublishDir)\System.Private.CoreLib.dll" />
+            </Component>
+            <Component Id="cmpVWnqjx3XcANierz3rmiRlgpX788" Directory="INSTALLFOLDER" Guid="{FC994E57-BC97-49A4-AA57-E2926835173A}">
+                <File Id="fil8AUPqc2a_d8ZehkqUjTzNv5UnDY" KeyPath="yes" Source="$(var.PublishDir)\System.Private.DataContractSerialization.dll" />
+            </Component>
+            <Component Id="cmp6VB5GIxllhLRI4f09pYhZQoW_Ks" Directory="INSTALLFOLDER" Guid="{C4D1916B-9D7F-4DFC-AFF5-965C14D39481}">
+                <File Id="fil523J_btY4I2k9BMg8MSFySmJZKM" KeyPath="yes" Source="$(var.PublishDir)\System.Private.Uri.dll" />
+            </Component>
+            <Component Id="cmpTeg3SB0K78SK4gljKGgZ0YlN.00" Directory="INSTALLFOLDER" Guid="{7288392C-0A65-43FF-B185-B9D6B902A169}">
+                <File Id="filJr5IlnHCaiihTU6ZV.uCtxyOWrg" KeyPath="yes" Source="$(var.PublishDir)\System.Private.Xml.dll" />
+            </Component>
+            <Component Id="cmpCbQq3mtEFXNdq0bIrmp.wAALZC8" Directory="INSTALLFOLDER" Guid="{BCFEDABB-CBFF-47F9-9884-A799BCF9F6D2}">
+                <File Id="filW8ZPIWPYGiXDpXcXB8HyuA929Do" KeyPath="yes" Source="$(var.PublishDir)\System.Private.Xml.Linq.dll" />
+            </Component>
+            <Component Id="cmpQ5Dqg_oNn8EYQDaVpSnDo6Rh3HU" Directory="INSTALLFOLDER" Guid="{585BC6E6-5436-47B7-AC97-CCC217B1FD1A}">
+                <File Id="filzcQgCGDkld.iyQebgXecA1LeFXc" KeyPath="yes" Source="$(var.PublishDir)\System.Reflection.DispatchProxy.dll" />
+            </Component>
+            <Component Id="cmp6hMBMWJf5_6cNXvclUGGH4npSQU" Directory="INSTALLFOLDER" Guid="{21BBEC0A-55F6-4412-BD3E-5426543D772D}">
+                <File Id="filDuaHB0fZWDIGR4U6XUttyPiYgW0" KeyPath="yes" Source="$(var.PublishDir)\System.Reflection.dll" />
+            </Component>
+            <Component Id="cmpfgBgnREGdxSCzP.mvpmGdrQixdw" Directory="INSTALLFOLDER" Guid="{8E1F83E2-A798-442C-A15C-DFFAC3BE81D1}">
+                <File Id="filsne8Bbdupq3izFImFLtKRJDLHrU" KeyPath="yes" Source="$(var.PublishDir)\System.Reflection.Emit.dll" />
+            </Component>
+            <Component Id="cmp3B2vwucczycYBYaOfGDUoeoDouQ" Directory="INSTALLFOLDER" Guid="{EE8EBC3E-AC6E-4097-8FA1-4264145189D4}">
+                <File Id="filHPL9p8ioj2Q09iT9Wpkz.E7MAl4" KeyPath="yes" Source="$(var.PublishDir)\System.Reflection.Emit.ILGeneration.dll" />
+            </Component>
+            <Component Id="cmp6WxHism49iupA7N4jeJ0pzXNlAI" Directory="INSTALLFOLDER" Guid="{AE3D0049-6474-4691-89A3-4FAC1DDD6596}">
+                <File Id="filWYhBIPI9tuYCbLlJ7kZkLQsbnIs" KeyPath="yes" Source="$(var.PublishDir)\System.Reflection.Emit.Lightweight.dll" />
+            </Component>
+            <Component Id="cmpIgseo5ykLhSoAkqpgzE8pKEHx5I" Directory="INSTALLFOLDER" Guid="{51BA29B1-0241-48F6-98CC-7F48C3C714DF}">
+                <File Id="fil7QWjbElFWIRVfeGPhWR0SUlXLmc" KeyPath="yes" Source="$(var.PublishDir)\System.Reflection.Extensions.dll" />
+            </Component>
+            <Component Id="cmptP78og.ffJCstn1625RaTiAJWsw" Directory="INSTALLFOLDER" Guid="{34BF3278-BD85-42D2-977E-6E5413C1AB57}">
+                <File Id="filxY9Nho6ocMhZcN_.WSBmeIb3hC4" KeyPath="yes" Source="$(var.PublishDir)\System.Reflection.Metadata.dll" />
+            </Component>
+            <Component Id="cmpEZlErB6hxDaCO3eHyjh_6I9dW8o" Directory="INSTALLFOLDER" Guid="{02D63D72-9D86-4806-AAA1-0FA5853A3519}">
+                <File Id="filAK24pDmuvpnfdHJvrUVGC0eYHoo" KeyPath="yes" Source="$(var.PublishDir)\System.Reflection.Primitives.dll" />
+            </Component>
+            <Component Id="cmpYP3ywg0tAv_BCjORgdS3jIzzp9Q" Directory="INSTALLFOLDER" Guid="{E4F517C8-53E6-4F00-9D87-F855BB652929}">
+                <File Id="filTuUvJFNsnXb3ZgCfkJOW9zTlFm0" KeyPath="yes" Source="$(var.PublishDir)\System.Reflection.TypeExtensions.dll" />
+            </Component>
+            <Component Id="cmp5MS8YWwiaOz1lQnTQ6tCq6chpsM" Directory="INSTALLFOLDER" Guid="{058C2408-F619-4385-9D7B-F3AF91BAE3A7}">
+                <File Id="filXzsYmcYpxiHa6502.7ryZsk7L8s" KeyPath="yes" Source="$(var.PublishDir)\System.Resources.Reader.dll" />
+            </Component>
+            <Component Id="cmpljo1SL0yc1Gc72gXXAFFH99wPaY" Directory="INSTALLFOLDER" Guid="{576703BD-1307-466A-9D0E-6280DFCC6EBA}">
+                <File Id="filp2Rf4IGPmmDgVRuaLmuqQxw.VnY" KeyPath="yes" Source="$(var.PublishDir)\System.Resources.ResourceManager.dll" />
+            </Component>
+            <Component Id="cmpxZaKWui145.5Lnl935p99GxMisw" Directory="INSTALLFOLDER" Guid="{2CE18B71-920A-48B6-B60F-35194161EB48}">
+                <File Id="fil6kTFXfZPaTT2yKtNYWun7UluCms" KeyPath="yes" Source="$(var.PublishDir)\System.Resources.Writer.dll" />
+            </Component>
+            <Component Id="cmpMdKG5HJeoljMmbHEaH.OS2OtM_g" Directory="INSTALLFOLDER" Guid="{2AC7A81B-ACFD-4E8A-A58D-0C329AFBDFA4}">
+                <File Id="filP.NVNnsSBA0nld8j6ga33t9zL8o" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.CompilerServices.Unsafe.dll" />
+            </Component>
+            <Component Id="cmp7tyd4iLIQdS_WFgAJZWNt.JtOoE" Directory="INSTALLFOLDER" Guid="{AD158FAE-CC43-42A7-8818-9A134461FB9E}">
+                <File Id="fil7oyhqupJY.OdIw5gyJYDobVpN2M" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.CompilerServices.VisualC.dll" />
+            </Component>
+            <Component Id="cmpqomje.CnVcXjc_Zrj7WQugfzfaA" Directory="INSTALLFOLDER" Guid="{4C6118A5-D156-4FCA-BA7D-2335D46FD21D}">
+                <File Id="fillpnQSEw8LvXvMhaa15A5kdkYlQ0" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.dll" />
+            </Component>
+            <Component Id="cmpo2bR8NVBBus9_70T3iwepQY1DSI" Directory="INSTALLFOLDER" Guid="{D03140F0-F928-438F-8187-CB02F4D07021}">
+                <File Id="filOh6tpcAW_zyYVtbVfIuI5_QNOA4" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.Extensions.dll" />
+            </Component>
+            <Component Id="cmpFZDm6J8DIyCbqJ5yiowG4oqliWE" Directory="INSTALLFOLDER" Guid="{20422E03-8C10-4831-A7A8-F5F8554AC065}">
+                <File Id="fil88kVAYrVOvzw4QJBwsbG4p7ljao" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.Handles.dll" />
+            </Component>
+            <Component Id="cmpRERoWad3gMH5.DvO3qPhCtPJPFc" Directory="INSTALLFOLDER" Guid="{2E85A0DA-19AE-430B-8360-A61F9314E847}">
+                <File Id="filZjc6ouSqE9KFUDFgx1vLD3ST7.w" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.InteropServices.dll" />
+            </Component>
+            <Component Id="cmpRolLOPOkBmIqhCEW3ETff8EBVj8" Directory="INSTALLFOLDER" Guid="{493D0172-B2EA-48A3-BB52-37EE9A263F0E}">
+                <File Id="filjq8Kb136OABnJT0BryzZxjhqRzM" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.InteropServices.JavaScript.dll" />
+            </Component>
+            <Component Id="cmptySu._G7Ahp11Zk0pGDGhK02LVw" Directory="INSTALLFOLDER" Guid="{22D9380F-E7BB-46CC-BE0B-124EB8114F25}">
+                <File Id="fil_iV7.7lczwoD2wK9xP_vsz32Vgw" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.InteropServices.RuntimeInformation.dll" />
+            </Component>
+            <Component Id="cmp9yvBnkimEhg2rrFPKaIssPIRipE" Directory="INSTALLFOLDER" Guid="{2B5599E2-DB3B-4C80-9305-4995F16A5A98}">
+                <File Id="fil5XY9K0Uht_oDi_lpSnSEfhu9aeo" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.Intrinsics.dll" />
+            </Component>
+            <Component Id="cmpcWNPJDNeFsQHOyOCsyJ_57vW9fI" Directory="INSTALLFOLDER" Guid="{CF61021F-DE81-45E3-ADB5-F7F17630EE2E}">
+                <File Id="fil9r2fseVVuOZMAmrCA67xU5mPqLQ" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.Loader.dll" />
+            </Component>
+            <Component Id="cmpi.4b9rxa30x7PvjbkALmQcYWBv8" Directory="INSTALLFOLDER" Guid="{6A5B18AF-1838-4EB4-804A-EA4EAD9C9279}">
+                <File Id="filLp1s03IsmEV49jZKFLCbZ.hGAj8" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.Numerics.dll" />
+            </Component>
+            <Component Id="cmpuZ.d99hUWYzOQKNe864.rfs72g4" Directory="INSTALLFOLDER" Guid="{95EE238B-54CB-4C36-AB66-8079BB1EDF13}">
+                <File Id="filg09rmgWuLqKD5j4t3ZUyc1r1ogg" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.Serialization.dll" />
+            </Component>
+            <Component Id="cmpd8PiFiPMiX08zpqZ_cOwu.sQgXE" Directory="INSTALLFOLDER" Guid="{3BD8900F-EC2C-4803-A60E-815F99CB93D1}">
+                <File Id="filB5Ht0Po80P3fy0W7iNHeOr2AoeU" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.Serialization.Formatters.dll" />
+            </Component>
+            <Component Id="cmp7vKMF_V41rcY16FfQQ5sa66TELo" Directory="INSTALLFOLDER" Guid="{14BF0B35-EB93-4F4F-94CC-ECB015416B14}">
+                <File Id="fil8mbWz8BE1daTVVdPZJIITXFvCIc" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.Serialization.Json.dll" />
+            </Component>
+            <Component Id="cmppZYjPl7JPa6a45c8ZjNs_m4Fu8k" Directory="INSTALLFOLDER" Guid="{F80DBE3E-C900-401B-983D-35719A9C39A3}">
+                <File Id="filfupjHA7GfL.jb1hBISplD7mvPOI" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.Serialization.Primitives.dll" />
+            </Component>
+            <Component Id="cmpnIdAMoWiRSFkWf.pgb9u5aIVc9Q" Directory="INSTALLFOLDER" Guid="{0EF1851F-D200-4BE5-912E-9923F614A5FF}">
+                <File Id="filgo_N.1tfoNDEhNcwW3fkpi3vg6s" KeyPath="yes" Source="$(var.PublishDir)\System.Runtime.Serialization.Xml.dll" />
+            </Component>
+            <Component Id="cmpQMd5cn3PMHUOUizGbCOyLiSR_AE" Directory="INSTALLFOLDER" Guid="{F0C98384-8CEA-4545-BB41-A34CD6124DE3}">
+                <File Id="fils2UPn80p9B99nYO0wbrtMvVz7dE" KeyPath="yes" Source="$(var.PublishDir)\System.Security.AccessControl.dll" />
+            </Component>
+            <Component Id="cmp1ENO7BdBixOZJayYndoMZL6.OY8" Directory="INSTALLFOLDER" Guid="{086FCC23-4D2E-409F-98A3-680733716791}">
+                <File Id="filLp_SvYgt8Obac9ESE4Ju06STOkM" KeyPath="yes" Source="$(var.PublishDir)\System.Security.Claims.dll" />
+            </Component>
+            <Component Id="cmpTuJI05cOqRZfzg3EKYqDJfgGRvg" Directory="INSTALLFOLDER" Guid="{B6FFC8B1-EFD2-4EFB-8CE8-A2D3770D6563}">
+                <File Id="filmoURL05Xarl6nalyvJkV.O5OGK0" KeyPath="yes" Source="$(var.PublishDir)\System.Security.Cryptography.Algorithms.dll" />
+            </Component>
+            <Component Id="cmpi640byH4DponwUmZQZm7dL17uD0" Directory="INSTALLFOLDER" Guid="{44F6B502-85DA-412F-B049-9A4FE2DEA3AA}">
+                <File Id="filqmw7vsCigE091B853VH0L7HtYbw" KeyPath="yes" Source="$(var.PublishDir)\System.Security.Cryptography.Cng.dll" />
+            </Component>
+            <Component Id="cmpP5.GdjOXw_MlhJAFUnk2I_04lT0" Directory="INSTALLFOLDER" Guid="{468DEC40-AE69-48F4-99DF-B5A004846DEE}">
+                <File Id="filrG6suUM60E4gjlgAnY1cU8NZ4Tc" KeyPath="yes" Source="$(var.PublishDir)\System.Security.Cryptography.Csp.dll" />
+            </Component>
+            <Component Id="cmp.xxvfLi0lo_WfoQexDNh5PXAEng" Directory="INSTALLFOLDER" Guid="{D859A634-471F-4D8F-B413-3C61915F76A2}">
+                <File Id="filSY8TrmiB8YQYZWulaotuPB61Pxo" KeyPath="yes" Source="$(var.PublishDir)\System.Security.Cryptography.dll" />
+            </Component>
+            <Component Id="cmpv0Pkwg8_A2AHx_urNcsVLBHaa2g" Directory="INSTALLFOLDER" Guid="{E3DD392A-032A-4634-A307-A816714C6205}">
+                <File Id="fil.8.aOdhQdrTZ9xbgJqRQApu22m8" KeyPath="yes" Source="$(var.PublishDir)\System.Security.Cryptography.Encoding.dll" />
+            </Component>
+            <Component Id="cmp3q6ICUlDrSIWL3mD5uIByou.Qqo" Directory="INSTALLFOLDER" Guid="{2FB2FEAE-ADEB-465B-8F44-59B21DCB7A86}">
+                <File Id="fillxOxcDALGk7uAwzg2fh_DIl4uCs" KeyPath="yes" Source="$(var.PublishDir)\System.Security.Cryptography.OpenSsl.dll" />
+            </Component>
+            <Component Id="cmpJAUD46P5sR2QgPAozfkH93IDhPY" Directory="INSTALLFOLDER" Guid="{1018CE40-F1C2-4C31-9F2A-C713BF20CD97}">
+                <File Id="filA_vPJMEYDEPxrNsZCBFSbSIG6CU" KeyPath="yes" Source="$(var.PublishDir)\System.Security.Cryptography.Primitives.dll" />
+            </Component>
+            <Component Id="cmpxaFPVWI1hoSqT4wyYSnk2kwUDho" Directory="INSTALLFOLDER" Guid="{22CF22D5-41E2-4DAC-93AB-7662D1CFB5AC}">
+                <File Id="fil2l3k36zinxC7ZGm.txMN6up4SlU" KeyPath="yes" Source="$(var.PublishDir)\System.Security.Cryptography.X509Certificates.dll" />
+            </Component>
+            <Component Id="cmpx7ef3cT1expNztCawzlDJ.LGKd0" Directory="INSTALLFOLDER" Guid="{B64C9342-F8A3-41F4-8F6F-BB7F3C102247}">
+                <File Id="filL_CBXizptydFiRs6.hLJSov2FQ4" KeyPath="yes" Source="$(var.PublishDir)\System.Security.dll" />
+            </Component>
+            <Component Id="cmpz72idCbSKRi5cgb3LK9zOAIT3oM" Directory="INSTALLFOLDER" Guid="{B5C78C65-3E04-4DCA-BE34-87F72EC251B5}">
+                <File Id="filFbmCwsGgwZ.adW3aStv8DZuwR18" KeyPath="yes" Source="$(var.PublishDir)\System.Security.Principal.dll" />
+            </Component>
+            <Component Id="cmplQB3QJEcBe5AX0q.r1mOVoAhvl8" Directory="INSTALLFOLDER" Guid="{1FDECBF9-EE6F-4346-B4CE-2C3FCF348FD4}">
+                <File Id="filgZLdbNgtb_6mEtb7mifvW25DgYs" KeyPath="yes" Source="$(var.PublishDir)\System.Security.Principal.Windows.dll" />
+            </Component>
+            <Component Id="cmp5IDh57zqYNdtG32QDo_9r32sahM" Directory="INSTALLFOLDER" Guid="{0529971A-6A2F-4661-9B94-6910DC7027E4}">
+                <File Id="filQoJ2dqL5DU00VSO5O8yplGfi5qQ" KeyPath="yes" Source="$(var.PublishDir)\System.Security.SecureString.dll" />
+            </Component>
+            <Component Id="cmpv17vyAcj3165BHIdsZK4gRVN3o0" Directory="INSTALLFOLDER" Guid="{1EDD1425-66D5-40D7-9DC8-35C1DF3F77C8}">
+                <File Id="file2_5MN0C45fF98JoIatCdULi5qE" KeyPath="yes" Source="$(var.PublishDir)\System.ServiceModel.Web.dll" />
+            </Component>
+            <Component Id="cmpvMu2h2GHSI00gvDMYXnSnd6kqLY" Directory="INSTALLFOLDER" Guid="{ED4317C9-C690-49E6-895B-66327AA651C6}">
+                <File Id="fil1oE5Bs09D3aCNEFGxDEMlEPaHuk" KeyPath="yes" Source="$(var.PublishDir)\System.ServiceProcess.dll" />
+            </Component>
+            <Component Id="cmpukTrQNOEWqphn8kdcwB0v9ueqNE" Directory="INSTALLFOLDER" Guid="{E388B3EB-8355-420F-8CB3-60E363AD1CF2}">
+                <File Id="filHSjSG4wmOLIDq1EWlfXedTXETL4" KeyPath="yes" Source="$(var.PublishDir)\System.Text.Encoding.CodePages.dll" />
+            </Component>
+            <Component Id="cmpHfR.Qy3g1XR9Z976YP9CX5xGLvs" Directory="INSTALLFOLDER" Guid="{9CD0EB8B-76B0-4B3C-8CBC-F46BDCD1018B}">
+                <File Id="filXtbwTmqWtYCxhdrfXNAup6WhgQE" KeyPath="yes" Source="$(var.PublishDir)\System.Text.Encoding.dll" />
+            </Component>
+            <Component Id="cmptq4ca77oOf5f4BeiCV_uz1Dxlpo" Directory="INSTALLFOLDER" Guid="{C550F1C3-663C-42F1-AFD1-64ACD3124654}">
+                <File Id="filOY_MiQBU730d8sn1LrL5fYIWSKk" KeyPath="yes" Source="$(var.PublishDir)\System.Text.Encoding.Extensions.dll" />
+            </Component>
+            <Component Id="cmpobSp6QlJIBH6wbYvLenget5Hjus" Directory="INSTALLFOLDER" Guid="{E387443C-1C63-4A7B-954F-24A0ECDEF80F}">
+                <File Id="filtTHB.LVjakJbhSgxbNwXAkg_Xi4" KeyPath="yes" Source="$(var.PublishDir)\System.Text.Encodings.Web.dll" />
+            </Component>
+            <Component Id="cmpKpxg7eSiUsS8FAN_qPD67NgBne4" Directory="INSTALLFOLDER" Guid="{755FCF22-4358-4FCF-9968-6B834660B837}">
+                <File Id="filtxCarZqlFdIjSGc2.l1KWK5FS8E" KeyPath="yes" Source="$(var.PublishDir)\System.Text.Json.dll" />
+            </Component>
+            <Component Id="cmpzK1yfou_L1_o6FjgOe.o4fnv7Qg" Directory="INSTALLFOLDER" Guid="{1F0C82CF-71BC-4F7C-BA39-55916B6A7BA8}">
+                <File Id="fil5mE51r6M1u874ZbcdGVM32W7VHA" KeyPath="yes" Source="$(var.PublishDir)\System.Text.RegularExpressions.dll" />
+            </Component>
+            <Component Id="cmpxiyaa1JD5q4vDOaTpoc6xsi4K2I" Directory="INSTALLFOLDER" Guid="{7B3C3035-3B06-4EF6-9A89-0EAF65F8BB6A}">
+                <File Id="filDy.bpSEj3JiSueaFXhaHUQIRE34" KeyPath="yes" Source="$(var.PublishDir)\System.Threading.Channels.dll" />
+            </Component>
+            <Component Id="cmp4cxxVTFzoZTJ8wvShhgBgSBeqCw" Directory="INSTALLFOLDER" Guid="{764CAD61-BB51-4A48-ACC8-32087A8DE251}">
+                <File Id="filt9pAldHLFpMZI5oDyuYlqfap4.g" KeyPath="yes" Source="$(var.PublishDir)\System.Threading.dll" />
+            </Component>
+            <Component Id="cmpz01NUiJqg54OMPdw81VU0rIPYvU" Directory="INSTALLFOLDER" Guid="{7582F093-BCBB-4D46-A2F6-8BD364A44104}">
+                <File Id="filKqOfIcomP0fgTQPvRauhTABGEUY" KeyPath="yes" Source="$(var.PublishDir)\System.Threading.Overlapped.dll" />
+            </Component>
+            <Component Id="cmpa9Nsehnv4j.FiioqYofBYYnE.x8" Directory="INSTALLFOLDER" Guid="{DF2EBCFF-3586-4D30-B3F7-C2AE31BFE433}">
+                <File Id="filBZxYMzVW7fhoMxL5sGPxt4P7gGo" KeyPath="yes" Source="$(var.PublishDir)\System.Threading.Tasks.Dataflow.dll" />
+            </Component>
+            <Component Id="cmpyFNpzEbsAoD6ii_QoaKQxp8PQVo" Directory="INSTALLFOLDER" Guid="{68E9A77D-F947-4C7E-9900-3073274852CF}">
+                <File Id="filic8vNtwmOI_e4M9zstaYlmVkWEE" KeyPath="yes" Source="$(var.PublishDir)\System.Threading.Tasks.dll" />
+            </Component>
+            <Component Id="cmpzt3_kINAGIXxmfxEuN939_i2dCQ" Directory="INSTALLFOLDER" Guid="{0F575DC3-72F6-4115-9A69-73C740C4F8B0}">
+                <File Id="filihzfu31g9fJzxv1g1GPJeDeIHT0" KeyPath="yes" Source="$(var.PublishDir)\System.Threading.Tasks.Extensions.dll" />
+            </Component>
+            <Component Id="cmpl6PLj7W4Uvgo6bS2_rjJ4c7ZD3U" Directory="INSTALLFOLDER" Guid="{1E3E2925-6C1D-4786-B396-A23844D67642}">
+                <File Id="filf2P12G_6n14BEWqIjaum.GjEmjw" KeyPath="yes" Source="$(var.PublishDir)\System.Threading.Tasks.Parallel.dll" />
+            </Component>
+            <Component Id="cmpJvsWT9tOm1gmdI2dabmVrHLi_Kc" Directory="INSTALLFOLDER" Guid="{1F9E325A-7C65-4E2D-ACBA-119E3703FAEF}">
+                <File Id="filfqRcd5TizIzY8UCaI3KX178P_Ik" KeyPath="yes" Source="$(var.PublishDir)\System.Threading.Thread.dll" />
+            </Component>
+            <Component Id="cmpw8MfYZ8RnYpN3V2rqDhLnWbmZco" Directory="INSTALLFOLDER" Guid="{E75A93C6-68BA-40B9-9A62-33B7D35450EE}">
+                <File Id="fil8fI8wAX.1EES1JQnwnNbvPcIAGE" KeyPath="yes" Source="$(var.PublishDir)\System.Threading.ThreadPool.dll" />
+            </Component>
+            <Component Id="cmpT1h1yib8ia3mv1BZlMsL54afSHE" Directory="INSTALLFOLDER" Guid="{5F3672F0-1D94-4381-B7F0-908DF08B7833}">
+                <File Id="filjw0Osvq1uMm8_.dO1eSzOEFqUeA" KeyPath="yes" Source="$(var.PublishDir)\System.Threading.Timer.dll" />
+            </Component>
+            <Component Id="cmpdvPBya0LudxJzkZyo3KLLRR9UpE" Directory="INSTALLFOLDER" Guid="{FA7D39A1-9600-48E6-B2C6-33B815F39F26}">
+                <File Id="filcPvWXYKZLonBZEAvJOEsmCsV.Oo" KeyPath="yes" Source="$(var.PublishDir)\System.Transactions.dll" />
+            </Component>
+            <Component Id="cmpozu2DLz_MPsEOIZ_95_VNJcJ3Fo" Directory="INSTALLFOLDER" Guid="{CB649C40-3D65-4E65-8BF5-1AF7F6B3144E}">
+                <File Id="filJygj0acyqc_peoG96vNNnp1_L38" KeyPath="yes" Source="$(var.PublishDir)\System.Transactions.Local.dll" />
+            </Component>
+            <Component Id="cmpsEH9wrJqsXo9aBN4r7OniIITZhs" Directory="INSTALLFOLDER" Guid="{D93D88EE-F688-4B7A-8BC8-5DDD7F7C219E}">
+                <File Id="fil3pNm4aug0jOtKaPlhsFFljpKZOs" KeyPath="yes" Source="$(var.PublishDir)\System.ValueTuple.dll" />
+            </Component>
+            <Component Id="cmpmiTHJ6puWa.lO8HzDfLCvJzf67w" Directory="INSTALLFOLDER" Guid="{7669F31C-74CC-46BE-87C0-A02B16137190}">
+                <File Id="fil6HE8l8BuRQ7p6AlZl9V.ZlCpzUg" KeyPath="yes" Source="$(var.PublishDir)\System.Web.dll" />
+            </Component>
+            <Component Id="cmpJbX.voDToWjzpaybt3.mpo4n37o" Directory="INSTALLFOLDER" Guid="{2C8ACCED-FEAD-471E-AC6D-0269DE6C2C3F}">
+                <File Id="filqUdXWhzSPocoYcyfhHRKLSSHUSM" KeyPath="yes" Source="$(var.PublishDir)\System.Web.HttpUtility.dll" />
+            </Component>
+            <Component Id="cmpSRMNzkhPqIZ7KVA6p4CVBSQw7KY" Directory="INSTALLFOLDER" Guid="{5110A1DE-0DFA-4119-90B6-9FF01B743902}">
+                <File Id="filx9Ysk0CVYEe2C1SWZUyVufzZ27g" KeyPath="yes" Source="$(var.PublishDir)\System.Windows.dll" />
+            </Component>
+            <Component Id="cmptqWhC11xYuO1244vHVEI.Xkhmg4" Directory="INSTALLFOLDER" Guid="{001E28E5-69A1-42A5-90C0-6E04F817C42A}">
+                <File Id="filO_jw3_zqrb29g6CDjpguysd_.Eo" KeyPath="yes" Source="$(var.PublishDir)\System.Xml.dll" />
+            </Component>
+            <Component Id="cmpBxl_HgtIbipFFQVUjsSFMgSPgxU" Directory="INSTALLFOLDER" Guid="{075660F5-45AF-4DC6-8C0E-B76A27BB496C}">
+                <File Id="filaaeJy23Z9CK6D_Mj2NCFCmdAsSE" KeyPath="yes" Source="$(var.PublishDir)\System.Xml.Linq.dll" />
+            </Component>
+            <Component Id="cmpheNSGnCngN5ySxlH64zIy2YWw1A" Directory="INSTALLFOLDER" Guid="{C3D6599E-BA2F-4FA6-B3BD-129A84F10D7D}">
+                <File Id="filR7nck906sCfPXxfI1DeAvttC7PI" KeyPath="yes" Source="$(var.PublishDir)\System.Xml.ReaderWriter.dll" />
+            </Component>
+            <Component Id="cmpVJjhPbrnabSjNxI.xdLdDFgD0yE" Directory="INSTALLFOLDER" Guid="{4BA33F63-55B6-4E08-AEBC-17704D3394A1}">
+                <File Id="film_WEZS3Sj1OCHAr04sjmuTzjfLI" KeyPath="yes" Source="$(var.PublishDir)\System.Xml.Serialization.dll" />
+            </Component>
+            <Component Id="cmpcVEpMyqvdnLDlEHEwDRc6PzEDmE" Directory="INSTALLFOLDER" Guid="{8D38D70E-0761-4317-9B07-5EF9042AA364}">
+                <File Id="filX.z2LMEC5DbgRgM2M5acFtjjRLU" KeyPath="yes" Source="$(var.PublishDir)\System.Xml.XDocument.dll" />
+            </Component>
+            <Component Id="cmpcXm4JeXDbiVyXy5ncwxUNkbIzbY" Directory="INSTALLFOLDER" Guid="{F15C000C-7EFA-4A1D-98DD-E2C94A214F56}">
+                <File Id="filZEo.PGXW7sW0.VzdqHTyRTIwMks" KeyPath="yes" Source="$(var.PublishDir)\System.Xml.XmlDocument.dll" />
+            </Component>
+            <Component Id="cmpvpwMCMo_hObQHvt2hpFRlYZoo7c" Directory="INSTALLFOLDER" Guid="{05067093-C334-4BA0-B0A8-F77799DBC5F8}">
+                <File Id="fil7Z33ZRE4uB8M2GilTY.rnILZHso" KeyPath="yes" Source="$(var.PublishDir)\System.Xml.XmlSerializer.dll" />
+            </Component>
+            <Component Id="cmpCwNJ.juytGnkMRLfPTZk_2DOZdc" Directory="INSTALLFOLDER" Guid="{7E1F04B0-DF9E-446C-A60E-7E306BA8F97D}">
+                <File Id="filecXjtqfR2sx8Fv6xt.8XT4eV9BI" KeyPath="yes" Source="$(var.PublishDir)\System.Xml.XPath.dll" />
+            </Component>
+            <Component Id="cmpsBykFUDIEOSbEo6dGNrYlDL_7Hk" Directory="INSTALLFOLDER" Guid="{91EF8D84-71E6-4ECA-ADFA-8E268AA6097A}">
+                <File Id="filnazOjjVEjegjcMnOmFwoGtW48cg" KeyPath="yes" Source="$(var.PublishDir)\System.Xml.XPath.XDocument.dll" />
+            </Component>
+            <Component Id="cmpi0wvUnWlazUi8FTwZssCuNLt2Ag" Directory="INSTALLFOLDER" Guid="{6DAE6394-0071-443C-80E3-6C7160F2F6DF}">
+                <File Id="fil4lHAmRDrOJVxquCP_8DtLoo6Q3A" KeyPath="yes" Source="$(var.PublishDir)\WebView2Loader.dll" />
+            </Component>
+            <Component Id="cmp20QC09u1Cwv_JAS8OcqP73USwyc" Directory="INSTALLFOLDER" Guid="{4E23A471-F4A4-4DFC-9386-5FCC49B4FFE6}">
+                <File Id="fil_Z2ThYrioYlQROBlgTXjR3j6VHk" KeyPath="yes" Source="$(var.PublishDir)\WindowsAppRuntime.DeploymentExtensions.OneCore.dll" />
+            </Component>
+            <Component Id="cmpXKrCOOwSJjNOnNVeUf8nObt.YhE" Directory="INSTALLFOLDER" Guid="{76305452-BE9E-4D87-95D5-8A007D45528E}">
+                <File Id="fil9RX.p1c._R05D_L1lz9upr_o69k" KeyPath="yes" Source="$(var.PublishDir)\WindowsAppRuntime.png" />
+            </Component>
+            <Component Id="cmpT_AYGe_GpOTq6TczW9bl0G6UZHo" Directory="INSTALLFOLDER" Guid="{E66D74E7-9984-4DFC-8378-C8DD088923A0}">
+                <File Id="filtO4G4yWtwJeNg214eSze.o8QyTk" KeyPath="yes" Source="$(var.PublishDir)\WindowsAppSdk.AppxDeploymentExtensions.Desktop-EventLog-Instrumentation.dll" />
+            </Component>
+            <Component Id="cmpE3_8nA4zdshQ9aflqDyYVPhEsl4" Directory="INSTALLFOLDER" Guid="{1DF241A8-EEF1-473A-B333-A2849D3F331F}">
+                <File Id="file5yLWX_rPd7jxzhu0HJ6Nww_dJo" KeyPath="yes" Source="$(var.PublishDir)\WindowsAppSdk.AppxDeploymentExtensions.Desktop.dll" />
+            </Component>
+            <Component Id="cmp9O2S2sGH01q7UnkjE3cDByIgFgE" Directory="INSTALLFOLDER" Guid="{01453EA3-AD67-40CA-BDF4-8DB176685FE2}">
+                <File Id="filKskfatg9EuUVWR8ThzewtgIfORs" KeyPath="yes" Source="$(var.PublishDir)\WindowsBase.dll" />
+            </Component>
+            <Component Id="cmpOA4mWGgfxXi19FbVm1GLQB9lefw" Directory="INSTALLFOLDER" Guid="{6967297B-B6DA-4B41-ABEE-18529E0BC606}">
+                <File Id="filruwUBEc.bTnLlfJq6n1wNGaHASc" KeyPath="yes" Source="$(var.PublishDir)\WinRT.Runtime.dll" />
+            </Component>
+            <Component Id="cmp68rSAHp.VpMUBqY.PIQOGxzr2Wo" Directory="INSTALLFOLDER" Guid="{534D1FC0-C217-4864-A119-10CEA27D9568}">
+                <File Id="fil2Mp0aRhkNgo3fl97dY2fTtENPPc" KeyPath="yes" Source="$(var.PublishDir)\WinUIEdit.dll" />
+            </Component>
+            <Component Id="cmptFjS01ntzvUKiyGgeSNyiQBWMcc" Directory="INSTALLFOLDER" Guid="{5474F129-295E-4443-B2C8-6912D76BA67E}">
+                <File Id="filoBJxYEqhj.qhlNm9p0ju8h5Er9k" KeyPath="yes" Source="$(var.PublishDir)\wuceffectsi.dll" />
+            </Component>
+            <Component Id="cmpENAH2AnBLf.SzUoYSqRGbNec3kc" Directory="dirDvc37M0ejBr5Cd1Xb7DrjmIJoxw" Guid="{C6E5F2A0-EA3C-481F-A590-C481ED81CA4D}">
+                <File Id="filOOVQHKXKFWpa9codWjXqErpfoyU" KeyPath="yes" Source="$(var.PublishDir)\af-ZA\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpg7hUHCeIV8Dp5_.G55eupmIU6kQ" Directory="dirDvc37M0ejBr5Cd1Xb7DrjmIJoxw" Guid="{D131D4D1-C894-411A-9E03-D3D2DA230F9E}">
+                <File Id="filuVE759DI9ISRwKt7jjWvoy88lgA" KeyPath="yes" Source="$(var.PublishDir)\af-ZA\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpKRPk.C577hk0eY7OLLwUozwop9A" Directory="dir.LghdtQ8_v17qU8szizbH0hDltg" Guid="{3D985918-46EA-4C34-81F6-7A1429420487}">
+                <File Id="filPWqHJg.u5jLOlQQ1HDeyP03EkSI" KeyPath="yes" Source="$(var.PublishDir)\am-ET\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpJou6G6hfnOWwqYjlqryYhF6IcbM" Directory="dir.LghdtQ8_v17qU8szizbH0hDltg" Guid="{6566E343-5691-446E-BF3F-33FF40B38DEC}">
+                <File Id="filhnCH7vqo5EpaQg3zXWzJ3HfOk4s" KeyPath="yes" Source="$(var.PublishDir)\am-ET\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpYKX8sLXvTgsmQrIEWsEz9AqQWFo" Directory="dirk6K7j3EfZZQtGv01_MuWHii3ZQg" Guid="{03B0F3CC-89D5-4797-90A8-0CFEAD406342}">
+                <File Id="filvxrg6t8Kk0emdLxUxiYFmt7JLvM" KeyPath="yes" Source="$(var.PublishDir)\ar-SA\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp7h1DT34LAwxRmrE7X_rWru.HHhA" Directory="dirk6K7j3EfZZQtGv01_MuWHii3ZQg" Guid="{D631C703-4ED6-4578-8F2B-71E1C2CAAB15}">
+                <File Id="filnVPSdWJ0RMsgJCa1LZLOwbfmkXs" KeyPath="yes" Source="$(var.PublishDir)\ar-SA\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpstl.jP__XB0K5IYZv3rRrVN1RvY" Directory="dirzhUlGBPcpfa4jAklLtRBzR5JUT4" Guid="{2935FA60-2B28-4CFE-925B-9F9756CC7233}">
+                <File Id="filWbwXgyafSeuK5p5Rw9hsxF2yGUI" KeyPath="yes" Source="$(var.PublishDir)\as-IN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpjQBWWMtsQgSn56V7h09ym7Fi5jA" Directory="dirzhUlGBPcpfa4jAklLtRBzR5JUT4" Guid="{9B3F20AA-D11F-4EC2-B30D-660A2B1E9E21}">
+                <File Id="filGCdHiMle9qhMwdQQ4aih46OTkBo" KeyPath="yes" Source="$(var.PublishDir)\as-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpJ2p8Fa5pbxbY1_Lvf9bIJBT.yKk" Directory="dirVv4TaqZeOUYH6XhGQ8z71VvBw4U" Guid="{6C5B7D67-9CA1-4C03-BA47-8B28F81AA8AF}">
+                <File Id="filzhVUOwRHL1E.u9W7zblwD_qX5lw" KeyPath="yes" Source="$(var.PublishDir)\az-Latn-AZ\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpaRPELNpm_e.r0L3fJxtf.azwB8I" Directory="dirVv4TaqZeOUYH6XhGQ8z71VvBw4U" Guid="{9D4E65B9-3098-4B9E-BE85-23D7CCBB92A7}">
+                <File Id="filLpsL4YcGxCeVG2SbyyxSuggZAxI" KeyPath="yes" Source="$(var.PublishDir)\az-Latn-AZ\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpmJQKcKq6XzslrNCo8eoqN5fQTd4" Directory="dirUhyrMRrf8HWLChOvaHnual0imGI" Guid="{125F1FDA-FEB3-44D8-BEFA-EC407B05E273}">
+                <File Id="filE5ayao_ER7Jixl1XW42DebYWeCU" KeyPath="yes" Source="$(var.PublishDir)\bg-BG\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpJXAQWYqLbjPxSP0n2xnWbNc6te4" Directory="dirUhyrMRrf8HWLChOvaHnual0imGI" Guid="{DF278F50-0C57-4BCD-822D-722A688487E2}">
+                <File Id="fil6gf_4VtrJBML7WTALR.obFWzHtU" KeyPath="yes" Source="$(var.PublishDir)\bg-BG\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpnzsEzFIMm.hiXQqqfmvQny90fYI" Directory="dirwKS5HM8reGdoY3OIO7UXRnOqGRc" Guid="{7FFA0EBB-E778-4E40-BD8A-5928AE34B9A2}">
+                <File Id="filicIUz54LFXn3k7cY_Zu2QP_.Mcc" KeyPath="yes" Source="$(var.PublishDir)\bn-IN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpblXpE4U3Q74GOLaM1hgZ.C101oQ" Directory="dirwKS5HM8reGdoY3OIO7UXRnOqGRc" Guid="{07600C87-65B3-434A-818B-707EA7A7501C}">
+                <File Id="filBbAKmsnOl7G1M4hdZcgrqQ01vgs" KeyPath="yes" Source="$(var.PublishDir)\bn-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpWecxpbiOtlaXYnfXmZNOXJ0gpZw" Directory="dirtrkQmIaIm2DrGMGr3vDvKHBxM3Y" Guid="{CFBC28FE-12DA-4753-ADF7-11A64B5788EF}">
+                <File Id="fildl_skz7IP78SVmJhmM5NJQi4tFo" KeyPath="yes" Source="$(var.PublishDir)\bs-Latn-BA\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp4YiObswerm.39QvjMxiJVYiUHmc" Directory="dirtrkQmIaIm2DrGMGr3vDvKHBxM3Y" Guid="{AD272750-B7C4-4C6A-9671-FAE086B5D3EF}">
+                <File Id="filnsTTs81HIUb192WmTP1frW8EGTY" KeyPath="yes" Source="$(var.PublishDir)\bs-Latn-BA\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpysxIRfNK5g6ndk4UMl44QSuN9Os" Directory="dirvxqZUo5cUaNWM3cZ66OLUnesEw0" Guid="{0DB5B77B-0C36-4A2D-A17C-58C518B039BE}">
+                <File Id="filmG7d1WEm5ODU4whhXXv9dsUZ8.Q" KeyPath="yes" Source="$(var.PublishDir)\ca-ES\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpHaYNctla3JKH_dOVIa8WLx_HXKw" Directory="dirvxqZUo5cUaNWM3cZ66OLUnesEw0" Guid="{36D84E98-55E6-4E67-8B94-9DF3CAC24930}">
+                <File Id="fil1DWTOhAWiGxZwfFvUbwnHKik1P8" KeyPath="yes" Source="$(var.PublishDir)\ca-ES\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpCvqMXor8c_3_3knuwf5dc9an_nI" Directory="dirRDVSdR_ioKCHm8JBDJ02vowTp7U" Guid="{D4D67A30-EE28-4CFB-A9DB-21C866B366C3}">
+                <File Id="filCa7CX0TFqG6Mf7Uq76szoy9kIyM" KeyPath="yes" Source="$(var.PublishDir)\ca-Es-VALENCIA\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpF0SXAzRPXyiS6P9ePoa9VZfgCVA" Directory="dirRDVSdR_ioKCHm8JBDJ02vowTp7U" Guid="{D1BEB1A1-E09B-4238-BE61-0FE22090E7F1}">
+                <File Id="filqp6MWbNiXiDG5rTd9ZvmH7VIQQg" KeyPath="yes" Source="$(var.PublishDir)\ca-Es-VALENCIA\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpS.GOj2IlBFXA8EvbliJ6EPLzb3Y" Directory="dirPncATwb126Mt6sv7PiPswVrn7Bo" Guid="{0FCF6C99-92D0-4E38-A4ED-CE397D963C08}">
+                <File Id="filQGbl84wArcqVUl_NJNoSZCWVaE0" KeyPath="yes" Source="$(var.PublishDir)\cs-CZ\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpmKBMegvGXk5lAdHVNYAi8eoXdss" Directory="dirPncATwb126Mt6sv7PiPswVrn7Bo" Guid="{6946844C-46E4-4DEE-8B05-65DB025B5BB5}">
+                <File Id="filP4WVKWyl1AdCHf.iJfd1c1k1GX4" KeyPath="yes" Source="$(var.PublishDir)\cs-CZ\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpiYUFkt_3Pw5G7NLtZRrn_T6MkG4" Directory="dirdWaoYT39H0dndZ4Gn7.wMYdClhI" Guid="{FDF80BB1-FE6F-430B-A1A5-81F0CF45D5F4}">
+                <File Id="filMqAF4cMLYyoIdKLII6FCEPr.RfI" KeyPath="yes" Source="$(var.PublishDir)\cy-GB\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp8wfpZBfh.HNXaeHTyNGQXtVRhe4" Directory="dirdWaoYT39H0dndZ4Gn7.wMYdClhI" Guid="{7C37A2A1-B287-43F6-AD3E-12E2D16EE2D9}">
+                <File Id="filDp79sgOOgL2IV5GrcgkbhIGBDko" KeyPath="yes" Source="$(var.PublishDir)\cy-GB\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpTOYXDdj220ofbt_TvKnfevlwSgc" Directory="dirRFuOW_lSinxx95rjUqaO.XEHuAQ" Guid="{70BD8405-DAB4-4C3B-934E-7F32118C97BE}">
+                <File Id="filXNYGKPFPIGKeZqNsgBUys1gQSvQ" KeyPath="yes" Source="$(var.PublishDir)\da-DK\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp60QUXEZikwmLHe3VEXwsqOhXvso" Directory="dirRFuOW_lSinxx95rjUqaO.XEHuAQ" Guid="{0854475E-E5BF-46E5-9932-ED7A69DB3C5A}">
+                <File Id="filf1u.l48pVgqfh1nVnOmJyH_O4s0" KeyPath="yes" Source="$(var.PublishDir)\da-DK\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmp6M1S8C611Y.HT668a37y8QWjbkM" Directory="dirikeutCzKHT97AGHlPP9bqIP7LBg" Guid="{20387EFB-D6C6-407F-80AF-8BF9CDCDE5E5}">
+                <File Id="fil8GrK5UPlYVyQFc3YnYTVnh.UX4Y" KeyPath="yes" Source="$(var.PublishDir)\de-DE\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpQF7XY3KNGGLLf.j5MG.exxmYAws" Directory="dirikeutCzKHT97AGHlPP9bqIP7LBg" Guid="{5A3D2070-B898-4768-8909-CEC739D20FA1}">
+                <File Id="filLL5IxRM21QBu7xGStuDdvaT7oSM" KeyPath="yes" Source="$(var.PublishDir)\de-DE\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpKNV2BjHHBsFY57m1Sjy50IPQ.1Y" Directory="diriGps_OKcIhmFy4YbGimdiLxRKeA" Guid="{D4EA08D4-DC2A-4806-8363-69C5BA0E2F11}">
+                <File Id="filIwDbl95CqTRmwoGluVFtT1Mu56U" KeyPath="yes" Source="$(var.PublishDir)\el-GR\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpiu19.dhMfaC.8bF0L.RVJ2umdyo" Directory="diriGps_OKcIhmFy4YbGimdiLxRKeA" Guid="{C79B6AB6-86E6-4454-A757-9E35D79188E1}">
+                <File Id="fil6vqfaq1LPYFhkLhLrTL_SmDXgYM" KeyPath="yes" Source="$(var.PublishDir)\el-GR\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpwR_zY5Xfs3hrCLXsXPdpANzM_dM" Directory="dirEQthGinAd.mTZHh44_42tUXI9iM" Guid="{C929D13B-7578-4479-A655-3C9E92C90497}">
+                <File Id="filouUphB_huxhdxa0nJNCiIDzKaCk" KeyPath="yes" Source="$(var.PublishDir)\en-GB\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp.i369rYypauWAc20.VCKLQOV7U0" Directory="dirEQthGinAd.mTZHh44_42tUXI9iM" Guid="{88E6E1BB-F6B5-4666-9F9D-C9ED19842208}">
+                <File Id="filcW0DBF7SbxBwbN3YslEGKtB5M7w" KeyPath="yes" Source="$(var.PublishDir)\en-GB\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmp9gKlKMI1EuEz5MB8AqVvHdxYkW8" Directory="dir5eeSNrFsw0D02sNIIb1va_M0q5U" Guid="{D344ECE6-E1D7-42E3-936A-75796CD8B26D}">
+                <File Id="filBIkrKVvzGmEkhJUk6g6HvPaH7h0" KeyPath="yes" Source="$(var.PublishDir)\en-us\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmppIeTbWsjVcxk77rBqaJb24xXNXY" Directory="dir5eeSNrFsw0D02sNIIb1va_M0q5U" Guid="{87B29E19-10EF-4009-9CD9-C4B378A94708}">
+                <File Id="fil_zys7pNEYi5oDY7IcjpbItzTlDU" KeyPath="yes" Source="$(var.PublishDir)\en-us\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpPEMdAhdu4wkp.Nmz6lgHkK1J.7g" Directory="dirbcgQILbB6TbWH3H7aoABiuLbgvI" Guid="{243AA9A8-A94F-4B6C-AA93-3BC1503E3CB5}">
+                <File Id="fil5Whlb36GSEue8wCWsB7rYEPjXco" KeyPath="yes" Source="$(var.PublishDir)\es-ES\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpE85aUoWrLHp6h9hpc5VDjgkNO8Q" Directory="dirbcgQILbB6TbWH3H7aoABiuLbgvI" Guid="{366DBAFD-6175-4865-9DB0-7E89AFC0B956}">
+                <File Id="filvUTrKI.7S68vbCKmMSDBTRsIm5Y" KeyPath="yes" Source="$(var.PublishDir)\es-ES\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpCvYMp8JWLxtCI71Mnrvj7id6J4Q" Directory="dirQqlZYg5B1XHyGMytaAUrxExRJSo" Guid="{DC94BE42-2A49-45D4-80C4-89853BE3A275}">
+                <File Id="filfaZK_LYOu5pCWV_a_qsyfR1.b2s" KeyPath="yes" Source="$(var.PublishDir)\es-MX\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpqWe1_PaKzLxw_SvTC6xHDsSlZpQ" Directory="dirQqlZYg5B1XHyGMytaAUrxExRJSo" Guid="{C5C7BD11-FED6-478A-90C6-9556E55C9B9E}">
+                <File Id="filjvfnK97QddADWa8s2_O0zDCb56U" KeyPath="yes" Source="$(var.PublishDir)\es-MX\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpC6NIBxHFmxrI4JprGmdubc4H41E" Directory="dir1S4KMkIfY3sClY.RXAMIHBqhAgs" Guid="{B0A2B054-9CB8-4FFA-84C5-4250AF79AB63}">
+                <File Id="fil6BT.XRFru9x3YWfJBgH_mA2O0jo" KeyPath="yes" Source="$(var.PublishDir)\et-EE\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp4JxkPGYIfLceFH9KjA6QmU9LdEY" Directory="dir1S4KMkIfY3sClY.RXAMIHBqhAgs" Guid="{BCE74858-21B1-43AE-819B-C348D98AB0F5}">
+                <File Id="filgbC6piZgyltG.eAllHVQRyn4Ro8" KeyPath="yes" Source="$(var.PublishDir)\et-EE\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpBEU5Djq_RDnGGB09Ep.k.hQZ2Ec" Directory="dirSq192b9kYf0_60T6vI83zq46vKA" Guid="{6E7AE05A-09A9-4F1B-A1DF-1E4FFC61F0AC}">
+                <File Id="filSgVhFqd0i1SEEEtnWvjgQ2qvRJ0" KeyPath="yes" Source="$(var.PublishDir)\eu-ES\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpgkwxgLPEPk1bjtfFsIbZeYkSBSk" Directory="dirSq192b9kYf0_60T6vI83zq46vKA" Guid="{D8B84EFC-22A5-47DA-BF15-94F48C8BAFBC}">
+                <File Id="fil4QKvvXr4N2_44GKMMwOE.QR_jwY" KeyPath="yes" Source="$(var.PublishDir)\eu-ES\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpdKnvklQtPfJJFkZqjCh607FOSfw" Directory="dirsY2bUXDsWS41Kkp1fx9.dYH7vJs" Guid="{F7F80D1C-4AEA-4F4E-82CF-BA6D9331A86C}">
+                <File Id="filhuhkMlidFR9eeYvsW8hVfu1aIm8" KeyPath="yes" Source="$(var.PublishDir)\fa-IR\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpQIm0aEziz8x7tcCX42A5SOKFL8I" Directory="dirsY2bUXDsWS41Kkp1fx9.dYH7vJs" Guid="{5CD76D7A-E0B5-4165-BB3A-8A5329DFE3F1}">
+                <File Id="fil1AKRfn7xMN824nZ51MlXXb8oAc4" KeyPath="yes" Source="$(var.PublishDir)\fa-IR\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmp9_vEJWCYichC_UuiQvAMhE0hzXg" Directory="dirkFAsQUbt0T5Q7z3GNAfhcW_3FvQ" Guid="{F14DC576-13C4-4DA5-A38E-3B4BF0EE43A1}">
+                <File Id="filPY0HB3Ej688XyMYP.lvE_RctmQs" KeyPath="yes" Source="$(var.PublishDir)\fi-FI\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmppyzBPbTIugBNsjNeca_kQvccbKw" Directory="dirkFAsQUbt0T5Q7z3GNAfhcW_3FvQ" Guid="{66712EDF-193C-47BA-81A6-535A88A41569}">
+                <File Id="fil12Kwl5hVtHLueVwg3rYRWzSaERo" KeyPath="yes" Source="$(var.PublishDir)\fi-FI\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmp0GQvoE.Yjxd_SMVfr4J64pa2u6k" Directory="dir_snFwldDcHH9dwnC0FykzEzEjkE" Guid="{04C75386-4EE5-43A7-AF28-19B1D9295132}">
+                <File Id="filRuQN2U.ZF_JH1YBYFYwO1CM1VD4" KeyPath="yes" Source="$(var.PublishDir)\fil-PH\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp5d5uncidkygprDCZWLgj8Ub5eJQ" Directory="dir_snFwldDcHH9dwnC0FykzEzEjkE" Guid="{03B65E14-7760-4B58-AC14-6769E085719D}">
+                <File Id="film0mwVrY8AUOWbZEude2vcZom03E" KeyPath="yes" Source="$(var.PublishDir)\fil-PH\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpi_Lmr3rHn2As.7b8jTkdoi9CN1Y" Directory="dirzIG6E9PE_67Hd1ZtAygnZmLNOII" Guid="{5507432F-CCC5-4846-BDEE-D030E5E8BA98}">
+                <File Id="filbzVdCRge4UJ3kAtSv3y25OqHcQ4" KeyPath="yes" Source="$(var.PublishDir)\fr-CA\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp2UReBlHTkjUfXkVhUnprho5JURI" Directory="dirzIG6E9PE_67Hd1ZtAygnZmLNOII" Guid="{1D9EC07A-B453-483E-A906-43E8DD78E076}">
+                <File Id="filoMm4ohwcdC57iuvgFhU3y56Z6oc" KeyPath="yes" Source="$(var.PublishDir)\fr-CA\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpGbsivT0EdsNrbPvBtQ2foS86Z0o" Directory="dirWx93xLnU9ao.JB1XLtXfPMB0aoQ" Guid="{57A629D2-E756-41A8-94B2-F44E93105676}">
+                <File Id="fil2VPry5HkX35kJpYCJxerQCDEYg8" KeyPath="yes" Source="$(var.PublishDir)\fr-FR\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpPgZpBNbik7Kl6guPIsBcGjtHK3g" Directory="dirWx93xLnU9ao.JB1XLtXfPMB0aoQ" Guid="{2AAE2298-5F92-4B84-B1A6-4C51137E071A}">
+                <File Id="filx7Z7JkjhpcUfGBNvtVwu2gLrQmo" KeyPath="yes" Source="$(var.PublishDir)\fr-FR\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpFmKxSA0r39gY6wDOZIiw4A6GPh8" Directory="diraeFV0DhLroZo1b.4seNg1j4p4_I" Guid="{876A2AD5-DCEC-4590-B029-B8EE267A78DE}">
+                <File Id="filbICvDmGFvX9NLepqAHLGgrrzQA4" KeyPath="yes" Source="$(var.PublishDir)\ga-IE\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpr5eJ5LoSw7m9opbXnaFbqIUHgQ4" Directory="diraeFV0DhLroZo1b.4seNg1j4p4_I" Guid="{6786080E-1682-42C4-8720-F6F376799569}">
+                <File Id="filEogX9ehuxAYxhiq.9Od8AUeynag" KeyPath="yes" Source="$(var.PublishDir)\ga-IE\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpFK90oFplHL2sOEblTuNERaobUbs" Directory="dirQU.gfNhEKuduFJnW25uGyqpI6uo" Guid="{524095DA-9BE6-406B-A22F-BC7A7983EEB8}">
+                <File Id="filp17ZP0skPuG_wr84C1BM.SruqRE" KeyPath="yes" Source="$(var.PublishDir)\gd-gb\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmphQ2yc2D_QGApCWnI.wAtPNvMvig" Directory="dirQU.gfNhEKuduFJnW25uGyqpI6uo" Guid="{2BA8060A-6932-4E9F-8FD2-83993754E30C}">
+                <File Id="filGhdUZwlxXNWdWwaU2pgq94P5Y_c" KeyPath="yes" Source="$(var.PublishDir)\gd-gb\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpfdNNnVpzU4C5x848dB8obMjtUkA" Directory="dirl68SWs33xHTtxBD7bjdU3jL2vAM" Guid="{17EE603B-DFE7-455C-ACBB-319F0D83D55E}">
+                <File Id="fil2subdj9B7bcJWgOwyFSwHuK0Bsw" KeyPath="yes" Source="$(var.PublishDir)\gl-ES\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpUqejHp83zhCqO84tUCA9cCH1ZDU" Directory="dirl68SWs33xHTtxBD7bjdU3jL2vAM" Guid="{7D8BC9FF-DFCC-475C-BD52-EE9741D63F63}">
+                <File Id="filMEJGDyKd87MaNAUBkJtxvCEQ1DQ" KeyPath="yes" Source="$(var.PublishDir)\gl-ES\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpNt6RVH273CemBwhD6Z59SKoj4h8" Directory="dirBWekdMeEq_pA9qiHfgwVqSHrpDI" Guid="{A16EC04B-BD10-47CB-B06C-9A67288660C1}">
+                <File Id="fileEPcsQP6x3jsdNvgMij_wmaEs_E" KeyPath="yes" Source="$(var.PublishDir)\gu-IN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpy7Fw0aVVyfr_o5P6p1_SgP2DxYw" Directory="dirBWekdMeEq_pA9qiHfgwVqSHrpDI" Guid="{D8556D20-EECB-49B4-9C5B-1414A61C8016}">
+                <File Id="filt2JdjpSTMXVFUHLfnF78JiJcpko" KeyPath="yes" Source="$(var.PublishDir)\gu-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpQaIu9trHTrn0LeZl1_myBL0idWw" Directory="diriWZni2b4338HuZdozEt0BDmEqwg" Guid="{19EF4F5E-CCC2-48B0-97A5-266920EE447C}">
+                <File Id="fileqPx3wC82JwH5mRW96gVLKMr4jc" KeyPath="yes" Source="$(var.PublishDir)\he-IL\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpm770ibnFSzOKRvzztOMzpLRz1kA" Directory="diriWZni2b4338HuZdozEt0BDmEqwg" Guid="{2397F080-3C91-4BCF-A0CC-E4CFDFF3876A}">
+                <File Id="filiFQ2uGwH16qJZqeOFnJ8fdNhv5c" KeyPath="yes" Source="$(var.PublishDir)\he-IL\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmps6vN.atSP2WYFoZCo4w1kJRiac8" Directory="dirc02jD6l3UaWeKkijxyFumRlWJf4" Guid="{D0FE73E8-B125-442D-BA96-4FC953275DAB}">
+                <File Id="filg.liqeHqlSAECIIAHtADAsU7nDw" KeyPath="yes" Source="$(var.PublishDir)\hi-IN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpGlSGdICHKMDohwYEUxX8Sq7MfQU" Directory="dirc02jD6l3UaWeKkijxyFumRlWJf4" Guid="{D728F9CA-916A-43D8-BDD1-E0A2C9F24EE9}">
+                <File Id="fil8.1T5e9pmCTc2xnhZIrNq864H8I" KeyPath="yes" Source="$(var.PublishDir)\hi-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmp7VQeUzXYsc.T20ORGGwm7ZfVIxk" Directory="dirghGleUkEUwg2Vl6Q5ldvzI2Zook" Guid="{7C2C9CC1-3E4D-4B37-A384-553307D8FE79}">
+                <File Id="filJcBNkZqVR.QIBTWVnWB5mEWjzB0" KeyPath="yes" Source="$(var.PublishDir)\hr-HR\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpF9tAmXVE3KNCmoS1w62bqmLPSr0" Directory="dirghGleUkEUwg2Vl6Q5ldvzI2Zook" Guid="{B5F39C6A-1896-465B-976C-6DC941A7B4A5}">
+                <File Id="filxpF13HtdgWXv17QuCuUZ4lF5n4Y" KeyPath="yes" Source="$(var.PublishDir)\hr-HR\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmp1rcAokIZHX99bJac0TElvD.ONSg" Directory="dirHNSpAW4AG4tSrfWb.OpqBS9qZ1E" Guid="{77BB666D-3F52-4E43-88FC-1C4DD9870E33}">
+                <File Id="filrbYpVWPlV5m6f9u.AtRIOEWxo5w" KeyPath="yes" Source="$(var.PublishDir)\hu-HU\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpCzi9ri6foL_L2jkt0qY.F18IIiM" Directory="dirHNSpAW4AG4tSrfWb.OpqBS9qZ1E" Guid="{B487F9A3-35AC-4787-A226-1BE8FC1EB69D}">
+                <File Id="filvauHq0.P3pHLfAhfNmFZkJnom6Y" KeyPath="yes" Source="$(var.PublishDir)\hu-HU\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpUKFFVTKslvgcIjMslIWQGLXhw_w" Directory="dirKuQaC4LP95.9IPRiOoWLtxxPc9o" Guid="{579B2B3C-9CD8-4BEA-9457-910073C481FA}">
+                <File Id="filSa06efBLZqssmDDYxbpvjdf.JkM" KeyPath="yes" Source="$(var.PublishDir)\hy-AM\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmprWXK0D5bRNkY9Uj6DnAH7oWTpo8" Directory="dirKuQaC4LP95.9IPRiOoWLtxxPc9o" Guid="{AE86FD7A-473B-4C52-8CB0-EB8B81312A49}">
+                <File Id="filBPlAFmzrVWVqQAb8pTrzGgkR7Sw" KeyPath="yes" Source="$(var.PublishDir)\hy-AM\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpk.7y9EbDjkmTTCN2qfUPPVu.144" Directory="dirDtVfsdRZzwgpqcznMlODtymNxfE" Guid="{3E66B279-7798-4366-BB0E-6F88BB688ED9}">
+                <File Id="filWj_OiwadXQfjEhVQJycespLt90M" KeyPath="yes" Source="$(var.PublishDir)\Icon\icon.ico" />
+            </Component>
+            <Component Id="cmpOKxmDiHZu6RUcwFToKPxPVysOYw" Directory="dirDtVfsdRZzwgpqcznMlODtymNxfE" Guid="{503F3373-7048-4EE9-88E7-412E2DAF7155}">
+                <File Id="filAINcye1LexYbntkwDduq0.pmvCM" KeyPath="yes" Source="$(var.PublishDir)\Icon\icon512.png" />
+            </Component>
+            <Component Id="cmpRjn7hbbNYwBc6NSDss1_r5ItmEU" Directory="dirS86piunYmniQUB_8n1QfsoBQR_8" Guid="{195B2B16-1455-4823-B28F-35A6B5ECB643}">
+                <File Id="filk5k2avwtKI7pgOpTn32cyBS6Hqw" KeyPath="yes" Source="$(var.PublishDir)\id-ID\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp3CqIYwb_HzrLKltUuoXedT7AREw" Directory="dirS86piunYmniQUB_8n1QfsoBQR_8" Guid="{E1BBC85C-2954-4FAB-8B4A-2982AF8E70E1}">
+                <File Id="fil8iFbJ38sU6HwGmlI4fvVKU1pCUo" KeyPath="yes" Source="$(var.PublishDir)\id-ID\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpy5sKpwLpXStXt6bMvJD58I0bvrA" Directory="dirnZm3m0Dxo1VP0RgUmZiavH.6Nbc" Guid="{9AD50C0C-4434-4638-8532-88DFA0005807}">
+                <File Id="filKD11y0f7PiUm3_K0PPvWWomKES4" KeyPath="yes" Source="$(var.PublishDir)\is-IS\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp6fBf4xHmIuBiw5qmI4cY9qaVHR4" Directory="dirnZm3m0Dxo1VP0RgUmZiavH.6Nbc" Guid="{B9D8B230-8454-4FCA-A5CE-52D78E05A50E}">
+                <File Id="filzq_U5t7lc2RJhiYkGLpvC3HzlWM" KeyPath="yes" Source="$(var.PublishDir)\is-IS\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpe0MM0Jqj8HY7kPjfkCixELWlLNw" Directory="dirsMA3vrdtWQ_.Es4uhruvq.n.EwA" Guid="{9C13D35E-5A4C-46AD-8338-5944BBAC96FC}">
+                <File Id="fil7ikR7gIGHw5oWP.NAsQpoZXB0ck" KeyPath="yes" Source="$(var.PublishDir)\it-IT\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpw_9e5gWuQD7wbrFxkVCY9msRWzw" Directory="dirsMA3vrdtWQ_.Es4uhruvq.n.EwA" Guid="{CF89598F-C047-444E-86E3-C5FC072A8125}">
+                <File Id="filR2PUfS9zJ..D9REZZwz8Ha5Tm6I" KeyPath="yes" Source="$(var.PublishDir)\it-IT\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpPbhq24gjl_HRNkBZf0TQ4MuGaMI" Directory="dirn4yqPU6GUOd2tiXPUt70xqhSotE" Guid="{5F225711-0751-40CD-A0B5-01B070F9EAA5}">
+                <File Id="filFIHTQ4Y13T.3NFf.IhtMpVPwbQU" KeyPath="yes" Source="$(var.PublishDir)\ja-JP\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmppfYwf6l6Q28IfTpzr4YN_frSYxc" Directory="dirn4yqPU6GUOd2tiXPUt70xqhSotE" Guid="{04719D6A-FB22-4BA3-BC2A-047872EA2E73}">
+                <File Id="fil.t1CGJlOzDYOdVUHa6kK.Mc8ARs" KeyPath="yes" Source="$(var.PublishDir)\ja-JP\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpXEb6wikyPelFNIptce_YsbpFokI" Directory="dir.5WaC5.KuNoBLtLFTj9.RcHgP.k" Guid="{56FB2BFE-2DD5-4096-A52A-90F0C9CA2183}">
+                <File Id="filk_TmDQyuao3GuzljLmkTefN1wMk" KeyPath="yes" Source="$(var.PublishDir)\ka-GE\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpEsOuDW.b6Xc4PZySUZHDFIYfnC0" Directory="dir.5WaC5.KuNoBLtLFTj9.RcHgP.k" Guid="{B19AF162-3262-4EF8-B01E-FE73D483383A}">
+                <File Id="filomMDccms5M1gqGh4JTlHLmMbUtE" KeyPath="yes" Source="$(var.PublishDir)\ka-GE\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmp6tfwNuJEtHjNbTZPjPwZ1xFAyqM" Directory="dirDycsDWu3Zp2c1_JZz0FsWczXNqo" Guid="{34DD86AF-10DB-4EA1-BB51-08331A3F2277}">
+                <File Id="filOEPxe5gac9U.t5Kgv0YMNkC4cmw" KeyPath="yes" Source="$(var.PublishDir)\kk-KZ\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpTHTRj.GbQTZMVP3IYjP5Pl4lFAc" Directory="dirDycsDWu3Zp2c1_JZz0FsWczXNqo" Guid="{80FCDA75-C3C2-429E-B959-ABD138511181}">
+                <File Id="fil0TyPBvnCzFMrR_LRGSMmHLOe6xw" KeyPath="yes" Source="$(var.PublishDir)\kk-KZ\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpuAl4js0q7d48_BgGxL3L3MvmO9o" Directory="dirCSgFusttILKzIOMStc7.ANhzl1E" Guid="{050D604C-2500-4691-8344-01EDEE6234C2}">
+                <File Id="filTH7hGh3IDXKuuY1gs21xvGKlmnY" KeyPath="yes" Source="$(var.PublishDir)\km-KH\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpHIwy6QFfbeZL5aSp0LaCMmkmDls" Directory="dirCSgFusttILKzIOMStc7.ANhzl1E" Guid="{79ACDBEA-6CD1-4C8F-8ED3-930702AF6628}">
+                <File Id="filQhBH49qMad2kdZA_BYI7QcqmjKM" KeyPath="yes" Source="$(var.PublishDir)\km-KH\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpR04atRtw2xomHS.NUYiHcV95a0c" Directory="dir7FhfbxdE3yYlfxF.p.s8nI1nHGI" Guid="{9E332B10-1ED6-4978-BCA8-F58104C90787}">
+                <File Id="filOUdmk5xKeVrzLnMZWDwMiScrqGw" KeyPath="yes" Source="$(var.PublishDir)\kn-IN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpP6BhSVdvD4pmckZwMu7AMvMqMNg" Directory="dir7FhfbxdE3yYlfxF.p.s8nI1nHGI" Guid="{E3AAA6DC-14A3-420B-8C54-C138D0EE615B}">
+                <File Id="filKuDfc0KTjwgqfyzCA3ZD_S1eK1k" KeyPath="yes" Source="$(var.PublishDir)\kn-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpsLX.Hlc5R6gba4itycoP7PyDvBE" Directory="dir3zpLsl1VAqlftDI1EX8ZLHGyq.Q" Guid="{B6E7A9E2-1525-4A6A-847C-CB7F08A44383}">
+                <File Id="filbO6UU6a_Zx_CR4SxermjyrW1qwc" KeyPath="yes" Source="$(var.PublishDir)\ko-KR\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpz_uF2Oj5hXaX4QbpfWnbRI24CXU" Directory="dir3zpLsl1VAqlftDI1EX8ZLHGyq.Q" Guid="{C53FCD06-A417-48D9-97B0-F5B76B4AB14A}">
+                <File Id="filpWXXj5Fef89b6NOULgZJI8Avhzc" KeyPath="yes" Source="$(var.PublishDir)\ko-KR\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpgL_EzIDtC3GNzW9IEHdBzO3m.6U" Directory="dirxEBuC_EJehKkj1WLFJy9NQUR2Bg" Guid="{452EC9C7-ADF9-48CD-A4AC-AF0111718AA5}">
+                <File Id="filiGPXVBftNnwNunRdGPOOHgdVItw" KeyPath="yes" Source="$(var.PublishDir)\kok-IN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmppjPpWY6uKBdVh0a_XcUDvS8LCAk" Directory="dirxEBuC_EJehKkj1WLFJy9NQUR2Bg" Guid="{2AD88B14-4F7D-4937-9FF6-1308D4811961}">
+                <File Id="filmQGm78fSNMXf.g8_3rN88041PWs" KeyPath="yes" Source="$(var.PublishDir)\kok-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpOJLqesKJtH03zLdSJqDAtH37iFc" Directory="dirS1vZV6p5.wytgHew3QbCvYNMPsM" Guid="{07FC1BF1-E0A7-4957-9F8B-3E9CF75953A0}">
+                <File Id="filkCWO1FVQavr7y2oY9QB6vV6tpU4" KeyPath="yes" Source="$(var.PublishDir)\lb-LU\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpuhi3jfn.4uweeuP2vu1RWs3FSyA" Directory="dirS1vZV6p5.wytgHew3QbCvYNMPsM" Guid="{32ABDD57-8D29-4284-971F-29B086034EFA}">
+                <File Id="filE40066E6zLQfSyxhzb10waCbHYs" KeyPath="yes" Source="$(var.PublishDir)\lb-LU\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpZoTOsw.SMKZFA7yPf5T3wlKNxHI" Directory="dirATic5CbDL.XcalVNzgRAIDknbpc" Guid="{4E9CE80F-62C0-4AD2-918C-F66F63CFAB22}">
+                <File Id="filmVUjyrRHDKfD1O4ZAsTMVAzpnpk" KeyPath="yes" Source="$(var.PublishDir)\lo-LA\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp4eQgwwJJoI3zUsKVovONH2Mfnu8" Directory="dirATic5CbDL.XcalVNzgRAIDknbpc" Guid="{28D7811E-001E-46D8-B498-8006EB64C573}">
+                <File Id="filGxDI_my4ZGcSruOrp3lbF9doaf8" KeyPath="yes" Source="$(var.PublishDir)\lo-LA\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpp29dwDOZJNykudROmFwaxj9iWaE" Directory="direaPJNUsPDh84YvwmYIdS6SypAM8" Guid="{38E2D127-C452-4A07-8845-284AC11C3463}">
+                <File Id="filSX.7d_knvzETlfNO.VnvEKp9Fnc" KeyPath="yes" Source="$(var.PublishDir)\lt-LT\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpWLU70ewlFUz7mZ0Qcv4mqojmrks" Directory="direaPJNUsPDh84YvwmYIdS6SypAM8" Guid="{07A07E15-260A-4F52-B667-A8A2E422E280}">
+                <File Id="filShA0nfCDshZC65FCT108EYGoUEk" KeyPath="yes" Source="$(var.PublishDir)\lt-LT\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmplVYlVQW35HMXmlAQaFt68ZHuKos" Directory="dirIA3Co.kdD1RI_DuuRaX.EMq8bI8" Guid="{338F5FCC-52D6-4D72-9AB1-B91E7E1527F1}">
+                <File Id="filZO8kvs9mL0fJT4V0wVyCKpvi8Bc" KeyPath="yes" Source="$(var.PublishDir)\lv-LV\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpA6L6Uj7e6VSwdbDiUBij8JSYMrQ" Directory="dirIA3Co.kdD1RI_DuuRaX.EMq8bI8" Guid="{BD0596B9-6F3B-47F9-A151-75A32F9EA16C}">
+                <File Id="filEzpyQF9k6Pdnas7FZEF9TiGe_gM" KeyPath="yes" Source="$(var.PublishDir)\lv-LV\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpiPa9kBCh3JDeEmdRzwtFAKtbs1o" Directory="dir7J8sRPe4Qwyz56p8rexNmjcDnoA" Guid="{C25BC408-7BE1-417D-9A8F-FE61D43081C8}">
+                <File Id="filYBGGWLMzitW71pSa7YzCRuiXaTY" KeyPath="yes" Source="$(var.PublishDir)\mi-NZ\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpcE8a9NlTeC9mSs2SUjkwnwJqy9s" Directory="dir7J8sRPe4Qwyz56p8rexNmjcDnoA" Guid="{1B76393A-0943-487D-93A0-C6E743B2CD95}">
+                <File Id="filZnfEjoNcvNAXVy6z1aXytB2lSxU" KeyPath="yes" Source="$(var.PublishDir)\mi-NZ\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmp3nr7pQmyasrBiTLmdb6VJfOT5xc" Directory="dirOYy8e_B8dN6rrAGvG_SouDQIxlU" Guid="{DC1407EC-EE42-410C-A260-D18DEF9882A2}">
+                <File Id="filbi7uBJsUDAGbN74iJef7llJZ4js" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.Xaml\Assets\map.html" />
+            </Component>
+            <Component Id="cmpJEPQ4wpWC2uwfp4LzKE6DDO2Cco" Directory="dirOYy8e_B8dN6rrAGvG_SouDQIxlU" Guid="{E2284B29-204E-43E0-9507-5755636233CF}">
+                <File Id="filweEqT6FRbOkgyA9_1B2jsqWsePI" KeyPath="yes" Source="$(var.PublishDir)\Microsoft.UI.Xaml\Assets\NoiseAsset_256x256_PNG.png" />
+            </Component>
+            <Component Id="cmpnvp6bqYl86ycwbtsFM1aPzJrDd0" Directory="dir1.eD3jWg4al.2H.5ZBd5s3I9la0" Guid="{357E2575-CAA2-4B99-85D3-21DAE6B0E413}">
+                <File Id="filcW8jQh9GRe7nmFWiazvwoUuYLjM" KeyPath="yes" Source="$(var.PublishDir)\mk-MK\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpTqBTUYNIV9vDuKhbveUhi2nWty8" Directory="dir1.eD3jWg4al.2H.5ZBd5s3I9la0" Guid="{0D30B172-1A79-4D03-917E-5B2580F52D95}">
+                <File Id="filu8lgwNdUiwhER2Peah_JR2cSctE" KeyPath="yes" Source="$(var.PublishDir)\mk-MK\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpH6Futy3CoCKKINwzx3aLNKdTiUM" Directory="dir3nCCh.RCclUfj84kcdmoH6EjQFA" Guid="{672CC9EF-274C-4B03-94C7-287C78C1B134}">
+                <File Id="filQyY7bd3tKUL2ku2KmzY8IGS.IH4" KeyPath="yes" Source="$(var.PublishDir)\ml-IN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpWaSTpH_sNlCz_PuwYfEwGkkmS2s" Directory="dir3nCCh.RCclUfj84kcdmoH6EjQFA" Guid="{C829F680-E8CD-42B2-B9D6-25D8A3F0E431}">
+                <File Id="filh8a5.McBlmil1UDc9VYfOFC1Q.E" KeyPath="yes" Source="$(var.PublishDir)\ml-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpoAZQfqYCLGe5KqsLd1JWmGaggFI" Directory="dirV1mXHFDC_MlystG0iDRjCpKzgjA" Guid="{3475B98E-E83E-4476-9FFF-47C0A8E08208}">
+                <File Id="filNTYW8dz1aacSt.q61cGfeM2cADQ" KeyPath="yes" Source="$(var.PublishDir)\mr-IN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpRoIk_BaaDQwmamFztMaw81McseA" Directory="dirV1mXHFDC_MlystG0iDRjCpKzgjA" Guid="{AEFAD017-409E-4988-92A0-F83312B13199}">
+                <File Id="filIHgNMmbTLB5q9DygHEyCshNiZ34" KeyPath="yes" Source="$(var.PublishDir)\mr-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpZLpPt7PQkjBHsJ1KjOTQ1I9Vzkk" Directory="dirVraEvelbxJugOPFBFQN2A7KUYjo" Guid="{7912E325-903C-4B8F-97EC-3DFA5030E600}">
+                <File Id="filfEIZ46hXE9QXZ.5k_VUxfLSH_NI" KeyPath="yes" Source="$(var.PublishDir)\ms-MY\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp6lYuLM28qJ156H3AKuAM1ir7FPc" Directory="dirVraEvelbxJugOPFBFQN2A7KUYjo" Guid="{AE092F49-6F16-4E10-B000-B01F8AAD8C29}">
+                <File Id="filkqixkcLbMM5iWhBymvwQJJgGFsk" KeyPath="yes" Source="$(var.PublishDir)\ms-MY\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpPiTnbq3F3AgoF3cGa2RzV1Ik0eE" Directory="dirEbgXPk8__vyYLUAWFD8obO8gwDU" Guid="{00E4ED6C-C2E1-492F-AD4F-BA17F461BFCE}">
+                <File Id="fil4u2hwmEn8NRnKHkdv.kg5.b10gQ" KeyPath="yes" Source="$(var.PublishDir)\mt-MT\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpYrDud7DKzS_5_WSqCUvO9xo7JUg" Directory="dirEbgXPk8__vyYLUAWFD8obO8gwDU" Guid="{F2FC1403-6CCE-40B0-9F86-603B96D64737}">
+                <File Id="filnY.uXYT_vjHrX3UqC7sclsnev.4" KeyPath="yes" Source="$(var.PublishDir)\mt-MT\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpeiDk2oxGKK3I7prqoaxR0fwIDCo" Directory="dir3GRLmTtZ2qfzBZtR.4XfpDJm5Kk" Guid="{CD93531E-78DC-4049-9F87-9F4401C091DE}">
+                <File Id="fil1cvuq9MUTAJYLLB7dpFjj.YgWTo" KeyPath="yes" Source="$(var.PublishDir)\nb-NO\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp1381VTF8LH.eNIbjo.kg1pT6KPA" Directory="dir3GRLmTtZ2qfzBZtR.4XfpDJm5Kk" Guid="{EB80D360-8B6E-4B78-8F0F-5FC94624E491}">
+                <File Id="filN297fSQFsNWOaIEZCln2L5B2qeI" KeyPath="yes" Source="$(var.PublishDir)\nb-NO\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmprVLK.93ZMfrrne_XFMtLxMNPN8U" Directory="dirAtNqJtrtDJA0J3l.9hh6m75FTRE" Guid="{8C36FED4-5250-4EDF-BCF5-27F97CC95970}">
+                <File Id="fil9Zjo2AUC5DU.99qYhHula2THXnM" KeyPath="yes" Source="$(var.PublishDir)\ne-NP\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpoat0jAM7xGFySDPDaF6ECViWG9k" Directory="dirAtNqJtrtDJA0J3l.9hh6m75FTRE" Guid="{E52ABFBA-B98B-414C-9F60-5CB731759F21}">
+                <File Id="filAi4QCRWluOeeF.KSeLKSIbnVH4A" KeyPath="yes" Source="$(var.PublishDir)\ne-NP\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpLex83w2S_26.UkTzqNV1vwbegHU" Directory="dirAk9lWeCKdADZXtAonfsv1onLex8" Guid="{BF1BFCE0-820D-4201-B335-F17E11C30F73}">
+                <File Id="filDsXLhUSFnsTgcumpkGio09JqRnA" KeyPath="yes" Source="$(var.PublishDir)\nl-NL\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpMxlP3E2wnq7IjhA.xaeIqwv..4g" Directory="dirAk9lWeCKdADZXtAonfsv1onLex8" Guid="{16E0DD5D-E96F-4396-B960-2A283F85C1A8}">
+                <File Id="fil7HoA3IoJEgup0aDSGH.mhQ6kvrE" KeyPath="yes" Source="$(var.PublishDir)\nl-NL\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmptYfsyP4FlWOmBtc7YLEs2YdVdPs" Directory="diroEMs0L.rYR70YmUmEi0pxGaV.Eg" Guid="{660A8B0D-A4AD-41E0-B1EC-BAC6BB46F154}">
+                <File Id="filnuaZtwxgrpatlkpaK1c30U.IFZ8" KeyPath="yes" Source="$(var.PublishDir)\nn-NO\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpg8baX.WA51RuZ7MOsk7mjyIyoAA" Directory="diroEMs0L.rYR70YmUmEi0pxGaV.Eg" Guid="{A0DB0B11-9F1B-4783-BC1B-CD6985268ED3}">
+                <File Id="filQwMssTqaD57rOiBWeKFyrNPKK5o" KeyPath="yes" Source="$(var.PublishDir)\nn-NO\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpWhLo964UT2oQUFhTElPIXrSlCRQ" Directory="dirzbE6eY9qT2GKMlKewNEj2jx9kJg" Guid="{B888F8DA-AA97-4CF3-A745-166E811EFD8D}">
+                <File Id="filSEF6Es4txSsdP3PcqD991WaD7nc" KeyPath="yes" Source="$(var.PublishDir)\or-IN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp2xW30Do3_8kZFIjCoNs8A3FC6gU" Directory="dirzbE6eY9qT2GKMlKewNEj2jx9kJg" Guid="{281C940E-C243-4A0D-9437-CDE7DF7A6022}">
+                <File Id="filf9FmqZq2UankQxbESBMs5UWzZ1w" KeyPath="yes" Source="$(var.PublishDir)\or-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpBIUTJyG6SVG5CSJ9tHOkKKSPqbw" Directory="dir6D8S59myb_KmstG4TUhLTjwjnDI" Guid="{9C630A53-EF3F-4596-AADE-D31FE4797ECD}">
+                <File Id="filPESPjMRA1905h6EP0ywQUPXYD_4" KeyPath="yes" Source="$(var.PublishDir)\pa-IN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpDT0oXCJR8TpRCELQILd_OLrNWis" Directory="dir6D8S59myb_KmstG4TUhLTjwjnDI" Guid="{B6DD958B-F406-42B8-9234-7B03B4A27D8C}">
+                <File Id="fil0BI5gEMsIFhc7ABMY4obhqHGjcs" KeyPath="yes" Source="$(var.PublishDir)\pa-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpOtEAcCAAcTbmjtXAlZmNw8fxsAc" Directory="dirGIrDj2bWPdNFADqvN5OsU1X6LHE" Guid="{CD76DAFA-C8A6-4269-A6EF-A9C98AC60D70}">
+                <File Id="filwrRXeWFtQbmIGw0cRFCr3IOkIuQ" KeyPath="yes" Source="$(var.PublishDir)\pl-PL\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpIzEgqFli1ZDeKKnj8UTJw77AV78" Directory="dirGIrDj2bWPdNFADqvN5OsU1X6LHE" Guid="{91F437F8-363B-4D14-A6BE-F8B3423D51CE}">
+                <File Id="filgT33OwXqb0Y8ZNZBQNKndEIUUyI" KeyPath="yes" Source="$(var.PublishDir)\pl-PL\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpQjcE8sjqeJjQjexmqTmwOZNucrk" Directory="dirbkyp9oCMQ0cQV_mcNgdow2C3q6M" Guid="{A86042E7-F8E7-4B39-9C75-0B071304FADB}">
+                <File Id="filbvX6UsNs672o1gzMu06bzi_ZmXE" KeyPath="yes" Source="$(var.PublishDir)\pt-BR\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpu0zMC6aFgOlfp9x9dJGJogsBH5A" Directory="dirbkyp9oCMQ0cQV_mcNgdow2C3q6M" Guid="{D70179EA-F46F-4A54-BD8E-358AFB4FD3DE}">
+                <File Id="fil.ZgnGKMmoo73EOEzwWjSZifoXtw" KeyPath="yes" Source="$(var.PublishDir)\pt-BR\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpWWx929r..bfQ3xMO0MQnLIDNVqs" Directory="dirWyWOvZKJtFBSHOEyXCkfAok81ro" Guid="{FBEC2942-87E5-4A0B-BFE9-4668D86D1E8D}">
+                <File Id="filBLk8MO9DhJYfpOr4DRGY2b52kRk" KeyPath="yes" Source="$(var.PublishDir)\pt-PT\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmprPXYzuK8z62wk1Ti_xiebjmXB80" Directory="dirWyWOvZKJtFBSHOEyXCkfAok81ro" Guid="{83C36A1A-DA0E-41E3-8E75-1D3BE4C3FC55}">
+                <File Id="filXluDqo51N6fQ8IN9z5JLAVVdQ9M" KeyPath="yes" Source="$(var.PublishDir)\pt-PT\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpplM0QPFlErVj9NzW1KRCc5i0sA4" Directory="dirFIhJcabdQOoUy5yayXFDsGMSosE" Guid="{6750AF2D-490A-4327-9BEC-203787508927}">
+                <File Id="filoCRVUqGqK92bQNaDGb4iuRyDnRQ" KeyPath="yes" Source="$(var.PublishDir)\quz-PE\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpFA9982eihlnyX_0xlNQZ7mCRsbU" Directory="dirFIhJcabdQOoUy5yayXFDsGMSosE" Guid="{1D0E5B5A-9620-4EB0-8A20-98FB437F542D}">
+                <File Id="filX2kAqlVC6xzoLWjYzqX_kroJBFs" KeyPath="yes" Source="$(var.PublishDir)\quz-PE\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpvFb5vDkbz.0F5QEYNp36naxGK0I" Directory="dir27buWzSOD6YJe7rba3YBEJf09NE" Guid="{5CB6DB68-30BD-46AA-85B7-394B683A0F80}">
+                <File Id="filctFdlmHcn5PEhuKOFwRoF8xxdS4" KeyPath="yes" Source="$(var.PublishDir)\ro-RO\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpMO5vsfE9Pmu445MNVGFYn5CsuSk" Directory="dir27buWzSOD6YJe7rba3YBEJf09NE" Guid="{07EAB525-30FF-47AB-B57F-670D22A65894}">
+                <File Id="fil5S.REgvQ5zN3631hrmhgP7rlsTM" KeyPath="yes" Source="$(var.PublishDir)\ro-RO\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmp2ennvMBk3QzFlXgQRCCe32.btB4" Directory="dirJwiI2v9OS4Ljl6qOWaIb0XlYbps" Guid="{78781AC7-0996-4E0F-85DF-A6EE0C12034B}">
+                <File Id="filSueW44O75wayTPndwgnV0gaIZwM" KeyPath="yes" Source="$(var.PublishDir)\ru-RU\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpfpv7nEg3HqV6EBYDFsm4k4BKI3I" Directory="dirJwiI2v9OS4Ljl6qOWaIb0XlYbps" Guid="{A451B331-1A38-4209-9C98-E14A52E4EE10}">
+                <File Id="filZJJaM63lbqqvrmMqqsftxMSOSGE" KeyPath="yes" Source="$(var.PublishDir)\ru-RU\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpxYOFMsXI.lf_NMgqPzVwDMTSOZc" Directory="dir81_a3cG5Dg.sCTOPta_gm7Qq7GM" Guid="{5400E5AD-888C-4490-9A2D-960510AC62AE}">
+                <File Id="filjQD9UiWmFtuxO_p0sm1CKim5akw" KeyPath="yes" Source="$(var.PublishDir)\runtimes\win-x64\native\WebView2Loader.dll" />
+            </Component>
+            <Component Id="cmpQxR5_7E78Y7_KnUTkZxZs0bHWok" Directory="dir770SMQoRaUPX7WZsUFx4lDawQzI" Guid="{DACB0C8B-67C6-4290-BA3C-D0B551FB4562}">
+                <File Id="fil6pBbUN7rnKhRCkGaF10WTedKCXE" KeyPath="yes" Source="$(var.PublishDir)\sk-SK\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpDMMyvJwRpkWKR1sIfXoDf8Jnaow" Directory="dir770SMQoRaUPX7WZsUFx4lDawQzI" Guid="{1A2AEAD6-8E21-4A5E-8ED4-B2D2EAD9E851}">
+                <File Id="fil3L_9wwnKdg49kWAksYCppJJ8Cr4" KeyPath="yes" Source="$(var.PublishDir)\sk-SK\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpv0jGDSEAWuvDhbXhGbCMGnIGd8s" Directory="dir5M4OmfN2G7pc0i4eES0eUElYhNQ" Guid="{D049B4D4-0ADE-4E61-9D68-3B2D0C61817F}">
+                <File Id="filHK_P1OlzlO00uuwY7GfnOhPD5P8" KeyPath="yes" Source="$(var.PublishDir)\sl-SI\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpmAUCcd1K2r2U0L0CwoXnbQKjfjw" Directory="dir5M4OmfN2G7pc0i4eES0eUElYhNQ" Guid="{BC4C4CFD-2D27-40A0-81D4-1D587A62C900}">
+                <File Id="filAjX0qge3riwwkYzNwgUfwQXkXwY" KeyPath="yes" Source="$(var.PublishDir)\sl-SI\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpOOHOZvPwkbtqLVsN2XBXlKP3rW4" Directory="dir5dawP7kaftad_cLmRfu85y5cr_o" Guid="{326F51C0-17AA-4A01-90AA-77704E3D81FD}">
+                <File Id="filRmQNmNqptFgcTV_n6.xl.mD33Ow" KeyPath="yes" Source="$(var.PublishDir)\sq-AL\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp7vRWxmUK_BViQW2kkgIxg6DOOh4" Directory="dir5dawP7kaftad_cLmRfu85y5cr_o" Guid="{538C5498-5A5B-40EA-9A3A-9B0948A66078}">
+                <File Id="fil6W6DBA.f1s_IEg_oyXoK4H3XKqA" KeyPath="yes" Source="$(var.PublishDir)\sq-AL\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpETS1lkKkGYoNrIy2icVZlNXSpl0" Directory="dirl2KEirU9A6CvdOp73BJXDKwmeVE" Guid="{4948EE5C-89E7-4C06-9473-8301D9E45AFC}">
+                <File Id="filjF03vKINDZ9qUnczr4WiBcIPXJ0" KeyPath="yes" Source="$(var.PublishDir)\sr-Cyrl-BA\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpIrRq7u3rrIDgKBDH59aZvjPeXY8" Directory="dirl2KEirU9A6CvdOp73BJXDKwmeVE" Guid="{A44B6915-97F3-4BDD-9FF2-9AB4796F1884}">
+                <File Id="filN4_ErnPUfChCDxGylzgUctT.iOE" KeyPath="yes" Source="$(var.PublishDir)\sr-Cyrl-BA\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpjQzJMM3jL0UXsi9ja_RgusZaDdU" Directory="dirHFYLybg1LCGE9RK8.w.KvvlBsag" Guid="{F1BE0D52-FE96-4928-AB97-36431CBD26D4}">
+                <File Id="filfQ3Llmm0QZCwiaT4px4hB7q3Ipg" KeyPath="yes" Source="$(var.PublishDir)\sr-Cyrl-RS\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpxEVLnB57Bb.r8Phdd6PWpH.It30" Directory="dirHFYLybg1LCGE9RK8.w.KvvlBsag" Guid="{B6CB2B02-40B5-487B-B1A2-9443C8FCD60C}">
+                <File Id="filhI37gh6fByTtcHHv4MfoLPkGHqY" KeyPath="yes" Source="$(var.PublishDir)\sr-Cyrl-RS\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpGrOpPRTE_4Zqpeuu_5uPnSKr2mY" Directory="dir5BJokHNJs07qHcvzuYlxH8lK6Ng" Guid="{BFB16B99-3293-425E-B8DA-C6FB2760D453}">
+                <File Id="filFGnKnBpfhaglsZLaNdBDlqq0zbQ" KeyPath="yes" Source="$(var.PublishDir)\sr-Latn-RS\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp25vBsVMxBAf5dd8UkCMP2mxymNw" Directory="dir5BJokHNJs07qHcvzuYlxH8lK6Ng" Guid="{052C20C2-07B9-44AB-86AA-1725D90DB6E9}">
+                <File Id="filnzFNBQPsSmJH_JVoBXquwB4xrVo" KeyPath="yes" Source="$(var.PublishDir)\sr-Latn-RS\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpOgl8cTMzGRzbqma9acKKw5sJBsY" Directory="dirqBKH6O4Ad57at6VhUPxPY7_FpaU" Guid="{70D0D039-EFC4-47DE-A9D6-46A830A54D14}">
+                <File Id="filIcChHShPqS6pZvkjEDgP3EX.Lyc" KeyPath="yes" Source="$(var.PublishDir)\sv-SE\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpZ7dx4.WjYhB3A1oPNm92fN_k9_g" Directory="dirqBKH6O4Ad57at6VhUPxPY7_FpaU" Guid="{5130CB0B-221D-4092-A162-629670092E80}">
+                <File Id="filXJuDYN4sNG.n6nzTppdTpdLo7Gs" KeyPath="yes" Source="$(var.PublishDir)\sv-SE\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmp_vsf4Ld1AVa3sSJp2UwpHH1ML.4" Directory="dir55IJH2O0FLjzvdWXP7b92laRK6c" Guid="{6B768CF4-B706-4D76-8259-E5882C56A8CB}">
+                <File Id="filrXpZM6Yf8fOeGqoFpIqituNbgOA" KeyPath="yes" Source="$(var.PublishDir)\ta-IN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp4rh2S71IJBhhmieusYhEDCP4IcI" Directory="dir55IJH2O0FLjzvdWXP7b92laRK6c" Guid="{71ACE2E7-FA8C-4D3B-91D9-CB4EC4903DD6}">
+                <File Id="filGLdqLyyX40BvViXmo_SLCwqQSyg" KeyPath="yes" Source="$(var.PublishDir)\ta-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpC498iHw.SqkAheW_KLRcGxpAWGw" Directory="dir4GkYkv7xle31Kkpn2gL7KiPtnoc" Guid="{7D9CC36F-A2A6-47F7-A0B0-A2D2CC948F70}">
+                <File Id="filtzqnuQPdKjzTjCh0Qf.0v4ybQmQ" KeyPath="yes" Source="$(var.PublishDir)\te-IN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp4TB4BJX3err.p.ChQ2bLR062ywQ" Directory="dir4GkYkv7xle31Kkpn2gL7KiPtnoc" Guid="{6C1A3CC1-82A3-4DEB-B9D7-2F822B848DF2}">
+                <File Id="filvj3LRxz3JXOG163bi._.TLu6lRE" KeyPath="yes" Source="$(var.PublishDir)\te-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpm3lngKytuzYdQPKL2Kf.3phKqG4" Directory="dirhPtGnufVSnrgvb3RyrXOgDvKqmk" Guid="{68E94DB9-4DFF-46AF-9E9E-C81BDF1A46D2}">
+                <File Id="filnA.QltKPRwolD3NvPAF91AXgnOQ" KeyPath="yes" Source="$(var.PublishDir)\th-TH\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpjR20sQ078pBUuvtyvdWKzYM7BF4" Directory="dirhPtGnufVSnrgvb3RyrXOgDvKqmk" Guid="{9C07158F-800C-4D38-BB24-81F11BEE95DA}">
+                <File Id="fil.S811mFvMlTX6kwjrhhJtKBgcsw" KeyPath="yes" Source="$(var.PublishDir)\th-TH\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpcXiYPE9iMImBK4o3LsLv_Ofqm7U" Directory="dirtc_1PH0qlQo6d4IpLL.wR0vu1gw" Guid="{4026FE7E-70B1-4E2F-9131-19534DADCA10}">
+                <File Id="filSfPyCzMlMffOwU.oL50eIS0m8Ww" KeyPath="yes" Source="$(var.PublishDir)\tr-TR\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpEp734SYRDD55SqDv5CwmBf_ZQ48" Directory="dirtc_1PH0qlQo6d4IpLL.wR0vu1gw" Guid="{B89CF113-39D4-4E8A-8E4A-B058DE32596A}">
+                <File Id="filWdqY6iOVfJFNrokWkTckszJKhHA" KeyPath="yes" Source="$(var.PublishDir)\tr-TR\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpTs6z1.cC1WUq70XhAfUjzVaSzvw" Directory="dirIaB.AwdfdSDyB4NreJjn4l0PKKc" Guid="{C8FF6E02-D577-4BD5-9D79-6EBF87974F4B}">
+                <File Id="filh5T8mwfVcrg73.0KAxicBGjU7HI" KeyPath="yes" Source="$(var.PublishDir)\tt-RU\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpRTRBWifU18OfOfqp09u1swZpjbI" Directory="dirIaB.AwdfdSDyB4NreJjn4l0PKKc" Guid="{A3953074-F709-49C8-AC24-C7152DF2C34C}">
+                <File Id="filSKqQYoMkp.HeeH10Q9G1fcbzHaw" KeyPath="yes" Source="$(var.PublishDir)\tt-RU\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpWQWhKnZjGEIkeEEljWSOcguOkhc" Directory="dirnaBxnF7D2s3PZIEALUL_wDDKjwQ" Guid="{ECC083B7-17CB-4437-968D-E1C4A03199F0}">
+                <File Id="filhKmdJO9K6E0ElNAnWfs4iXQj2ug" KeyPath="yes" Source="$(var.PublishDir)\ug-CN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpdSNKoabNUT1V33zKFTE3q3LeFDE" Directory="dirnaBxnF7D2s3PZIEALUL_wDDKjwQ" Guid="{543D5AF4-8475-4976-8667-3E5F3B04AC22}">
+                <File Id="fil1lPFq9JqaDsMQLNFVX94UEK0MG0" KeyPath="yes" Source="$(var.PublishDir)\ug-CN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmph_E1L6_dsojn_TBzp_jwBw.qSAM" Directory="dirm4JPxGsTRBM2aXccsByZNz5SuTA" Guid="{9FD02C39-4E0B-496C-B204-BCFC2F09D8C1}">
+                <File Id="fil6tURFV26nUXTtWPosLtiaGeaL0Y" KeyPath="yes" Source="$(var.PublishDir)\uk-UA\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpc_S_3zeohUUztDh10B0m5v2nMl8" Directory="dirm4JPxGsTRBM2aXccsByZNz5SuTA" Guid="{4C816FF9-CC70-49A3-A43F-B5912FA72F6E}">
+                <File Id="filKJNZ3Ci4zEKxXW47xnH4DaJnt3A" KeyPath="yes" Source="$(var.PublishDir)\uk-UA\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpoCjJ8lm24ezZ5OjXjvgwMvSri5I" Directory="dirhFQczEuiLoaNwHhcBupvLSlD9Bk" Guid="{0C344459-7F0E-4F70-8314-D1974B6147F1}">
+                <File Id="filCq0UEYZuE7QA._.E.dHjWxotyi0" KeyPath="yes" Source="$(var.PublishDir)\ur-PK\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpvKG.6e5Gi14Wtr0hd4z_Iwa_ndk" Directory="dirhFQczEuiLoaNwHhcBupvLSlD9Bk" Guid="{CF4B8A84-5E3B-47CC-BC7F-CA3B459A9896}">
+                <File Id="filErC_apE0q_d9bFeNksPCHXRtHSQ" KeyPath="yes" Source="$(var.PublishDir)\ur-PK\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmp.1ccicsB__zqplmUxQCevVT5AQE" Directory="dir0IFHmr99H1Z2cUBLYxkV.qGLjgM" Guid="{265DB986-93B5-4DD2-AF80-A151CBAC7701}">
+                <File Id="filnuUhAJo4s32NHyO.PK2rhYeJOCA" KeyPath="yes" Source="$(var.PublishDir)\uz-Latn-UZ\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpj0S4vizDJLIKi.iAdftPp1UrT4U" Directory="dir0IFHmr99H1Z2cUBLYxkV.qGLjgM" Guid="{D3BBEDD7-0B20-4FD8-AC79-97E384EB19C0}">
+                <File Id="filRWcbqKdKOKbKxthg.h.Is3gLiZ0" KeyPath="yes" Source="$(var.PublishDir)\uz-Latn-UZ\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmpjkhottq2MFmsK0l30E8nz9I.BUw" Directory="diriG5zihhehS6hNZioL3KWJ3FELfE" Guid="{8AC17E03-2F2D-4743-8F3A-85AE1130F860}">
+                <File Id="filfw34XRHfMtb9Sm5WrIKqPwEJsBo" KeyPath="yes" Source="$(var.PublishDir)\vi-VN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp_dwQvYlgqwuVNTH4wu1Xl38I1cU" Directory="diriG5zihhehS6hNZioL3KWJ3FELfE" Guid="{D13A3186-81B2-48CC-AEDB-4BE2BBBCCF63}">
+                <File Id="filzZQpXEfPdw.Tud3cZjMMc9nczpM" KeyPath="yes" Source="$(var.PublishDir)\vi-VN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmp5GHrwFf4Hkjn6qDO3wwkOQOwD6Q" Directory="dirZ7xJMXuGmDxrptzyT.ZdOdeIGcw" Guid="{9B1C9584-15E8-4832-91A8-AE8D78B019A4}">
+                <File Id="filKYzqWdwKxcZvfsI27_y.1HCl7DQ" KeyPath="yes" Source="$(var.PublishDir)\zh-CN\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmp3ngzS5Yf2ZRZp9HIne0LS6p4Gqk" Directory="dirZ7xJMXuGmDxrptzyT.ZdOdeIGcw" Guid="{AAD56714-06A2-4245-A610-746A261F75F4}">
+                <File Id="filywBkbEq6K5V.DIefkVIZrQ8xXKM" KeyPath="yes" Source="$(var.PublishDir)\zh-CN\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+            <Component Id="cmptH2xDMJanOE7hbUCkETssmCh2rg" Directory="dir7CKDZpyHQcGx9w9HsvXW6P8DxJQ" Guid="{0F3CF881-B304-463E-8B58-7952CF8F1C33}">
+                <File Id="filnZiyGNz4dQCdpoZDm7QaRoQ5eYo" KeyPath="yes" Source="$(var.PublishDir)\zh-TW\Microsoft.ui.xaml.dll.mui" />
+            </Component>
+            <Component Id="cmpS5c1xR._uh699VoPSeuv8sS2N3k" Directory="dir7CKDZpyHQcGx9w9HsvXW6P8DxJQ" Guid="{D65B1618-7A54-422B-BFA0-C5A0F20DB297}">
+                <File Id="filqJYR_gXx5s_esjuJ5aAs6ob6IeQ" KeyPath="yes" Source="$(var.PublishDir)\zh-TW\Microsoft.UI.Xaml.Phone.dll.mui" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirfAQ.n.ugMbQFLycEA_Wx792dYiI">
+            <Directory Id="dir0T2y4LJRjwSqPBrXnAAF4emW08k" Name="win-x64" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir0T2y4LJRjwSqPBrXnAAF4emW08k">
+            <Directory Id="dir81_a3cG5Dg.sCTOPta_gm7Qq7GM" Name="native" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirv4BDvj0WpQK2avlmpEQIWyOj_vA">
+            <Directory Id="dirOYy8e_B8dN6rrAGvG_SouDQIxlU" Name="Assets" />
+        </DirectoryRef>
+    </Fragment>
+</Wix>

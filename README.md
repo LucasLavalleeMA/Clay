@@ -1,8 +1,8 @@
 # Clay
 
-Clay is a Numi-style natural-language calculator for Windows, built with WinUI 3 and .NET 8. Type expressions on the left and see one result per line on the right.
+Clay is a natural-language calculator for Windows, built with WinUI 3 and .NET 8. Type expressions on the left and see one result per line on the right.
 
-**Current version: 1.0.0** — see the [changelog](CHANGELOG.md).
+See the [changelog](CHANGELOG.md) for the current version and release history.
 
 ## Features
 
@@ -34,6 +34,7 @@ $100 in EUR
 - Windows 10 version 1809 or later, or Windows 11
 - .NET 8 SDK
 - Visual Studio with the Windows application development workload, if building from the IDE
+- To load the installer projects in Visual Studio: the [HeatWave for VS2022](https://marketplace.visualstudio.com/) extension (WiX v4 is restored from NuGet, so command-line builds need nothing extra)
 
 ## Build and run
 
@@ -43,7 +44,11 @@ From the repository root:
 dotnet run --project . -p:Platform=x64
 ```
 
-Alternatively, open `Clay.csproj` in Visual Studio, select `x64`, `x86`, or `ARM64`, and press F5. The application is unpackaged and self-contained, so it does not require a separate Windows App SDK runtime installation.
+Alternatively, open `ClayCalculator.slnx` or `Clay.csproj` in Visual Studio, select `x64`, `x86`, or `ARM64`, and press F5. The application is unpackaged and self-contained, so it does not require a separate Windows App SDK runtime installation.
+
+## Versioning
+
+The version is defined in one place: `VersionPrefix` in `Directory.Build.props`. The assembly and file versions, the MSI, the setup EXE, and the version shown in the title bar all come from it. To release a new version, change that value, update [CHANGELOG.md](CHANGELOG.md), and tag the release.
 
 ## Portable builds
 
@@ -64,10 +69,38 @@ To publish another supported architecture:
 
 The output is written to `publish\win-x64`, `publish\win-x86`, or `publish\win-arm64`. Run `Clay.exe` from the complete output folder. These builds are self-contained and do not require the .NET 8 runtime or a separately installed Windows App SDK runtime.
 
+## MSI installer and setup EXE
+
+Clay includes WiX-based installer packaging. Building the solution in the **Release** configuration also builds the installer for the selected platform, either from Visual Studio (Build Solution) or from the command line:
+
+```powershell
+dotnet build Installer\Clay.Bundle.wixproj -c Release -p:Platform=x64
+```
+
+This creates, under `dist\installer\<platform>\` (for example `dist\installer\x64\`):
+
+- `ClayInstaller.msi` (MSI package)
+- `ClaySetup.exe` (standalone bootstrapper EXE)
+
+The Release build publishes the app into `publish\win-<arch>` first and packages that folder, so no separate publish step is needed. Debug builds skip the installer.
+
+`.\publish-installer.ps1` remains available for scripted builds.
+
+The MSI installs Clay to `%ProgramFiles%\Clay` and creates Start Menu/Desktop shortcuts.
+
+## GitHub release publishing
+
+A GitHub Actions workflow (`.github/workflows/release-installer.yml`) builds and uploads installer artifacts to Releases.
+
+- Push a tag like `v1.0.1` to build and publish `ClayInstaller.msi` and `ClaySetup.exe`
+- Or run the workflow manually with **workflow_dispatch**
+
 ## Project structure
 
 - `Engine/` — calculator lexer, parser, values, units, and evaluation logic
 - `MainWindow.xaml(.cs)` — WinUI interface, persistence, and exchange-rate refresh
+- `Installer/` — WiX projects (`Clay.Installer.wixproj` for the MSI, `Clay.Bundle.wixproj` for the setup EXE)
+- `Directory.Build.props` — shared version number for the app and installers
 - `Icon/icon.ico` and `Icon/icon512.png` — exported application icons
 
 Editable icon design files are intentionally excluded from the repository. The exported icons are included because they are required by the application.

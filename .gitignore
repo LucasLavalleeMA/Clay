@@ -1,7 +1,9 @@
 # Build output
 bin/
 obj/
+dist/
 publish/
+artifacts/
 .vs/
 *.user
 *.suo

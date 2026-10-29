@@ -58,7 +58,7 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
 
-        Title = "Clay";
+        Title = $"Clay {AppInfo.DisplayVersion}";
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Icon", "icon.ico"));

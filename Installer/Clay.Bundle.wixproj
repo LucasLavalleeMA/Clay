@@ -1,0 +1,16 @@
+<Project Sdk="WixToolset.Sdk/4.0.5">
+  <PropertyGroup>
+    <OutputType>Bundle</OutputType>
+    <OutputName>ClaySetup</OutputName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <DebugType>none</DebugType>
+    <OutputPath>$(MSBuildProjectDirectory)\..\dist\installer\$(Platform)\</OutputPath>
+    <MsiPath>$(MSBuildProjectDirectory)\bin\$(Platform)\$(Configuration)\ClayInstaller.msi</MsiPath>
+    <DefineConstants>ProductVersion=$(ProductVersion);MsiPath=$(MsiPath)</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Bundle.wxs" />
+    <PackageReference Include="WixToolset.Bal.wixext" Version="4.0.5" />
+    <ProjectReference Include="Clay.Installer.wixproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+</Project>

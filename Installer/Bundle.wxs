@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+  xmlns="http://wixtoolset.org/schemas/v4/wxs"
+  xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal">
+  <Bundle
+	Name="Clay"
+	Version="$(var.ProductVersion)"
+	Manufacturer="Clay"
+	UpgradeCode="9E8CF064-2271-4692-B0CF-415CB7C9D6D8">
+
+	<BootstrapperApplication>
+	  <bal:WixStandardBootstrapperApplication Theme="hyperlinkLicense" LicenseUrl="https://www.gnu.org/licenses/gpl-3.0.en.html" />
+	</BootstrapperApplication>
+
+	<Chain>
+	  <MsiPackage SourceFile="$(var.MsiPath)" />
+	</Chain>
+  </Bundle>
+</Wix>
