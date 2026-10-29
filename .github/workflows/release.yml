@@ -97,6 +97,8 @@ jobs:
           dotnet build .\Installer\Clay.Bundle.wixproj -c Release `
             -p:Platform=${{ matrix.arch }} `
             -p:ProductVersion=$env:MSI_VERSION `
+            -p:PublishDir="${{ github.workspace }}\artifacts\publish\${{ matrix.rid }}" `
+            -p:SkipPublish=true `
             -p:MsiPath="${out}ClayInstaller.msi" `
             -p:OutputPath=$out
           if ($LASTEXITCODE -ne 0) { throw 'Bundle build failed' }
