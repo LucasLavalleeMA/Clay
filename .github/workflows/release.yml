@@ -65,7 +65,6 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      # One publish per architecture, shared by the portable zip AND the installer.
       - name: Publish app (${{ matrix.rid }})
         shell: pwsh
         run: |
@@ -83,6 +82,7 @@ jobs:
           Compress-Archive -Path "artifacts\publish\${{ matrix.rid }}\*" -DestinationPath "dist\Clay-$env:VERSION-portable-${{ matrix.rid }}.zip"
 
       - name: Build MSI
+        if: matrix.arch != 'x86'
         shell: pwsh
         run: |
           $out = "${{ github.workspace }}\artifacts\installer\${{ matrix.rid }}\"
@@ -95,6 +95,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'MSI build failed' }
 
       - name: Build bootstrapper EXE
+        if: matrix.arch != 'x86'
         shell: pwsh
         run: |
           $out = "${{ github.workspace }}\artifacts\installer\${{ matrix.rid }}\"
@@ -110,17 +111,19 @@ jobs:
       - name: Collect release files
         shell: pwsh
         run: |
-          $roots = @("artifacts\installer\${{ matrix.rid }}", "dist\installer\${{ matrix.arch }}") | Where-Object { Test-Path $_ }
-          function Find-One($name) {
-            $hit = $roots | ForEach-Object { Get-ChildItem $_ -Recurse -Filter $name -File } | Select-Object -First 1
-            if (-not $hit) {
-              Get-ChildItem -Recurse artifacts, dist -ErrorAction SilentlyContinue | Select-Object FullName | Format-Table -Auto
-              throw "Missing $name for ${{ matrix.rid }}"
+          if ('${{ matrix.arch }}' -ne 'x86') {
+            $roots = @("artifacts\installer\${{ matrix.rid }}", "dist\installer\${{ matrix.arch }}") | Where-Object { Test-Path $_ }
+            function Find-One($name) {
+              $hit = $roots | ForEach-Object { Get-ChildItem $_ -Recurse -Filter $name -File } | Select-Object -First 1
+              if (-not $hit) {
+                Get-ChildItem -Recurse artifacts, dist -ErrorAction SilentlyContinue | Select-Object FullName | Format-Table -Auto
+                throw "Missing $name for ${{ matrix.rid }}"
+              }
+              $hit.FullName
             }
-            $hit.FullName
+            Copy-Item (Find-One 'ClaySetup.exe')     "dist\Clay-$env:VERSION-setup-${{ matrix.rid }}.exe"
+            Copy-Item (Find-One 'ClayInstaller.msi') "dist\Clay-$env:VERSION-${{ matrix.rid }}.msi"
           }
-          Copy-Item (Find-One 'ClaySetup.exe')     "dist\Clay-$env:VERSION-setup-${{ matrix.rid }}.exe"
-          Copy-Item (Find-One 'ClayInstaller.msi') "dist\Clay-$env:VERSION-${{ matrix.rid }}.msi"
           Get-ChildItem dist -File | Format-Table Name, Length
 
       - uses: actions/upload-artifact@v4
