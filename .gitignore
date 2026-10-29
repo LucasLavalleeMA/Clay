@@ -28,3 +28,6 @@ Icon/drawing.svg
 Icon/logo.vectorcraft
 Icon/Notes.txt
 Icon/New folder/
+
+# Release publisher
+publish-release.ps1

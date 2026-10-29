@@ -1,13 +1,15 @@
 <Project>
-  <!-- Keep the repo-root Directory.Build.props (VersionPrefix/VersionSuffix etc.).
+	<!-- Keep the repo-root Directory.Build.props (VersionPrefix/VersionSuffix etc.).
        MSBuild only auto-imports the nearest one, so import the parent explicitly. -->
-  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))"
-          Condition="'$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))' != ''" />
+	<PropertyGroup>
+		<ParentDirectoryBuildProps>$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))</ParentDirectoryBuildProps>
+	</PropertyGroup>
+	<Import Project="$(ParentDirectoryBuildProps)" Condition="'$(ParentDirectoryBuildProps)' != ''" />
 
-  <!-- Clay.Installer.wixproj and Clay.Bundle.wixproj live in the same folder and would
+	<!-- Clay.Installer.wixproj and Clay.Bundle.wixproj live in the same folder and would
        otherwise share obj\project.assets.json, overwriting each other's NuGet restore
        (Heat vs. the Bal extension). Give each project its own obj folder. -->
-  <PropertyGroup>
-    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
-  </PropertyGroup>
+	<PropertyGroup>
+		<BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+	</PropertyGroup>
 </Project>
