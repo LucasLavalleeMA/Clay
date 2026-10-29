@@ -69,7 +69,11 @@ jobs:
       - name: Publish app (${{ matrix.rid }})
         shell: pwsh
         run: |
-          dotnet publish .\Clay.csproj -c Release -p:PublishProfile=portable-${{ matrix.rid }} -o "${{ github.workspace }}\artifacts\publish\${{ matrix.rid }}"
+          dotnet publish .\Clay.csproj -c Release `
+            -p:Platform=${{ matrix.arch }} `
+            -r ${{ matrix.rid }} `
+            --self-contained true `
+            -o "${{ github.workspace }}\artifacts\publish\${{ matrix.rid }}"
           if ($LASTEXITCODE -ne 0) { throw 'dotnet publish failed' }
 
       - name: Zip portable
