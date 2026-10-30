@@ -13,7 +13,7 @@ public static class AppInfo
 		(Assembly.GetExecutingAssembly()
 			.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
 			?.InformationalVersion ?? "0.0.0")
-		.Split('+')[0];   // strips the commit-hash suffix the .NET 8 SDK adds
+		.Split('+')[0];
 
 	public static string DisplayVersion => $"{Version}";
 }

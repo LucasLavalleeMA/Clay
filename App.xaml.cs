@@ -8,12 +8,13 @@ public partial class App : Application
 
     public App()
     {
-        InitializeComponent();
+		InitializeComponent();
     }
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         _window = new MainWindow();
         _window.Activate();
+
     }
 }

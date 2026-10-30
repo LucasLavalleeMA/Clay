@@ -29,7 +29,26 @@ $100 in EUR
 255 in hex
 ```
 
-## Requirements
+## Getting Clay for Windows
+
+Clay includes WiX-based installer packaging. Building the solution in the **Release** configuration also builds the installer for the selected platform, either from Visual Studio (Build Solution) or from the command line:
+
+```powershell
+dotnet build Installer\Clay.Bundle.wixproj -c Release -p:Platform=x64
+```
+
+This creates, under `dist\installer\<platform>\` (for example `dist\installer\x64\`):
+
+- `ClayInstaller.msi` (MSI package)
+- `ClaySetup.exe` (standalone bootstrapper EXE)
+
+The Release build publishes the app into `publish\win-<arch>` first and packages that folder, so no separate publish step is needed. Debug builds skip the installer.
+
+`.\publish-installer.ps1` remains available for scripted builds.
+
+The MSI installs Clay to `%ProgramFiles%\Clay` and creates Start Menu/Desktop shortcuts.
+
+## Requirements to Edit
 
 - Windows 10 version 1809 or later, or Windows 11
 - .NET 8 SDK
@@ -68,25 +87,6 @@ To publish another supported architecture:
 ```
 
 The output is written to `publish\win-x64`, `publish\win-x86`, or `publish\win-arm64`. Run `Clay.exe` from the complete output folder. These builds are self-contained and do not require the .NET 8 runtime or a separately installed Windows App SDK runtime.
-
-## MSI installer and setup EXE
-
-Clay includes WiX-based installer packaging. Building the solution in the **Release** configuration also builds the installer for the selected platform, either from Visual Studio (Build Solution) or from the command line:
-
-```powershell
-dotnet build Installer\Clay.Bundle.wixproj -c Release -p:Platform=x64
-```
-
-This creates, under `dist\installer\<platform>\` (for example `dist\installer\x64\`):
-
-- `ClayInstaller.msi` (MSI package)
-- `ClaySetup.exe` (standalone bootstrapper EXE)
-
-The Release build publishes the app into `publish\win-<arch>` first and packages that folder, so no separate publish step is needed. Debug builds skip the installer.
-
-`.\publish-installer.ps1` remains available for scripted builds.
-
-The MSI installs Clay to `%ProgramFiles%\Clay` and creates Start Menu/Desktop shortcuts.
 
 ## GitHub release publishing
 

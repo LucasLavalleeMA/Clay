@@ -2,6 +2,17 @@
 
 All notable changes to Clay are documented here.
 
+
+## [1.1.0] - 2026-10-30
+
+### Changed
+
+- Bumped .NET backend to 10
+
+### Fixed
+
+- Backend version incrementing
+
 ## [1.0.1] - 2026-10-29
 
 ### Added
@@ -17,7 +28,7 @@ All notable changes to Clay are documented here.
 
 ### Fixed
 
-- The word `is` now correctly converts to the `=` symbol
+- The word `is` now correctly converts to the `=` symbol (in some cases)
 
 ## [1.0.0] - Initial release
 

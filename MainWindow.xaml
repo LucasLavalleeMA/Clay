@@ -121,7 +121,8 @@
                 </TextBox.Resources>
             </TextBox>
 
-            <Border Grid.Column="1" Width="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+            <!-- Divider between editor and results -->
+            <!--<Border Grid.Column="1" Width="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" /> -->
 
             <!-- Scrolled in lock-step with the editor from code-behind -->
             <ScrollViewer x:Name="ResultsScroll" Grid.Column="2"

@@ -10,6 +10,7 @@ artifacts/
 *.userosscache
 *.pdb
 *.log
+*.docx
 
 # Local and secret configuration
 .env
