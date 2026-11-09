@@ -4,6 +4,8 @@ All notable changes to Clay are documented here.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-09
+
 ### Added
 
 - Engine regression tests, persistent display settings, and cached exchange rates.
@@ -13,7 +15,6 @@ All notable changes to Clay are documented here.
 
 - Case-insensitive trigonometry, list aggregates, reserved variable names, unit arithmetic, percentages, and octal input.
 - File error reporting, autosave recovery, and theme restoration after the sticky-note theme.
-
 
 ## [1.1.0] - 2026-10-30
 
