@@ -38,8 +38,6 @@ public sealed class Value
     /// <summary>The number as a plain quantity (20% becomes 0.2).</summary>
     public double Frac => IsPercent ? Number / 100 : Number;
 
-    /// <summary>True when the value, or any item inside it, carries a unit.</summary>
-    public bool HasUnit => Items != null ? Items.Any(i => i.HasUnit) : Unit != null;
 }
 
 public static class Ops
@@ -64,23 +62,9 @@ public static class Ops
         }
         if (a.Items != null) return Value.List(a.Items.Select(x => Broadcast(x, b, f)));
         if (b.Items != null) return Value.List(b.Items.Select(y => Broadcast(a, y, f)));
-        return f(a, b);
-    }
-
-    /// <summary>Zero-based indexing; negative indexes count from the end.</summary>
-    public static Value Index(Value list, Value index)
-    {
-        if (index.Items != null) throw new EvalException("Index must be a single number");
-        double d = index.Frac;
-        if (d != Math.Floor(d)) throw new EvalException("Index must be a whole number");
-
-        int n = list.Items!.Count;
-        if (Math.Abs(d) > n) throw new EvalException($"Index {d} is out of range (list has {n} items)");
-
-        int i = (int)d;
-        if (i < 0) i += n;
-        if (i < 0 || i >= n) throw new EvalException($"Index {d} is out of range (list has {n} items)");
-        return list.Items[i];
+        var result = f(a, b);
+        if (!result.IsArray && double.IsNaN(result.Number)) throw new EvalException("Not a number");
+        return result;
     }
 
     // ------------------------------------------------------------------ units
@@ -97,10 +81,6 @@ public static class Ops
 
     public static Value ConvertTo(Value v, Unit target) =>
         Map(v, x => new Value(In(x, target), target));
-
-    /// <summary>Gives unitless numbers (inside lists too) the unit; values that already have one are kept.</summary>
-    public static Value AttachUnit(Value v, Unit unit) =>
-        Map(v, x => x.Unit == null ? new Value(x.Frac, unit) : x);
 
     // ------------------------------------------------------------- arithmetic
 
@@ -120,6 +100,8 @@ public static class Ops
 
         if (a.Unit == null && b.Unit == null) return new Value(a.Frac + sign * b.Number);
         var u = a.Unit ?? b.Unit!;
+        if (a.Unit?.Dimension == Dim.Temperature && b.Unit?.Dimension == Dim.Temperature)
+            return new Value(a.Number + sign * b.Number * b.Unit.Factor / a.Unit.Factor, a.Unit);
         return new Value(In(a, u) + sign * In(b, u), u);
     }
 
@@ -144,15 +126,19 @@ public static class Ops
 
     private static Value ModScalar(Value a, Value b)
     {
-        if (b.Frac == 0) throw new EvalException("Division by zero");
-        return new Value(a.Frac % b.Frac, a.Unit);
+        if (b.Unit != null && a.Unit == null) throw new EvalException("Can't divide by a unit");
+        double divisor = a.Unit != null ? In(b, a.Unit) : b.Frac;
+        if (divisor == 0) throw new EvalException("Division by zero");
+        return new Value(a.Frac % divisor, a.Unit);
     }
 
     private static Value PowScalar(Value a, Value b)
     {
         double e = b.Frac;
         if (a.Unit != null && e != 1) throw new EvalException("Powers of units aren't supported");
-        return new Value(Math.Pow(a.Frac, e), a.Unit);
+        double result = Math.Pow(a.Frac, e);
+        if (double.IsNaN(result)) throw new EvalException("Not a number");
+        return new Value(result, a.Unit);
     }
 
     private static Value FactorialScalar(Value v)

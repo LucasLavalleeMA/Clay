@@ -12,7 +12,7 @@ public sealed class Unit
     public Dim Dimension { get; }
 
     /// <summary>Multiplier to the dimension's base unit (for currencies: 1 / units-per-USD).</summary>
-    public double Factor { get; set; }
+    public double Factor { get; internal set; }
 
     /// <summary>Offset in base units (temperature only).</summary>
     public double Offset { get; }
@@ -48,6 +48,7 @@ public static class UnitTable
 
     public static Unit Radian => Lookup("rad")!;
     public static Unit Inch => Lookup("inch")!;
+    public static IEnumerable<string> CurrencyCodes => Fiat.Keys;
 
     private static void Def(Dim dim, string symbol, double factor, params string[] names) =>
         Register(new Unit(symbol, dim, factor), names);

@@ -28,6 +28,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Tests\**\*.cs" />
 		<None Remove="Directory.Build.props" />
 		<Content Include="Icon\icon.ico" CopyToOutputDirectory="PreserveNewest" />
 		<Content Include="Icon\icon512.png" CopyToOutputDirectory="PreserveNewest" />
