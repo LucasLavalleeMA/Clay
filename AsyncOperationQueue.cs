@@ -1,6 +1,6 @@
 namespace Clay;
 
-internal sealed class DocumentOperationQueue
+internal sealed class AsyncOperationQueue
 {
     private readonly SemaphoreSlim _gate = new(1, 1);
 

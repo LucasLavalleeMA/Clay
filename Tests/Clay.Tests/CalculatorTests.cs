@@ -82,6 +82,10 @@ public class CalculatorTests
     [InlineData("20 °C + 9 °F", "25 °C")]
     [InlineData("32 °F - 5 °C", "23 °F")]
     [InlineData("avg(20 °C, 68 °F)", "20 °C")]
+    [InlineData("sum(20 °C, 68 °F)", "40 °C")]
+    [InlineData("sum(68 °F, 20 °C)", "136 °F")]
+    [InlineData("sum([20 °C, 68 °F, 5])", "45 °C")]
+    [InlineData("sum(5, 20 °C, 68 °F)", "45 °C")]
     [InlineData("10 kg mod 3 lb", "0.47456 kg")]
     [InlineData("avg(10%, 20%)", "15%")]
     [InlineData("sum(100, 10%)", "100.1")]
@@ -103,6 +107,7 @@ public class CalculatorTests
     [InlineData("1e309 - 1e309")]
     [InlineData("1 kg mod 2 m")]
     [InlineData("1 mod 2 kg")]
+    [InlineData("sum(20 °C, 1 kg)")]
     public void ReportsInvalidCalculations(string expression)
     {
         var result = Assert.Single(new Calculator().Evaluate(expression));

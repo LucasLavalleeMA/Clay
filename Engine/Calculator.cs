@@ -372,6 +372,10 @@ internal static class Functions
     {
         if (items.Count == 0) return new Value(0);
         if (items.All(v => v.IsPercent)) return Value.Pct(items.Sum(v => v.Number));
+        var temperatureUnit = items.FirstOrDefault(v => v.Unit?.Dimension == Dim.Temperature)?.Unit;
+        if (temperatureUnit != null)
+            return items.Select(v => new Value(Ops.In(v, temperatureUnit), temperatureUnit))
+                .Aggregate((x, y) => Ops.Add(x, y, 1));
         return items.Select(v => v.IsPercent ? new Value(v.Frac) : v)
             .Aggregate((x, y) => Ops.Add(x, y, 1));
     }

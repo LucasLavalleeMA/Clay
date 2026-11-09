@@ -17,7 +17,7 @@
   <ItemGroup>
     <Compile Include="..\..\Engine\*.cs" Link="Engine\%(Filename)%(Extension)" />
     <Compile Include="..\..\AppData.cs" Link="AppData.cs" />
-    <Compile Include="..\..\DocumentOperationQueue.cs" Link="DocumentOperationQueue.cs" />
+    <Compile Include="..\..\AsyncOperationQueue.cs" Link="AsyncOperationQueue.cs" />
     <Using Include="Xunit" />
   </ItemGroup>
 

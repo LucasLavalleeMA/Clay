@@ -48,7 +48,8 @@ public sealed partial class MainWindow : Window
     private static readonly string RatesPath = Path.Combine(DataDirectory, "rates.json");
     private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(8) };
     private readonly SemaphoreSlim _rateRefreshLock = new(1, 1);
-    private readonly DocumentOperationQueue _documentOperations = new();
+    private readonly AsyncOperationQueue _documentOperations = new();
+    private readonly AsyncOperationQueue _dialogs = new();
 
     private List<LineResult> _results = [];
     private StorageFile? _currentFile;
@@ -394,7 +395,7 @@ public sealed partial class MainWindow : Window
                 }
             }
         };
-        await dialog.ShowAsync();
+        await ShowDialogAsync(dialog);
     }
 
     private const string HelpText = """
@@ -516,14 +517,17 @@ public sealed partial class MainWindow : Window
     private async Task ShowErrorAsync(string title, Exception ex)
     {
         SetActivity($"{title}: {ex.Message}");
-        await new ContentDialog
+        await ShowDialogAsync(new ContentDialog
         {
             Title = title,
             Content = ex.Message,
             CloseButtonText = "Close",
             XamlRoot = LayoutRoot.XamlRoot
-        }.ShowAsync();
+        });
     }
+
+    private Task ShowDialogAsync(ContentDialog dialog) =>
+        _dialogs.RunAsync(async () => await dialog.ShowAsync());
 
     // ---------------------------------------------------------- exchange rates
 

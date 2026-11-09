@@ -1,11 +1,11 @@
 namespace Clay.Tests;
 
-public class DocumentOperationQueueTests
+public class AsyncOperationQueueTests
 {
     [Fact]
     public async Task OpenWaitsForSaveAndNextSaveUsesOpenedDocument()
     {
-        var queue = new DocumentOperationQueue();
+        var queue = new AsyncOperationQueue();
         var saveStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var finishSave = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var files = new Dictionary<string, string>();
@@ -46,7 +46,7 @@ public class DocumentOperationQueueTests
     [Fact]
     public async Task FailedOperationReleasesQueue()
     {
-        var queue = new DocumentOperationQueue();
+        var queue = new AsyncOperationQueue();
         await Assert.ThrowsAsync<IOException>(() => queue.RunAsync(() => throw new IOException("failed")));
 
         bool ran = false;
@@ -56,5 +56,51 @@ public class DocumentOperationQueueTests
             return Task.CompletedTask;
         }).WaitAsync(TimeSpan.FromSeconds(5));
         Assert.True(ran);
+    }
+
+    [Fact]
+    public async Task ErrorDialogsAndHelpDoNotOverlap()
+    {
+        var documents = new AsyncOperationQueue();
+        var dialogs = new AsyncOperationQueue();
+        var firstDialogStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var closeFirstDialog = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        int shown = 0;
+
+        async Task FailedSaveAsync(bool first)
+        {
+            try
+            {
+                await documents.RunAsync(() => throw new IOException("save failed"));
+            }
+            catch (IOException)
+            {
+                await dialogs.RunAsync(async () =>
+                {
+                    Interlocked.Increment(ref shown);
+                    if (first)
+                    {
+                        firstDialogStarted.SetResult();
+                        await closeFirstDialog.Task;
+                    }
+                });
+            }
+        }
+
+        Task firstSave = FailedSaveAsync(first: true);
+        await firstDialogStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        Task secondSave = FailedSaveAsync(first: false);
+        Task help = dialogs.RunAsync(() =>
+        {
+            Interlocked.Increment(ref shown);
+            return Task.CompletedTask;
+        });
+
+        Assert.False(secondSave.IsCompleted);
+        Assert.False(help.IsCompleted);
+        Assert.Equal(1, Volatile.Read(ref shown));
+        closeFirstDialog.SetResult();
+        await Task.WhenAll(firstSave, secondSave, help).WaitAsync(TimeSpan.FromSeconds(5));
+        Assert.Equal(3, shown);
     }
 }
