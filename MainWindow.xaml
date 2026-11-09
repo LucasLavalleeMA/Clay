@@ -36,60 +36,66 @@
         </Grid>
 
         <!-- Commands -->
-		<CommandBar Grid.Row="1" Background="Transparent" IsOpen="False"
+        <CommandBar Grid.Row="1" Background="Transparent" IsOpen="False"
             DefaultLabelPosition="Right" HorizontalAlignment="Left" Margin="4,0,0,4">
-			<AppBarButton Icon="OpenFile" Label="Open" Click="OnOpen"
+            <AppBarButton Icon="OpenFile" Label="Open" Click="OnOpen"
                   KeyboardAcceleratorPlacementMode="Hidden">
-				<AppBarButton.KeyboardAccelerators>
-					<KeyboardAccelerator Key="O" Modifiers="Control" />
-				</AppBarButton.KeyboardAccelerators>
-			</AppBarButton>
-			<AppBarButton Icon="Save" Label="Save" Click="OnSave"
+                <AppBarButton.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="O" Modifiers="Control" />
+                </AppBarButton.KeyboardAccelerators>
+            </AppBarButton>
+            <AppBarButton Icon="Save" Label="Save" Click="OnSave"
                   KeyboardAcceleratorPlacementMode="Hidden">
-				<AppBarButton.KeyboardAccelerators>
-					<KeyboardAccelerator Key="S" Modifiers="Control" />
-				</AppBarButton.KeyboardAccelerators>
-			</AppBarButton>
-			<AppBarButton Icon="Copy" Label="Copy results" Click="OnCopyResults" />
-			<AppBarButton Icon="Delete" Label="Clear" Click="OnClear" />
-			<AppBarSeparator />
-			<AppBarButton Icon="Setting" Label="Settings">
-				<AppBarButton.Flyout>
-					<MenuFlyout>
-						<MenuFlyoutSubItem Text="Decimal places">
-							<RadioMenuFlyoutItem Text="2" Tag="2" GroupName="Decimals" Click="OnDecimals" />
-							<RadioMenuFlyoutItem Text="4" Tag="4" GroupName="Decimals" Click="OnDecimals" />
-							<RadioMenuFlyoutItem Text="6" Tag="6" GroupName="Decimals" Click="OnDecimals" IsChecked="True" />
-							<RadioMenuFlyoutItem Text="8" Tag="8" GroupName="Decimals" Click="OnDecimals" />
-						</MenuFlyoutSubItem>
-						<MenuFlyoutSubItem Text="Angle Units">
-                            <RadioMenuFlyoutItem Text="Radians" Tag="Rad" GroupName="AngleUnits" Click="OnRadians" IsChecked="True" />
-                            <RadioMenuFlyoutItem Text="Degrees" Tag="Deg" GroupName="AngleUnits" Click="OnDegrees" />
-						</MenuFlyoutSubItem>
-						<ToggleMenuFlyoutItem x:Name="GroupToggle" Text="Group digits (1,000)" IsChecked="True" Click="OnGroupDigits" />
-						<MenuFlyoutSubItem Text="Theme">
-							<RadioMenuFlyoutItem Text="Match system" Tag="Default" GroupName="Theme" Click="OnTheme" IsChecked="True" />
-							<RadioMenuFlyoutItem Text="Light" Tag="Light" GroupName="Theme" Click="OnTheme" />
-							<RadioMenuFlyoutItem Text="Dark" Tag="Dark" GroupName="Theme" Click="OnTheme" />
-                            <RadioMenuFlyoutItem Text="Sticky note" Tag="Sticky" GroupName="Theme" Click="OnTheme" />
-						</MenuFlyoutSubItem>
-						<MenuFlyoutSeparator />
-						<MenuFlyoutItem Text="Refresh exchange rates" Click="OnRefreshRates" />
-					</MenuFlyout>
-				</AppBarButton.Flyout>
-			</AppBarButton>
-			<AppBarButton Icon="Help" Label="Cheat sheet" Click="OnHelp" />
-		</CommandBar>
+                <AppBarButton.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="S" Modifiers="Control" />
+                </AppBarButton.KeyboardAccelerators>
+            </AppBarButton>
+            <AppBarButton Label="Save as" Click="OnSaveAs" KeyboardAcceleratorPlacementMode="Hidden">
+                <AppBarButton.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="S" Modifiers="Control,Shift" />
+                </AppBarButton.KeyboardAccelerators>
+            </AppBarButton>
+            <AppBarButton Icon="Copy" Label="Copy results" Click="OnCopyResults" />
+            <AppBarButton Icon="Delete" Label="Clear" Click="OnClear" />
+            <AppBarSeparator />
+            <AppBarButton Icon="Setting" Label="Settings">
+                <AppBarButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutSubItem Text="Decimal places">
+                            <RadioMenuFlyoutItem x:Name="Decimals2" Text="2" Tag="2" GroupName="Decimals" Click="OnDecimals" />
+                            <RadioMenuFlyoutItem x:Name="Decimals4" Text="4" Tag="4" GroupName="Decimals" Click="OnDecimals" />
+                            <RadioMenuFlyoutItem x:Name="Decimals6" Text="6" Tag="6" GroupName="Decimals" Click="OnDecimals" IsChecked="True" />
+                            <RadioMenuFlyoutItem x:Name="Decimals8" Text="8" Tag="8" GroupName="Decimals" Click="OnDecimals" />
+                        </MenuFlyoutSubItem>
+                        <MenuFlyoutSubItem Text="Angle Units">
+                            <RadioMenuFlyoutItem x:Name="RadiansOption" Text="Radians" Tag="Rad" GroupName="AngleUnits" Click="OnRadians" IsChecked="True" />
+                            <RadioMenuFlyoutItem x:Name="DegreesOption" Text="Degrees" Tag="Deg" GroupName="AngleUnits" Click="OnDegrees" />
+                        </MenuFlyoutSubItem>
+                        <ToggleMenuFlyoutItem x:Name="GroupToggle" Text="Group digits (1,000)" IsChecked="True" Click="OnGroupDigits" />
+                        <MenuFlyoutSubItem Text="Theme">
+                            <RadioMenuFlyoutItem x:Name="DefaultTheme" Text="Match system" Tag="Default" GroupName="Theme" Click="OnTheme" IsChecked="True" />
+                            <RadioMenuFlyoutItem x:Name="LightTheme" Text="Light" Tag="Light" GroupName="Theme" Click="OnTheme" />
+                            <RadioMenuFlyoutItem x:Name="DarkTheme" Text="Dark" Tag="Dark" GroupName="Theme" Click="OnTheme" />
+                            <RadioMenuFlyoutItem x:Name="StickyTheme" Text="Sticky note" Tag="Sticky" GroupName="Theme" Click="OnTheme" />
+                        </MenuFlyoutSubItem>
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem Text="Refresh exchange rates" Click="OnRefreshRates" />
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Icon="Help" Label="Cheat sheet" Click="OnHelp" />
+        </CommandBar>
 
-		<!-- Editor | results -->
+        <!-- Editor | results -->
         <Grid x:Name="ContentSurface" Grid.Row="2" Background="{ThemeResource LayerFillColorDefaultBrush}">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="3*" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="2*" />
-			</Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Border x:Name="StickyBackground" Grid.ColumnSpan="3" Background="#FFF9B7" Visibility="Collapsed" />
 
-			<TextBox x:Name="Editor" Grid.Column="0"
+            <TextBox x:Name="Editor" Grid.Column="0"
                      AcceptsReturn="True"
                      TextWrapping="NoWrap"
                      IsSpellCheckEnabled="False"
@@ -113,16 +119,13 @@
                     <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="Transparent" />
                     <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent" />
                     <Thickness x:Key="TextControlBorderThemeThickness">0</Thickness>
-					<SolidColorBrush x:Key="TextControlSelectionHighlightColor"
+                    <SolidColorBrush x:Key="TextControlSelectionHighlightColor"
                  Color="#0078D4" />
-					<SolidColorBrush x:Key="TextControlSelectionHighlightColorWhenNotFocused"
+                    <SolidColorBrush x:Key="TextControlSelectionHighlightColorWhenNotFocused"
                  Color="#6699CC" />
-					<Thickness x:Key="TextControlBorderThemeThicknessFocused">0</Thickness>
+                    <Thickness x:Key="TextControlBorderThemeThicknessFocused">0</Thickness>
                 </TextBox.Resources>
             </TextBox>
-
-            <!-- Divider between editor and results -->
-            <!--<Border Grid.Column="1" Width="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" /> -->
 
             <!-- Scrolled in lock-step with the editor from code-behind -->
             <ScrollViewer x:Name="ResultsScroll" Grid.Column="2"
@@ -135,5 +138,7 @@
             </ScrollViewer>
         </Grid>
 
-	</Grid>
+        <TextBlock x:Name="StatusText" Grid.Row="3" Margin="12,4"
+                   TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" MaxLines="1" />
+    </Grid>
 </Window>

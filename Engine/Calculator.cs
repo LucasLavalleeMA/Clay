@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 namespace Clay.Engine;
 
@@ -23,31 +22,24 @@ public sealed class Calculator
     private static readonly Regex LabelRx = new(@"^\p{L}[^:=]*:\s*(?<rest>\S.*)$", RegexOptions.Compiled);
     private static readonly Regex AssignRx =
         new(@"^(?<name>[\p{L}_][\p{L}\p{N}_]*)\s*=(?!=)\s*(?<expr>.+)$", RegexOptions.Compiled);
-	private static Match MatchAssign(string t)
-	{
-		var m = AssignRx.Match(t);
-		if (m.Success) return m;
+    private static readonly Regex ShortcutAssignRx = new(
+        $@"^(?<name>[\p{{L}}_][\p{{L}}\p{{N}}_]*)\s+(?:{string.Join("|", Lexer.Shortcuts.Where(kv => kv.Value.Trim() == "=").Select(kv => Regex.Escape(kv.Key)))})\s+(?<expr>.+)$",
+        RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-		// Shortcuts that expand to "=" (e.g. "is") also count as assignment
-		var words = Lexer.Shortcuts
-			.Where(kv => kv.Value.Trim() == "=")
-			.Select(kv => Regex.Escape(kv.Key))
-			.ToList();
-		if (words.Count == 0) return m;
+    private static Match MatchAssign(string t)
+    {
+        var m = AssignRx.Match(t);
+        if (m.Success) return m;
 
-		var rx = new Regex(
-			$@"^(?<name>[\p{{L}}_][\p{{L}}\p{{N}}_]*)\s+(?:{string.Join("|", words)})\s+(?<expr>.+)$",
-			RegexOptions.IgnoreCase);
+        var alt = ShortcutAssignRx.Match(t);
+        // "what is 3" must stay an expression, not become what = 3
+        if (alt.Success && !Lexer.Shortcuts.ContainsKey(alt.Groups["name"].Value))
+            return alt;
 
-		var alt = rx.Match(t);
-		// "what is 3" must stay an expression, not become what = 3
-		if (alt.Success && !Lexer.Shortcuts.ContainsKey(alt.Groups["name"].Value))
-			return alt;
+        return m;
+    }
 
-		return m;
-	}
-
-	public List<LineResult> Evaluate(string text)
+    public List<LineResult> Evaluate(string text)
     {
         var scope = new Scope(AngleMode);
         var results = new List<LineResult>();
@@ -58,7 +50,7 @@ public sealed class Calculator
 
 
 
-	private LineResult EvaluateLine(string line, Scope scope)
+    private LineResult EvaluateLine(string line, Scope scope)
     {
         var t = line.Trim();
 
@@ -69,15 +61,15 @@ public sealed class Calculator
             return LineResult.Comment;
         }
 
-		// Pull from last expression if need be
-		if (scope.Prev != null &&
-	        t.Length > 0 &&
-	        t[0] is '*' or '/' or '^')
-		{
-			t = $"prev {t}";
-		}
+        // Pull from last expression if need be
+        if (scope.Prev != null &&
+            t.Length > 0 &&
+            t[0] is '*' or '/' or '^')
+        {
+            t = $"prev {t}";
+        }
 
-		int comment = t.IndexOf("//", StringComparison.Ordinal);
+        int comment = t.IndexOf("//", StringComparison.Ordinal);
         if (comment >= 0) t = t[..comment].TrimEnd();
 
         if (t.Length == 0)
@@ -90,8 +82,8 @@ public sealed class Calculator
         if (label.Success) t = label.Groups["rest"].Value;
 
         string? name = null;
-        var assign = MatchAssign(t);    
-		if (assign.Success)
+        var assign = MatchAssign(t);
+        if (assign.Success)
         {
             name = assign.Groups["name"].Value;
             t = assign.Groups["expr"].Value;
@@ -99,6 +91,11 @@ public sealed class Calculator
 
         try
         {
+            if (name != null && (Parser.Keywords.Contains(name) || Parser.Targets.Contains(name) ||
+                Parser.Specials.Contains(name) || Parser.IsConst(name) || Parser.Scale(name) != null ||
+                Functions.Table.ContainsKey(name) || UnitTable.Lookup(name) != null || Lexer.Shortcuts.ContainsKey(name)))
+                throw new EvalException($"'{name}' is a reserved name");
+
             var value = Run(t, scope, out bool aggregate);
             if (value == null) return LineResult.Blank;   // plain text, nothing to calculate
 
@@ -114,7 +111,7 @@ public sealed class Calculator
         }
     }
 
-    /// <summary>Strict parse first; if that fails, retry while ignoring unknown words ("what is 20% of 150").</summary>
+    /// <summary>Strict parse first; if that fails, retry after removing dangling operators and keywords.</summary>
     private static Value? Run(string expr, Scope scope, out bool aggregate)
     {
         aggregate = false;
@@ -154,16 +151,9 @@ public sealed class Calculator
 
             bool call = i + 1 < all.Count && all[i + 1].Kind == Tk.Op && all[i + 1].Text == "(";
 
-			// If an unknown value is here, like an undefined x, skip it
-			//if (k.Kind == Tk.Ident && !Known(k.Text, scope, call)) continue;
+            if (k.Kind == Tk.Ident && !Known(k.Text, scope, call)) throw new EvalException($"Unknown variable '{k.Text}'");
 
-			// If an unknown value is here, like an undefined x, make it NaN
-			//if (k.Kind == Tk.Ident && !Known(k.Text, scope, call)) k = new Token(Tk.Num, "NaN", double.NaN);
-
-            // If an unknown variable, just throw
-			if (k.Kind == Tk.Ident && !Known(k.Text, scope, call)) throw new EvalException($"Unknown variable '{k.Text}'");
-
-			kept.Add(k);
+            kept.Add(k);
         }
 
         while (kept.Count > 0 && Dangling(kept[0], atStart: true)) kept.RemoveAt(0);
@@ -237,11 +227,11 @@ internal static class Functions
             // Aggregates accept loose arguments or lists: sum(1, 2, 3) and sum([1, 2, 3]) are the same.
             ["min"] = a => Pick(Flat(a), Math.Min),
             ["max"] = a => Pick(Flat(a), Math.Max),
-            ["sum"] = a => { var f = Flat(a); return f.Count == 0 ? new Value(0) : f.Aggregate((x, y) => Ops.Add(x, y, 1)); },
+            ["sum"] = a => Sum(Flat(a)),
             ["product"] = a => { var f = Flat(a); Need(f, 1); return f.Aggregate((x, y) => Ops.Mul(x, y)); },
             ["avg"] = a => Average(Flat(a)),
-			["mean"] = a => Average(Flat(a)),
-			["average"] = a => Average(Flat(a)),
+            ["mean"] = a => Average(Flat(a)),
+            ["average"] = a => Average(Flat(a)),
             ["median"] = a => Median(Flat(a)),
 
             // List shaping
@@ -269,7 +259,7 @@ internal static class Functions
             return Ops.Map(args[0], x => Call(name, [x, .. rest], angleMode));
         }
 
-        var result = name switch
+        var result = name.ToLowerInvariant() switch
         {
             "sin" => Trig(args, Math.Sin, angleMode),
             "cos" => Trig(args, Math.Cos, angleMode),
@@ -288,7 +278,7 @@ internal static class Functions
 
     /// <summary>The items of a single list argument, or the arguments themselves.</summary>
     private static List<Value> Elements(List<Value> a) =>
-        a.Count == 1 && a[0].Items != null ? a[0].Items.ToList() : a.ToList();
+        a.Count == 1 && a[0].Items is { } items ? items.ToList() : a.ToList();
 
     private static Func<Value, double> SortKey(List<Value> items)
     {
@@ -369,8 +359,25 @@ internal static class Functions
     private static Value Average(List<Value> a)
     {
         Need(a, 1);
-        var sum = a.Aggregate((x, y) => Ops.Add(x, y, 1));
-        return Ops.Div(sum, new Value(a.Count));
+        if (a.Any(v => v.Unit?.Dimension == Dim.Temperature))
+        {
+            var unit = a.First(v => v.Unit?.Dimension == Dim.Temperature).Unit!;
+            return new Value(a.Average(v => Ops.In(v, unit)), unit);
+        }
+        var sum = Sum(a);
+        return sum.IsPercent ? Value.Pct(sum.Number / a.Count) : Ops.Div(sum, new Value(a.Count));
+    }
+
+    private static Value Sum(List<Value> items)
+    {
+        if (items.Count == 0) return new Value(0);
+        if (items.All(v => v.IsPercent)) return Value.Pct(items.Sum(v => v.Number));
+        var temperatureUnit = items.FirstOrDefault(v => v.Unit?.Dimension == Dim.Temperature)?.Unit;
+        if (temperatureUnit != null)
+            return items.Select(v => new Value(Ops.In(v, temperatureUnit), temperatureUnit))
+                .Aggregate((x, y) => Ops.Add(x, y, 1));
+        return items.Select(v => v.IsPercent ? new Value(v.Frac) : v)
+            .Aggregate((x, y) => Ops.Add(x, y, 1));
     }
 }
 
@@ -386,11 +393,15 @@ internal sealed class Parser
         { "prev", "ans", "sum", "total", "average", "avg" };
 
     private static readonly Dictionary<string, double> Consts = new(StringComparer.OrdinalIgnoreCase)
-        { ["pi"] = Math.PI, ["π"] = Math.PI, ["e"] = Math.E, ["tau"] = Math.Tau };
+    { ["pi"] = Math.PI, ["π"] = Math.PI, ["e"] = Math.E, ["tau"] = Math.Tau };
 
     private static readonly Dictionary<string, double> ScaleWords = new(StringComparer.OrdinalIgnoreCase)
     {
-        ["thousand"] = 1e3, ["million"] = 1e6, ["billion"] = 1e9, ["bn"] = 1e9, ["trillion"] = 1e12
+        ["thousand"] = 1e3,
+        ["million"] = 1e6,
+        ["billion"] = 1e9,
+        ["bn"] = 1e9,
+        ["trillion"] = 1e12
     };
 
     public static bool IsConst(string w) => Consts.ContainsKey(w);
@@ -531,7 +542,7 @@ internal sealed class Parser
         {
             if (IsOp("*")) { Next(); v = Ops.Mul(v, Unary()); }
             else if (IsOp("/")) { Next(); v = Ops.Div(v, Unary()); }
-            else if (IsAnyWord("mod")) { Next(); v = Ops.Mod(v, Unary()); }
+            else if (IsAnyWord("mod") || IsOp("%")) { Next(); v = Ops.Mod(v, Unary()); }
             else if (IsAnyWord("of")) { Next(); v = Ops.Mul(v, Unary()); }              // 20% of 150
             else if (IsAnyWord("on")) { Next(); v = Ops.Add(Unary(), AsPercent(v), 1); }  // 20% on 100
             else if (IsAnyWord("off")) { Next(); v = Ops.Add(Unary(), AsPercent(v), -1); } // 20% off 100
@@ -574,6 +585,7 @@ internal sealed class Parser
             if (IsOp("%"))
             {
                 if (v.IsPercent || v.Unit != null) break;
+                if (At(1).Kind is Tk.Num or Tk.Sym || OpAt(At(1), "[")) break;
                 Next();
                 v = Value.Pct(v.Number);
             }
@@ -633,44 +645,44 @@ internal sealed class Parser
                 return new Value(k.Num);
 
             case Tk.Sym:
-            {
-                var unit = UnitTable.Lookup(k.Text) ?? throw new ParseException("Unknown currency");
-                Next();
-                var inner = Primary();
-                if (inner.Unit != null || inner.IsPercent) throw new ParseException("Unexpected unit");
-                return new Value(inner.Number, unit);
-            }
+                {
+                    var unit = UnitTable.Lookup(k.Text) ?? throw new ParseException("Unknown currency");
+                    Next();
+                    var inner = Primary();
+                    if (inner.Unit != null || inner.IsPercent) throw new ParseException("Unexpected unit");
+                    return new Value(inner.Number, unit);
+                }
 
-			case Tk.Op when k.Text == "[":
-			{
-				Next();
+            case Tk.Op when k.Text == "[":
+                {
+                    Next();
 
-				var items = new List<Value>();
+                    var items = new List<Value>();
 
-				if (!IsOp("]"))
-				{
-					do
-					{
-						items.Add(Conversion());
-					}
-					while (IsOp(",") && Advance());
-				}
+                    if (!IsOp("]"))
+                    {
+                        do
+                        {
+                            items.Add(Conversion());
+                        }
+                        while (IsOp(",") && Advance());
+                    }
 
-				if (!IsOp("]"))
-					throw new ParseException("Expected ']'");
+                    if (!IsOp("]"))
+                        throw new ParseException("Expected ']'");
 
-				Next();
-				return Value.List(items);
-			}
+                    Next();
+                    return Value.List(items);
+                }
 
-			case Tk.Op when k.Text == "(":
-            {
-                Next();
-                var v = Conversion();
-                if (!IsOp(")")) throw new ParseException("Expected ')'");
-                Next();
-                return v;
-            }
+            case Tk.Op when k.Text == "(":
+                {
+                    Next();
+                    var v = Conversion();
+                    if (!IsOp(")")) throw new ParseException("Expected ')'");
+                    Next();
+                    return v;
+                }
 
             case Tk.Ident:
                 return Identifier();
@@ -730,15 +742,15 @@ internal sealed class Parser
     /// <summary>sum / total / average over the lines above, back to the last blank line or heading.</summary>
     private Value Aggregate(bool averaged)
     {
-        var unit = _sc.Block.FirstOrDefault(v => v.Unit != null)?.Unit;
+        var values = _sc.Block.SelectMany(Ops.Flatten).Where(v => !v.IsPercent && v.Text == null).ToList();
+        var unit = values.FirstOrDefault(v => v.Unit != null)?.Unit;
         double sum = 0;
         int count = 0;
 
-        foreach (var v in _sc.Block)
+        foreach (var v in values)
         {
-            if (v.IsPercent || v.Text != null) continue;
-            if (v.Unit == null || unit == null) { sum += v.Number; count++; }
-            else if (v.Unit.Dimension == unit.Dimension) { sum += Unit.Convert(v.Number, v.Unit, unit); count++; }
+            sum += unit == null ? v.Number : Ops.In(v, unit);
+            count++;
         }
 
         return new Value(averaged ? (count == 0 ? 0 : sum / count) : sum, unit);

@@ -9,9 +9,9 @@ See the [changelog](CHANGELOG.md) for the current version and release history.
 - Arithmetic, percentages, variables, labels, and comments
 - Units and conversions for length, mass, volume, time, temperature, data, speed, area, angle, energy, power, and pressure
 - Currency conversion with built-in fallback rates and optional live rates from [open.er-api.com](https://open.er-api.com/)
-- Decimal, binary, and hexadecimal number bases
+- Decimal, binary, octal, and hexadecimal number bases
 - Common mathematical functions and aggregates such as `sum`, `average`, and `prev`
-- Plain-text open, save, and autosave support
+- Plain-text open, save, save as, and autosave support
 
 Example:
 
@@ -109,7 +109,17 @@ The calculator engine has no WinUI dependency and can be tested from a plain `ne
 
 ## Data and network behavior
 
-Documents autosave to `%LOCALAPPDATA%\Clay\document.txt`. Open and Save read and write plain text files. On startup, Clay requests current exchange rates from `https://open.er-api.com/v6/latest/USD`; if the request fails, built-in approximate rates are used.
+Documents autosave to `%LOCALAPPDATA%\Clay\document.txt`. Open and Save read and write plain text files; Save writes to the current file, while Save as chooses a new file. Display settings persist in `%LOCALAPPDATA%\Clay\settings.json`.
+
+On startup, Clay requests current exchange rates from `https://open.er-api.com/v6/latest/USD`. The status line identifies live rates, cached rates, or built-in approximate fallback rates and reports refresh failures. Successful rates are cached in `%LOCALAPPDATA%\Clay\rates.json` for offline use. Unexpected application errors are logged to `%LOCALAPPDATA%\Clay\errors.log`.
+
+Unknown variable names are reported as errors. Keywords, constants, function names, scale names, and units are reserved and cannot be assigned as variables. `what is` is a supported shortcut.
+
+Block `total` and `average` include values in lists and reject incompatible units. Adding or subtracting two temperatures treats the right operand as a temperature difference in its unit and expresses the result in the left operand's unit. In `sum` and `avg`, mixed percentages are fractions (for example, `sum(100, 10%)` is `100.1`); all-percent inputs preserve percentage display.
+
+Temperature values in `sum` and `avg` are converted as absolute temperatures to the first temperature unit before aggregation, matching block aggregates.
+
+Use `mod` for remainders with variables or parenthesized expressions (for example, `20 mod (3)`); `%` before those expressions remains a percentage followed by implicit multiplication. A numeric right operand can also use `%`, as in `5 % 3`.
 
 ## License
 

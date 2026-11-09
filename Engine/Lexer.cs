@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Collections.ObjectModel;
 
 namespace Clay.Engine;
 
@@ -11,18 +12,17 @@ public readonly record struct Token(Tk Kind, string Text, double Num = 0);
 
 public static class Lexer
 {
-	private const string CurrencySymbols = "$€£¥₹₩";
-	private const string Operators = "+-*/^(),%=![]";
+    private const string CurrencySymbols = "$€£¥₹₩";
+    private const string Operators = "+-*/^(),%=![]";
 
-	// Marked as static to match the static class constraint
-	public static Dictionary<string, string> Shortcuts =
-	    new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-    {
-	    { "what", "" },
-	    { "is", "=" }
-    };
+    public static IReadOnlyDictionary<string, string> Shortcuts { get; } =
+        new ReadOnlyDictionary<string, string>(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            { "what", "" },
+            { "is", "=" }
+        });
 
-	public static List<Token> Tokenize(string source)
+    public static List<Token> Tokenize(string source)
     {
         var s = source.Replace('×', '*').Replace('÷', '/').Replace('−', '-').Replace('–', '-');
         var list = new List<Token>();
@@ -57,33 +57,33 @@ public static class Lexer
             }
         }
 
-		// Second pass: expand shortcuts
-		var expanded = new List<Token>();
+        // Second pass: expand shortcuts
+        var expanded = new List<Token>();
 
-		foreach (var token in list)
-		{
-			if (token.Kind == Tk.Ident &&
-				Shortcuts.TryGetValue(token.Text, out var replacement))
-			{
-				if (string.IsNullOrWhiteSpace(replacement))
-					continue; // Empty shortcut removes the token
+        foreach (var token in list)
+        {
+            if (token.Kind == Tk.Ident &&
+                Shortcuts.TryGetValue(token.Text, out var replacement))
+            {
+                if (string.IsNullOrWhiteSpace(replacement))
+                    continue; // Empty shortcut removes the token
 
-				var replacementTokens = Tokenize(replacement);
+                var replacementTokens = Tokenize(replacement);
 
-				foreach (var t in replacementTokens)
-				{
-					if (t.Kind != Tk.End)
-						expanded.Add(t);
-				}
-			}
+                foreach (var t in replacementTokens)
+                {
+                    if (t.Kind != Tk.End)
+                        expanded.Add(t);
+                }
+            }
             else
             {
                 expanded.Add(token);
             }
-		}
+        }
 
-		expanded.Add(new Token(Tk.End, ""));
-		return expanded;
+        expanded.Add(new Token(Tk.End, ""));
+        return expanded;
     }
 
     private static bool IsDigit(char c) => c is >= '0' and <= '9';
@@ -96,7 +96,7 @@ public static class Lexer
     {
         int start = i;
 
-        // 0x1F and 0b1010 literals
+        // 0x1F, 0b1010, and 0o17 literals
         if (s[i] == '0' && i + 2 < s.Length)
         {
             char p = char.ToLowerInvariant(s[i + 1]);
@@ -104,6 +104,8 @@ public static class Lexer
                 return ReadBase(s, ref i, start, 16, Uri.IsHexDigit);
             if (p == 'b' && (s[i + 2] == '0' || s[i + 2] == '1'))
                 return ReadBase(s, ref i, start, 2, ch => ch == '0' || ch == '1');
+            if (p == 'o' && s[i + 2] is >= '0' and <= '7')
+                return ReadBase(s, ref i, start, 8, ch => ch is >= '0' and <= '7');
         }
 
         while (i < s.Length && (IsDigit(s[i]) || s[i] == '_')) i++;
