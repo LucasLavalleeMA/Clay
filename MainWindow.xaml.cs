@@ -41,17 +41,25 @@ public sealed partial class MainWindow : Window
 
     private readonly Calculator _calc = new();
     private readonly DispatcherTimer _saveTimer = new() { Interval = TimeSpan.FromMilliseconds(700) };
-    private readonly string _autosavePath = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Clay", "document.txt");
+    private static readonly string DataDirectory = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Clay");
+    private static readonly string AutosavePath = Path.Combine(DataDirectory, "document.txt");
+    private static readonly string SettingsPath = Path.Combine(DataDirectory, "settings.json");
+    private static readonly string RatesPath = Path.Combine(DataDirectory, "rates.json");
+    private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(8) };
+    private readonly SemaphoreSlim _rateRefreshLock = new(1, 1);
 
     private List<LineResult> _results = [];
+    private StorageFile? _currentFile;
+    private bool _autosaveEnabled = true;
+    private string _theme = "Default";
+    private string _rateStatus = "Using built-in approximate exchange rates";
+    private string _rateError = "";
+    private string _activityStatus = "";
     private ScrollViewer? _editorScroll;
     private double _lineHeight = 24;
-    private readonly Brush _stickySurfaceBrush = new SolidColorBrush(Color.FromArgb(255, 255, 249, 183));
     private readonly Brush _stickyTextBrush = new SolidColorBrush(Color.FromArgb(255, 55, 48, 20));
     private readonly Brush _stickyResultBrush = new SolidColorBrush(Color.FromArgb(255, 117, 83, 0));
-    private Brush? _defaultSurfaceBrush;
-    private Brush? _defaultEditorForeground;
     private bool _stickyTheme;
 
     public MainWindow()
@@ -63,15 +71,15 @@ public sealed partial class MainWindow : Window
         SetTitleBar(AppTitleBar);
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Icon", "icon.ico"));
         AppWindow.Resize(new SizeInt32(1040, 680));
-        _defaultSurfaceBrush = ContentSurface.Background;
-        _defaultEditorForeground = Editor.Foreground;
-
         _saveTimer.Tick += (_, _) => { _saveTimer.Stop(); AutoSave(); };
         Closed += (_, _) => AutoSave();
         LayoutRoot.Loaded += OnLoaded;
         ResultsPanel.SizeChanged += (_, _) => SyncScroll();
 
+        LoadSettings();
+        LoadCachedRates();
         Editor.Text = LoadAutosave() ?? Sample.Replace("\r\n", "\n");
+        UpdateStatus();
     }
 
     // ---------------------------------------------------------------- startup
@@ -84,7 +92,6 @@ public sealed partial class MainWindow : Window
         Editor.Focus(FocusState.Programmatic);
         Editor.Select(Editor.Text.Length, 0);
 
-        //StatusText.Text = "Using built-in exchange rates";
         _ = RefreshRatesAsync();
     }
 
@@ -212,7 +219,7 @@ public sealed partial class MainWindow : Window
         if (sender is TextBlock { Tag: string text })
         {
             CopyToClipboard(text);
-            //StatusText.Text = $"Copied {text}";
+            SetActivity($"Copied {text}");
         }
     }
 
@@ -227,34 +234,63 @@ public sealed partial class MainWindow : Window
 
     private async void OnOpen(object sender, RoutedEventArgs e)
     {
-        var picker = new FileOpenPicker { SuggestedStartLocation = PickerLocationId.DocumentsLibrary };
-        picker.FileTypeFilter.Add(".txt");
-        picker.FileTypeFilter.Add(".Clay");
-        InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(this));
+        try
+        {
+            var picker = new FileOpenPicker { SuggestedStartLocation = PickerLocationId.DocumentsLibrary };
+            picker.FileTypeFilter.Add(".txt");
+            picker.FileTypeFilter.Add(".clay");
+            InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(this));
+            var file = await picker.PickSingleFileAsync();
+            if (file == null) return;
 
-        var file = await picker.PickSingleFileAsync();
-        if (file == null) return;
-
-        Editor.Text = await FileIO.ReadTextAsync(file);
-        //StatusText.Text = $"Opened {file.Name}";
+            var text = await FileIO.ReadTextAsync(file);
+            Editor.Text = text;
+            _currentFile = file;
+            SetActivity($"Opened {file.Name}");
+        }
+        catch (Exception ex)
+        {
+            await ShowErrorAsync("Could not open file", ex);
+        }
     }
 
     private async void OnSave(object sender, RoutedEventArgs e)
     {
-        var picker = new FileSavePicker
+        await SaveAsync(saveAs: false);
+    }
+
+    private async void OnSaveAs(object sender, RoutedEventArgs e)
+    {
+        await SaveAsync(saveAs: true);
+    }
+
+    private async Task SaveAsync(bool saveAs)
+    {
+        try
         {
-            SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
-            SuggestedFileName = "Untitled"
-        };
-        picker.FileTypeChoices.Add("Text document", new List<string> { ".txt" });
-        picker.FileTypeChoices.Add("Clay document", new List<string> { ".Clay" });
-        InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(this));
+            var file = saveAs ? null : _currentFile;
+            if (file == null)
+            {
+                var picker = new FileSavePicker
+                {
+                    SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+                    SuggestedFileName = _currentFile?.DisplayName ?? "Untitled"
+                };
+                picker.FileTypeChoices.Add("Text document", new List<string> { ".txt" });
+                picker.FileTypeChoices.Add("Clay document", new List<string> { ".clay" });
+                InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(this));
+                file = await picker.PickSaveFileAsync();
+                if (file == null) return;
+            }
 
-        var file = await picker.PickSaveFileAsync();
-        if (file == null) return;
-
-        await FileIO.WriteTextAsync(file, ToWindowsNewlines(Editor.Text));
-        //StatusText.Text = $"Saved {file.Name}";
+            await FileIO.WriteTextAsync(file, ToWindowsNewlines(Editor.Text));
+            _currentFile = file;
+            SetActivity($"Saved {file.Name}");
+        }
+        catch (Exception ex)
+        {
+            await ShowErrorAsync("Could not save file", ex);
+        }
     }
 
     private void OnCopyResults(object sender, RoutedEventArgs e)
@@ -268,7 +304,7 @@ public sealed partial class MainWindow : Window
         }
 
         CopyToClipboard(string.Join(Environment.NewLine, rows));
-        //StatusText.Text = $"Copied {rows.Count} result{(rows.Count == 1 ? "" : "s")}";
+        SetActivity($"Copied {rows.Count} result{(rows.Count == 1 ? "" : "s")}");
     }
 
     private void OnClear(object sender, RoutedEventArgs e)
@@ -284,6 +320,7 @@ public sealed partial class MainWindow : Window
         {
             _calc.Decimals = d;
             Recalculate();
+            SaveSettings();
         }
     }
 
@@ -291,40 +328,41 @@ public sealed partial class MainWindow : Window
     {
         _calc.AngleMode = AngleMode.Radians;
         Recalculate();
+        SaveSettings();
     }
 
     private void OnDegrees(object sender, RoutedEventArgs e)
     {
         _calc.AngleMode = AngleMode.Degrees;
         Recalculate();
+        SaveSettings();
     }
 
     private void OnGroupDigits(object sender, RoutedEventArgs e)
     {
         _calc.GroupDigits = GroupToggle.IsChecked;
         Recalculate();
+        SaveSettings();
     }
 
     private void OnTheme(object sender, RoutedEventArgs e)
     {
         if (sender is RadioMenuFlyoutItem { Tag: string tag })
         {
-            _stickyTheme = tag.Equals("Sticky", StringComparison.OrdinalIgnoreCase);
-            LayoutRoot.RequestedTheme = _stickyTheme ? ElementTheme.Light : Enum.Parse<ElementTheme>(tag);
-
-            if (_stickyTheme)
-            {
-                ContentSurface.Background = _stickySurfaceBrush;
-                Editor.Foreground = _stickyTextBrush;
-            }
-            else
-            {
-                ContentSurface.Background = _defaultSurfaceBrush;
-                Editor.Foreground = _defaultEditorForeground;
-            }
-
+            ApplyTheme(tag);
             RenderResults();
+            SaveSettings();
         }
+    }
+
+    private void ApplyTheme(string theme)
+    {
+        _theme = theme;
+        _stickyTheme = theme == "Sticky";
+        LayoutRoot.RequestedTheme = _stickyTheme ? ElementTheme.Light : Enum.Parse<ElementTheme>(theme);
+        StickyBackground.Visibility = _stickyTheme ? Visibility.Visible : Visibility.Collapsed;
+        if (_stickyTheme) Editor.Foreground = _stickyTextBrush;
+        else Editor.ClearValue(TextBox.ForegroundProperty);
     }
 
     private async void OnRefreshRates(object sender, RoutedEventArgs e) => await RefreshRatesAsync();
@@ -370,7 +408,8 @@ public sealed partial class MainWindow : Window
         AGGREGATES      sum  total  average  prev
                         (lines above, back to a blank line or heading)
         COMMENTS        # Heading      // note
-        WORDS           Unknown words are ignored:  what is 20% of 150
+        WORDS           Unknown variables are errors.
+                        "what is" is a shortcut: what is 20% of 150
         """;
 
     // ------------------------------------------------------------ persistence
@@ -380,41 +419,161 @@ public sealed partial class MainWindow : Window
 
     private string? LoadAutosave()
     {
-        try { return File.Exists(_autosavePath) ? File.ReadAllText(_autosavePath) : null; }
-        catch { return null; }
+        try { return File.ReadAllText(AutosavePath); }
+        catch (Exception ex) when (ex is FileNotFoundException or DirectoryNotFoundException) { return null; }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            _autosaveEnabled = false;
+            SetActivity($"Could not load autosave; autosave disabled: {ex.Message}");
+            return null;
+        }
     }
 
     private void AutoSave()
     {
+        if (!_autosaveEnabled) return;
         try
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(_autosavePath)!);
-            File.WriteAllText(_autosavePath, ToWindowsNewlines(Editor.Text));
+            WriteData(AutosavePath, ToWindowsNewlines(Editor.Text));
         }
-        catch { /* autosave is best-effort */ }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            SetActivity($"Autosave failed: {ex.Message}");
+        }
+    }
+
+    private void LoadSettings()
+    {
+        try
+        {
+            var settings = JsonSerializer.Deserialize<Settings>(File.ReadAllText(SettingsPath))
+                ?? throw new InvalidDataException("Settings are empty");
+            settings.Validate();
+
+            _calc.Decimals = settings.Decimals;
+            _calc.AngleMode = Enum.Parse<AngleMode>(settings.AngleMode);
+            _calc.GroupDigits = settings.GroupDigits;
+            Decimals2.IsChecked = settings.Decimals == 2;
+            Decimals4.IsChecked = settings.Decimals == 4;
+            Decimals6.IsChecked = settings.Decimals == 6;
+            Decimals8.IsChecked = settings.Decimals == 8;
+            RadiansOption.IsChecked = _calc.AngleMode == AngleMode.Radians;
+            DegreesOption.IsChecked = _calc.AngleMode == AngleMode.Degrees;
+            GroupToggle.IsChecked = settings.GroupDigits;
+            DefaultTheme.IsChecked = settings.Theme == "Default";
+            LightTheme.IsChecked = settings.Theme == "Light";
+            DarkTheme.IsChecked = settings.Theme == "Dark";
+            StickyTheme.IsChecked = settings.Theme == "Sticky";
+            ApplyTheme(settings.Theme);
+        }
+        catch (Exception ex) when (ex is FileNotFoundException or DirectoryNotFoundException) { }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or InvalidDataException)
+        {
+            SetActivity($"Could not load settings: {ex.Message}");
+        }
+    }
+
+    private void SaveSettings()
+    {
+        try
+        {
+            var settings = new Settings(_calc.Decimals, _calc.AngleMode.ToString(), _calc.GroupDigits, _theme);
+            WriteData(SettingsPath, JsonSerializer.Serialize(settings));
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            SetActivity($"Could not save settings: {ex.Message}");
+        }
+    }
+
+    private static void WriteData(string path, string contents)
+    {
+        Directory.CreateDirectory(DataDirectory);
+        string temporary = path + ".tmp";
+        File.WriteAllText(temporary, contents);
+        File.Move(temporary, path, overwrite: true);
+    }
+
+    private void SetActivity(string message)
+    {
+        _activityStatus = message;
+        UpdateStatus();
+    }
+
+    private void UpdateStatus()
+    {
+        var rate = string.IsNullOrEmpty(_rateError) ? _rateStatus : $"{_rateStatus} (refresh failed: {_rateError})";
+        StatusText.Text = string.IsNullOrEmpty(_activityStatus) ? rate : $"{rate} | {_activityStatus}";
+    }
+
+    private async Task ShowErrorAsync(string title, Exception ex)
+    {
+        SetActivity($"{title}: {ex.Message}");
+        await new ContentDialog
+        {
+            Title = title,
+            Content = ex.Message,
+            CloseButtonText = "Close",
+            XamlRoot = LayoutRoot.XamlRoot
+        }.ShowAsync();
     }
 
     // ---------------------------------------------------------- exchange rates
 
-    private async Task RefreshRatesAsync()
+    private void LoadCachedRates()
     {
         try
         {
-            using var http = new HttpClient { Timeout = TimeSpan.FromSeconds(8) };
-            var json = await http.GetStringAsync("https://open.er-api.com/v6/latest/USD");
+            var cache = JsonSerializer.Deserialize<CachedRates>(File.ReadAllText(RatesPath))
+                ?? throw new InvalidDataException("Rate cache is empty");
+            cache.Validate(DateTimeOffset.UtcNow);
+            UnitTable.UpdateRates(cache.Rates);
+            _rateStatus = $"Cached exchange rates from {cache.FetchedAt.LocalDateTime:g}";
+        }
+        catch (Exception ex) when (ex is FileNotFoundException or DirectoryNotFoundException) { }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or InvalidDataException)
+        {
+            SetActivity($"Could not load cached exchange rates: {ex.Message}");
+        }
+    }
 
+    private async Task RefreshRatesAsync()
+    {
+        await _rateRefreshLock.WaitAsync();
+        try
+        {
+            var json = await Http.GetStringAsync("https://open.er-api.com/v6/latest/USD");
             using var doc = JsonDocument.Parse(json);
-            var rates = new Dictionary<string, double>();
+            if (doc.RootElement.GetProperty("result").GetString() != "success")
+                throw new InvalidDataException("Exchange rate service reported an error");
+            var rates = new Dictionary<string, double>(StringComparer.OrdinalIgnoreCase);
             foreach (var p in doc.RootElement.GetProperty("rates").EnumerateObject())
                 rates[p.Name] = p.Value.GetDouble();
-
-            int updated = UnitTable.UpdateRates(rates);
-            //StatusText.Text = $"Exchange rates updated {DateTime.Now:t} ({updated} currencies)";
+            CachedRates.ValidateRates(rates);
+            var fetchedAt = DateTimeOffset.UtcNow;
+            UnitTable.UpdateRates(rates);
+            _rateStatus = $"Live exchange rates updated {fetchedAt.LocalDateTime:g}";
+            _rateError = "";
             Recalculate();
+            try
+            {
+                WriteData(RatesPath, JsonSerializer.Serialize(new CachedRates(fetchedAt, rates)));
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                SetActivity($"Could not cache exchange rates: {ex.Message}");
+            }
+            UpdateStatus();
         }
-        catch
+        catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException or JsonException or
+            InvalidOperationException or KeyNotFoundException or IOException or InvalidDataException or FormatException)
         {
-            //StatusText.Text = "Offline: using built-in exchange rates (approximate)";
+            _rateError = ex.Message;
+            UpdateStatus();
+        }
+        finally
+        {
+            _rateRefreshLock.Release();
         }
     }
 }
