@@ -427,7 +427,7 @@ public sealed partial class MainWindow : Window
 
     private string? LoadAutosave()
     {
-        try { return File.ReadAllText(AutosavePath); }
+        try { return AtomicFile.ReadAllText(AutosavePath); }
         catch (Exception ex) when (ex is FileNotFoundException or DirectoryNotFoundException) { return null; }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -442,7 +442,7 @@ public sealed partial class MainWindow : Window
         if (!_autosaveEnabled) return;
         try
         {
-            WriteData(AutosavePath, ToWindowsNewlines(Editor.Text));
+            AtomicFile.WriteAllText(AutosavePath, ToWindowsNewlines(Editor.Text));
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -454,7 +454,7 @@ public sealed partial class MainWindow : Window
     {
         try
         {
-            var settings = JsonSerializer.Deserialize<Settings>(File.ReadAllText(SettingsPath))
+            var settings = JsonSerializer.Deserialize<Settings>(AtomicFile.ReadAllText(SettingsPath))
                 ?? throw new InvalidDataException("Settings are empty");
             settings.Validate();
 
@@ -486,20 +486,12 @@ public sealed partial class MainWindow : Window
         try
         {
             var settings = new Settings(_calc.Decimals, _calc.AngleMode.ToString(), _calc.GroupDigits, _theme);
-            WriteData(SettingsPath, JsonSerializer.Serialize(settings));
+            AtomicFile.WriteAllText(SettingsPath, JsonSerializer.Serialize(settings));
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             SetActivity($"Could not save settings: {ex.Message}");
         }
-    }
-
-    private static void WriteData(string path, string contents)
-    {
-        Directory.CreateDirectory(DataDirectory);
-        string temporary = path + ".tmp";
-        File.WriteAllText(temporary, contents);
-        File.Move(temporary, path, overwrite: true);
     }
 
     private void SetActivity(string message)
@@ -535,7 +527,7 @@ public sealed partial class MainWindow : Window
     {
         try
         {
-            var cache = JsonSerializer.Deserialize<CachedRates>(File.ReadAllText(RatesPath))
+            var cache = JsonSerializer.Deserialize<CachedRates>(AtomicFile.ReadAllText(RatesPath))
                 ?? throw new InvalidDataException("Rate cache is empty");
             cache.Validate(DateTimeOffset.UtcNow);
             UnitTable.UpdateRates(cache.Rates);
@@ -568,7 +560,7 @@ public sealed partial class MainWindow : Window
             Recalculate();
             try
             {
-                WriteData(RatesPath, JsonSerializer.Serialize(new CachedRates(fetchedAt, rates)));
+                AtomicFile.WriteAllText(RatesPath, JsonSerializer.Serialize(new CachedRates(fetchedAt, rates)));
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {

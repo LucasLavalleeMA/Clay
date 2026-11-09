@@ -138,6 +138,7 @@
             </ScrollViewer>
         </Grid>
 
-        <TextBlock x:Name="StatusText" Grid.Row="3" Margin="12,4" TextWrapping="Wrap" />
+        <TextBlock x:Name="StatusText" Grid.Row="3" Margin="12,4"
+                   TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" MaxLines="1" />
     </Grid>
 </Window>

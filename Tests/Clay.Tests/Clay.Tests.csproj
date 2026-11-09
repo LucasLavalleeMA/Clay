@@ -18,6 +18,8 @@
     <Compile Include="..\..\Engine\*.cs" Link="Engine\%(Filename)%(Extension)" />
     <Compile Include="..\..\AppData.cs" Link="AppData.cs" />
     <Compile Include="..\..\AsyncOperationQueue.cs" Link="AsyncOperationQueue.cs" />
+    <Compile Include="..\..\AtomicFile.cs" Link="AtomicFile.cs" />
+    <None Include="..\..\MainWindow.xaml" Link="MainWindow.xaml" CopyToOutputDirectory="PreserveNewest" />
     <Using Include="Xunit" />
   </ItemGroup>
 
