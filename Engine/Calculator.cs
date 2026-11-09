@@ -581,7 +581,7 @@ internal sealed class Parser
             if (IsOp("%"))
             {
                 if (v.IsPercent || v.Unit != null) break;
-                if (At(1).Kind is Tk.Num or Tk.Sym || OpAt(At(1), "(") || OpAt(At(1), "[") || IsValueIdent(1)) break;
+                if (At(1).Kind is Tk.Num or Tk.Sym || OpAt(At(1), "[")) break;
                 Next();
                 v = Value.Pct(v.Number);
             }

@@ -21,6 +21,19 @@ public class CalculatorTests
     }
 
     [Theory]
+    [InlineData("20%(150)", "30")]
+    [InlineData("20 % (150)", "30")]
+    [InlineData("base = 150\n20% base", "30")]
+    [InlineData("base = 150\n20 % base", "30")]
+    [InlineData("20% sqrt(22500)", "30")]
+    public void PercentagesSupportImplicitMultiplication(string document, string expected)
+    {
+        var result = new Calculator().Evaluate(document)[^1];
+        Assert.Equal(LineKind.Result, result.Kind);
+        Assert.Equal(expected, result.Text);
+    }
+
+    [Theory]
     [InlineData("sin(30)", "0.5")]
     [InlineData("Sin(30)", "0.5")]
     [InlineData("SIN(30)", "0.5")]

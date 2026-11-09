@@ -117,6 +117,8 @@ Unknown variable names are reported as errors. Keywords, constants, function nam
 
 Block `total` and `average` include values in lists and reject incompatible units. Adding or subtracting two temperatures treats the right operand as a temperature difference in its unit and expresses the result in the left operand's unit. In `sum` and `avg`, mixed percentages are fractions (for example, `sum(100, 10%)` is `100.1`); all-percent inputs preserve percentage display.
 
+Use `mod` for remainders with variables or parenthesized expressions (for example, `20 mod (3)`); `%` before those expressions remains a percentage followed by implicit multiplication. A numeric right operand can also use `%`, as in `5 % 3`.
+
 ## License
 
 Clay is licensed under the GNU General Public License, version 3. See [LICENSE](LICENSE).

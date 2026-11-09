@@ -48,6 +48,7 @@ public sealed partial class MainWindow : Window
     private static readonly string RatesPath = Path.Combine(DataDirectory, "rates.json");
     private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(8) };
     private readonly SemaphoreSlim _rateRefreshLock = new(1, 1);
+    private readonly DocumentOperationQueue _documentOperations = new();
 
     private List<LineResult> _results = [];
     private StorageFile? _currentFile;
@@ -236,17 +237,20 @@ public sealed partial class MainWindow : Window
     {
         try
         {
-            var picker = new FileOpenPicker { SuggestedStartLocation = PickerLocationId.DocumentsLibrary };
-            picker.FileTypeFilter.Add(".txt");
-            picker.FileTypeFilter.Add(".clay");
-            InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(this));
-            var file = await picker.PickSingleFileAsync();
-            if (file == null) return;
+            await _documentOperations.RunAsync(async () =>
+            {
+                var picker = new FileOpenPicker { SuggestedStartLocation = PickerLocationId.DocumentsLibrary };
+                picker.FileTypeFilter.Add(".txt");
+                picker.FileTypeFilter.Add(".clay");
+                InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(this));
+                var file = await picker.PickSingleFileAsync();
+                if (file == null) return;
 
-            var text = await FileIO.ReadTextAsync(file);
-            Editor.Text = text;
-            _currentFile = file;
-            SetActivity($"Opened {file.Name}");
+                var text = await FileIO.ReadTextAsync(file);
+                Editor.Text = text;
+                _currentFile = file;
+                SetActivity($"Opened {file.Name}");
+            });
         }
         catch (Exception ex)
         {
@@ -268,24 +272,27 @@ public sealed partial class MainWindow : Window
     {
         try
         {
-            var file = saveAs ? null : _currentFile;
-            if (file == null)
+            await _documentOperations.RunAsync(async () =>
             {
-                var picker = new FileSavePicker
+                var file = saveAs ? null : _currentFile;
+                if (file == null)
                 {
-                    SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
-                    SuggestedFileName = _currentFile?.DisplayName ?? "Untitled"
-                };
-                picker.FileTypeChoices.Add("Text document", new List<string> { ".txt" });
-                picker.FileTypeChoices.Add("Clay document", new List<string> { ".clay" });
-                InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(this));
-                file = await picker.PickSaveFileAsync();
-                if (file == null) return;
-            }
+                    var picker = new FileSavePicker
+                    {
+                        SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+                        SuggestedFileName = _currentFile?.DisplayName ?? "Untitled"
+                    };
+                    picker.FileTypeChoices.Add("Text document", new List<string> { ".txt" });
+                    picker.FileTypeChoices.Add("Clay document", new List<string> { ".clay" });
+                    InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(this));
+                    file = await picker.PickSaveFileAsync();
+                    if (file == null) return;
+                }
 
-            await FileIO.WriteTextAsync(file, ToWindowsNewlines(Editor.Text));
-            _currentFile = file;
-            SetActivity($"Saved {file.Name}");
+                await FileIO.WriteTextAsync(file, ToWindowsNewlines(Editor.Text));
+                _currentFile = file;
+                SetActivity($"Saved {file.Name}");
+            });
         }
         catch (Exception ex)
         {
