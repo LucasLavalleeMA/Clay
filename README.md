@@ -1,8 +1,10 @@
 # Clay
 
-Clay is a natural-language calculator for Windows, built with WinUI 3 and .NET 8. Type expressions on the left and see one result per line on the right.
+Clay is a natural-language calculator for Windows. Type expressions on the left and see one result per line on the right.
 
-See the [changelog](CHANGELOG.md) for the current version and release history.
+See releases for the most up-to-date version, or build from source with Visual Studio 2022 or later.
+
+See the [changelog](CHANGELOG.md) for release history.
 
 ## Features
 
@@ -51,7 +53,7 @@ The MSI installs Clay to `%ProgramFiles%\Clay` and creates Start Menu/Desktop sh
 ## Requirements to Edit
 
 - Windows 10 version 1809 or later, or Windows 11
-- .NET 8 SDK
+- .NET 10.0 SDK
 - Visual Studio with the Windows application development workload, if building from the IDE
 - To load the installer projects in Visual Studio: the [HeatWave for VS2022](https://marketplace.visualstudio.com/) extension (WiX v4 is restored from NuGet, so command-line builds need nothing extra)
 
@@ -88,13 +90,6 @@ To publish another supported architecture:
 
 The output is written to `publish\win-x64`, `publish\win-x86`, or `publish\win-arm64`. Run `Clay.exe` from the complete output folder. These builds are self-contained and do not require the .NET 8 runtime or a separately installed Windows App SDK runtime.
 
-## GitHub release publishing
-
-A GitHub Actions workflow (`.github/workflows/release-installer.yml`) builds and uploads installer artifacts to Releases.
-
-- Push a tag like `v1.0.1` to build and publish `ClayInstaller.msi` and `ClaySetup.exe`
-- Or run the workflow manually with **workflow_dispatch**
-
 ## Project structure
 
 - `Engine/` — calculator lexer, parser, values, units, and evaluation logic
@@ -105,7 +100,7 @@ A GitHub Actions workflow (`.github/workflows/release-installer.yml`) builds and
 
 Editable icon design files are intentionally excluded from the repository. The exported icons are included because they are required by the application.
 
-The calculator engine has no WinUI dependency and can be tested from a plain `net8.0` test project by linking the files in `Engine/`.
+The calculator engine has no WinUI dependency and can be tested from a plain `net10.0` test project by linking the files in `Engine/`.
 
 ## Data and network behavior
 

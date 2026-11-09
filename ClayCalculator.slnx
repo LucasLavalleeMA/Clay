@@ -12,10 +12,10 @@
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />
   </Project>
-  <Project Path="Installer/Clay.Bundle.wixproj">
+  <Project Path="Installer/Clay.Bundle.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0">
     <BuildDependency Project="Installer/Clay.Installer.wixproj" />
   </Project>
-  <Project Path="Installer/Clay.Installer.wixproj">
+  <Project Path="Installer/Clay.Installer.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0">
     <BuildDependency Project="Clay.csproj" />
   </Project>
 </Solution>

@@ -28,14 +28,25 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Engine\Units.cs" />
+	  <Compile Remove="Engine\Value.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Remove="Directory.Build.props" />
 		<Content Include="Icon\icon.ico" CopyToOutputDirectory="PreserveNewest" />
 		<Content Include="Icon\icon512.png" CopyToOutputDirectory="PreserveNewest" />
 		<None Include=".github\workflows\release.yml" />
+		<None Include="Engine\Units.cs" />
+		<None Include="Engine\Value.cs" />
 		<None Include="Installer\Clay.Bundle.wixproj" />
 		<None Include="Installer\Clay.Installer.wixproj" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250108002" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Engine\CaliperSharp\" />
 	</ItemGroup>
 
 </Project>

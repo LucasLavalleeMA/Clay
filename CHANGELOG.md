@@ -41,6 +41,3 @@ Clay's first release includes:
 - Mathematical functions including trigonometry, logarithms, rounding, powers, and factorials
 - Plain-text open, save, and local autosave support
 - Windows desktop UI built with WinUI 3 and .NET 8
-
-[1.0.1]: https://github.com/LucasLavalleeMA/Clay/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/LucasLavalleeMA/Clay/releases/tag/v1.0.0
