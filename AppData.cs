@@ -2,7 +2,7 @@ using Clay.Engine;
 
 namespace Clay;
 
-internal sealed record Settings(int Decimals, string AngleMode, bool GroupDigits, string Theme)
+internal sealed record Settings(int Decimals, string AngleMode, bool GroupDigits, string Theme, bool PhysicsUnits = false)
 {
     public void Validate()
     {

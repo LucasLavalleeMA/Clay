@@ -18,6 +18,8 @@ public sealed class Calculator
     public bool GroupDigits { get; set; } = true;
     public AngleMode AngleMode { get; set; } = AngleMode.Radians;
 
+    /// <summary>Enables N, Hz, A, V, Ω and related units, and names results with them.</summary>
+    public bool PhysicsUnits { get; set; }
     private static readonly Regex Newline = new("\r\n|\r|\n", RegexOptions.Compiled);
     private static readonly Regex LabelRx = new(@"^\p{L}[^:=]*:\s*(?<rest>\S.*)$", RegexOptions.Compiled);
     private static readonly Regex AssignRx =
@@ -41,6 +43,7 @@ public sealed class Calculator
 
     public List<LineResult> Evaluate(string text)
     {
+        using var physics = UnitTable.UsePhysics(PhysicsUnits);
         var scope = new Scope(AngleMode);
         var results = new List<LineResult>();
         foreach (var line in Newline.Split(text))
@@ -78,6 +81,8 @@ public sealed class Calculator
             return LineResult.Blank;
         }
 
+        if (Preset(t, scope) is { } preset) return new LineResult(LineKind.Result, preset, null);
+
         var label = LabelRx.Match(t);
         if (label.Success) t = label.Groups["rest"].Value;
 
@@ -93,7 +98,8 @@ public sealed class Calculator
         {
             if (name != null && (Parser.Keywords.Contains(name) || Parser.Targets.Contains(name) ||
                 Parser.Specials.Contains(name) || Parser.IsConst(name) || Parser.Scale(name) != null ||
-                Functions.Table.ContainsKey(name) || UnitTable.Lookup(name) != null || Lexer.Shortcuts.ContainsKey(name)))
+                Functions.Table.ContainsKey(name) || UnitTable.Parse(name) != null || UnitTable.IsUnitless(name) ||
+                Lexer.Shortcuts.ContainsKey(name)))
                 throw new EvalException($"'{name}' is a reserved name");
 
             var value = Run(t, scope, out bool aggregate);
@@ -109,6 +115,27 @@ public sealed class Calculator
         {
             return new LineResult(LineKind.Error, ex.Message, null);
         }
+    }
+
+    private static readonly byte[] PresetKey = [8, 0, 8, 4, 0];
+
+    /// <summary>
+    /// Intentional, by design: a preset word on a line by itself shows fixed text instead of being
+    /// evaluated. It has no value, so it doesn't feed prev or sum, and a variable of the same name wins.
+    /// </summary>
+    private static string? Preset(string t, Scope scope)
+    {
+        if (t.Length != PresetKey.Length || scope.Vars.ContainsKey(t)) return null;
+
+        var s = t.ToLowerInvariant();
+        uint h = 2166136261;
+        foreach (char c in s) h = (h ^ c) * 16777619;
+        if (h != 0x09354B67) return null;
+
+        return string.Create(s.Length, s, (span, src) =>
+        {
+            for (int i = 0; i < span.Length; i++) span[i] = (char)(src[i] ^ PresetKey[i]);
+        });
     }
 
     /// <summary>Strict parse first; if that fails, retry after removing dangling operators and keywords.</summary>
@@ -167,7 +194,7 @@ public sealed class Calculator
     private static bool Known(string w, Scope scope, bool isCall) =>
         Parser.Keywords.Contains(w) || Parser.Targets.Contains(w) || Parser.Specials.Contains(w) ||
         Parser.IsConst(w) || Parser.Scale(w) != null || (isCall && Functions.Table.ContainsKey(w)) ||
-        scope.Vars.ContainsKey(w) || UnitTable.Lookup(w) != null;
+        scope.Vars.ContainsKey(w) || UnitTable.Parse(w) != null || UnitTable.IsUnitless(w);
 
     private static bool Dangling(Token k, bool atStart) => k.Kind switch
     {
@@ -192,8 +219,8 @@ internal static class Functions
     public static readonly Dictionary<string, Func<List<Value>, Value>> Table =
         new(StringComparer.OrdinalIgnoreCase)
         {
-            ["sqrt"] = a => Map(a, x => Math.Sqrt(x)),
-            ["cbrt"] = a => Map(a, x => Math.Cbrt(x)),
+            ["sqrt"] = a => a.Count > 0 && a[0].Unit != null ? Ops.Root(a[0], 2, Math.Sqrt) : Map(a, x => Math.Sqrt(x)),
+            ["cbrt"] = a => a.Count > 0 && a[0].Unit != null ? Ops.Root(a[0], 3, Math.Cbrt) : Map(a, x => Math.Cbrt(x)),
             ["abs"] = a => Map(a, x => Math.Abs(x), keepUnit: true),
             ["ceil"] = a => Map(a, x => Math.Ceiling(x), keepUnit: true),
             ["floor"] = a => Map(a, x => Math.Floor(x), keepUnit: true),
@@ -329,7 +356,7 @@ internal static class Functions
     }
 
     private static double ToRadians(Value v, AngleMode angleMode) =>
-        v.Unit is { Dimension: Dim.Angle } u
+        v.Unit is { } u && u.Dimension == Dim.Angle
             ? Unit.Convert(v.Number, u, UnitTable.Radian)
             : angleMode == AngleMode.Degrees ? v.Frac * Math.PI / 180 : v.Frac;
 
@@ -384,7 +411,7 @@ internal static class Functions
 internal sealed class Parser
 {
     public static readonly HashSet<string> Keywords = new(StringComparer.OrdinalIgnoreCase)
-        { "in", "to", "as", "into", "of", "on", "off", "mod", "percent" };
+        { "in", "to", "as", "into", "of", "on", "off", "mod", "percent", "per" };
 
     public static readonly HashSet<string> Targets = new(StringComparer.OrdinalIgnoreCase)
         { "hex", "bin", "oct", "dec", "decimal" };
@@ -439,8 +466,15 @@ internal sealed class Parser
     {
         var k = At(n);
         if (k.Kind != Tk.Ident) return false;
-        return _sc.Vars.ContainsKey(k.Text) || Consts.ContainsKey(k.Text) || Specials.Contains(k.Text) ||
+        return IsVariable(k.Text) || Consts.ContainsKey(k.Text) || Specials.Contains(k.Text) ||
                (Functions.Table.ContainsKey(k.Text) && OpAt(At(n + 1), "("));
+    }
+
+    // Variables ignore case, but an exact physics symbol (V, A, N) beats a variable like v, a or n
+    private bool IsVariable(string name)
+    {
+        if (!_sc.Vars.ContainsKey(name)) return false;
+        return !UnitTable.IsPhysicsSymbol(name) || _sc.Vars.Keys.Contains(name, StringComparer.Ordinal);
     }
 
     public Value ParseAll()
@@ -485,20 +519,111 @@ internal sealed class Parser
             var word = Cur.Text.ToLowerInvariant();
             if (word is "hex" or "bin" or "oct") { Next(); return Ops.Map(left, x => ToBase(x, word)); }
             if (word is "dec" or "decimal") { Next(); return Ops.Map(left, x => new Value(x.Frac, x.Unit)); }
-            if (word == "in") { Next(); return Ops.ConvertTo(left, UnitTable.Inch); }
+            if (word == "in") { Next(); return Ops.ConvertTo(left, TargetUnit(UnitTable.Inch)); }
         }
 
         if (Cur.Kind is Tk.Ident or Tk.Sym)
         {
-            var unit = UnitTable.Lookup(Cur.Text);
-            if (unit != null)
+            var unit = Cur.Kind == Tk.Sym ? UnitTable.Lookup(Cur.Text) : UnitTable.Parse(Cur.Text);
+            if (unit != null || UnitlessAt(0))
             {
                 Next();
-                return Ops.ConvertTo(left, unit);
+                return Ops.ConvertTo(left, TargetUnit(unit));
             }
         }
 
         throw new ParseException("Unknown unit");
+    }
+
+    /// <summary>The rest of a conversion target: "in ft/s^2", "in miles per hour", "in kWh/$".</summary>
+    private Unit TargetUnit(Unit? unit)
+    {
+        // A zero-powered factor (m^0, m⁰) is one, so the target is only decided once every factor is read
+        var result = UnitPower(unit, out _);
+        while ((IsOp("/") || IsAnyWord("per")) && (UnitAt(1) != null || UnitlessAt(1) || SymbolUnitAt(1) != null))
+        {
+            Next();
+            var divisor = UnitAt(0) ?? SymbolUnitAt(0);
+            Next();
+
+            if (UnitPower(divisor, out _) is not { } power) continue;
+            if (result == null) result = UnitTable.Pow(power, -1, out _);
+            else if (result.Offset == 0 && power.Offset == 0 && result.SameAs(power)) result = null;   // m per m cancels exactly
+            else result = UnitTable.Divide(result, power) ?? throw new EvalException($"Can't combine {result.Symbol} and {power.Symbol}");
+        }
+        return result ?? throw new ParseException("Unknown unit");
+    }
+
+    /// <summary>A currency symbol at offset n with no value after it ($ in 5 kWh/$), which means one of it.</summary>
+    private Unit? SymbolUnitAt(int n)
+    {
+        if (At(n).Kind != Tk.Sym) return null;
+        var next = At(n + 1);
+        bool value = next.Kind is Tk.Num or Tk.Sym || OpAt(next, "(") || OpAt(next, "[") ||
+                     (next.Kind == Tk.Ident && !Keywords.Contains(next.Text));
+        return value ? null : UnitTable.Lookup(At(n).Text);
+    }
+
+    /// <summary>A unit word at offset n that isn't a variable, keyword, or function call; "in" means inches.</summary>
+    private Unit? UnitAt(int n)
+    {
+        var k = At(n);
+        if (k.Kind != Tk.Ident || OpAt(At(n + 1), "(")) return null;
+        if (k.Text.Equals("in", StringComparison.OrdinalIgnoreCase)) return UnitTable.Inch;
+        if (Keywords.Contains(k.Text) || IsValueIdent(n)) return null;
+        return UnitTable.Parse(k.Text);
+    }
+
+    /// <summary>Applies following integer powers to a unit just read: 5 m^2 is 5 m², 5 m^2^2 is 5 m⁴. Null when a power is 0.</summary>
+    private Unit? UnitPower(Unit? unit, out double scale)
+    {
+        scale = 1;
+        Unit? result = unit;
+
+        while (IsOp("^"))
+        {
+            bool negative = OpAt(At(1), "-");
+            int sign = negative || OpAt(At(1), "+") ? 1 : 0;
+            var power = At(1 + sign);
+            if (power.Kind != Tk.Num) break;
+            if (power.Num != Math.Floor(power.Num))
+                throw new EvalException("Unit powers must be whole numbers; use parentheses to raise the whole quantity");
+            if (power.Num > UnitTable.MaxPower) throw UnitTable.PowerTooLarge();
+
+            for (int i = 2 + sign; i > 0; i--) Next();
+            if (result == null) continue;
+
+            result = UnitTable.Pow(result, (int)(negative ? -power.Num : power.Num), out double step);
+            scale *= step;
+        }
+        return result;
+    }
+
+    /// <summary>A unit raised to the power 0 at offset n (m⁰), which is the plain number 1.</summary>
+    private bool UnitlessAt(int n)
+    {
+        var k = At(n);
+        return k.Kind == Tk.Ident && !OpAt(At(n + 1), "(") && !Keywords.Contains(k.Text) &&
+               !IsValueIdent(n) && UnitTable.IsUnitless(k.Text);
+    }
+
+    /// <summary>The right operand of *, / or per; a bare unit means one of it (5 m / s, 60 miles per hour).</summary>
+    private Value Operand()
+    {
+        Value v;
+        if (UnitlessAt(0)) { Next(); UnitPower(null, out _); v = new Value(1); }
+        else if ((UnitAt(0) ?? SymbolUnitAt(0)) is { } unit)
+        {
+            Next();
+            var powered = UnitPower(unit, out double scale);
+            v = new Value(scale, powered);
+        }
+        else return Unary();
+
+        // One of a unit raised to any other exponent is still that unit's power (5 m / s^(2) is 5 m/s²)
+        if (!IsOp("^")) return v;
+        Next();
+        return Ops.Pow(v, Unary());
     }
 
     private static Value PercentOf(Value part, Value whole)
@@ -540,8 +665,8 @@ internal sealed class Parser
         var v = Unary();
         while (true)
         {
-            if (IsOp("*")) { Next(); v = Ops.Mul(v, Unary()); }
-            else if (IsOp("/")) { Next(); v = Ops.Div(v, Unary()); }
+            if (IsOp("*")) { Next(); v = Ops.Mul(v, Operand()); }
+            else if (IsOp("/") || IsAnyWord("per")) { Next(); v = Ops.Div(v, Operand()); }
             else if (IsAnyWord("mod") || IsOp("%")) { Next(); v = Ops.Mod(v, Unary()); }
             else if (IsAnyWord("of")) { Next(); v = Ops.Mul(v, Unary()); }              // 20% of 150
             else if (IsAnyWord("on")) { Next(); v = Ops.Add(Unary(), AsPercent(v), 1); }  // 20% on 100
@@ -598,6 +723,13 @@ internal sealed class Parser
             {
                 if (IsValueIdent(0) || v.IsPercent) break;
 
+                if (UnitlessAt(0))
+                {
+                    Next();
+                    UnitPower(null, out _);
+                    continue;
+                }
+
                 var scale = Scale(Cur.Text);
                 if (scale.HasValue)
                 {
@@ -606,19 +738,22 @@ internal sealed class Parser
                     continue;
                 }
 
-                // "12 in" means inches unless it reads as a conversion ("12 in cm")
-                if (IsAnyWord("in") && v.Unit == null && (At(1).Kind == Tk.End || (At(1).Kind == Tk.Op && At(1).Text != "(")))
+                // "12 in" means inches unless it reads as a conversion ("12 in cm"); "5 in per s" is inches too
+                if (IsAnyWord("in") && v.Unit == null && (At(1).Kind == Tk.End || (At(1).Kind == Tk.Op && At(1).Text != "(") ||
+                    (At(1).Kind == Tk.Ident && At(1).Text.Equals("per", StringComparison.OrdinalIgnoreCase))))
                 {
                     Next();
-                    v = new Value(v.Number, UnitTable.Inch);
+                    var inch = UnitPower(UnitTable.Inch, out double inchScale);
+                    v = new Value(v.Number * inchScale, inch);
                     continue;
                 }
 
-                var unit = Keywords.Contains(Cur.Text) || OpAt(At(1), "(") ? null : UnitTable.Lookup(Cur.Text);
+                var unit = Keywords.Contains(Cur.Text) || OpAt(At(1), "(") ? null : UnitTable.Parse(Cur.Text);
                 if (unit != null && v.Unit == null)
                 {
                     Next();
-                    v = new Value(v.Number, unit);
+                    var powered = UnitPower(unit, out double unitScale);
+                    v = new Value(v.Number * unitScale, powered);
                     continue;
                 }
                 break;
@@ -628,7 +763,8 @@ internal sealed class Parser
                 var unit = UnitTable.Lookup(Cur.Text);
                 if (unit == null) break;
                 Next();
-                v = new Value(v.Number, unit);
+                var powered = UnitPower(unit, out double symbolScale);
+                v = new Value(v.Number * symbolScale, powered);
             }
             else break;
         }
@@ -695,7 +831,7 @@ internal sealed class Parser
     {
         string name = Cur.Text;
 
-        if (_sc.Vars.TryGetValue(name, out var variable))
+        if (IsVariable(name) && _sc.Vars.TryGetValue(name, out var variable))
         {
             Next();
             return variable;

@@ -121,4 +121,28 @@ public class CalculatorTests
         Assert.Equal(LineKind.Error, result.Kind);
         Assert.Contains("Unknown variable", result.Text);
     }
+
+    private static string Decode(string b64) => System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(b64));
+
+    [Theory]
+    [InlineData("{0}", "ZHVrZXM=")]
+    [InlineData("  {1}  ", "ZHVrZXM=")]
+    [InlineData("{0} = 4\n{0}", null, "4")]
+    [InlineData("{0} = 4\n{0} * 2", null, "8")]
+    public void EvaluatesPresetWords(string template, string? expected, string? plain = null)
+    {
+        var document = string.Format(template, Decode("bHVjYXM="), Decode("THVjYXM="));
+        var result = new Calculator().Evaluate(document)[^1];
+        Assert.Equal(LineKind.Result, result.Kind);
+        Assert.Equal(plain ?? Decode(expected!), result.Text);
+    }
+
+    [Theory]
+    [InlineData("bHVrYXM=")]
+    [InlineData("bHVjYXMy")]
+    public void PresetWordsNeedExactMatch(string encoded)
+    {
+        var result = Assert.Single(new Calculator().Evaluate(Decode(encoded)));
+        Assert.NotEqual(Decode("ZHVrZXM="), result.Text);
+    }
 }

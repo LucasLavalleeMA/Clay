@@ -39,7 +39,10 @@ public static class Lexer
             }
             else if (IsIdentStart(c))
             {
-                list.Add(ReadIdent(s, ref i));
+                // After a divide, m/m/s reads as (m/m)/s so the unit isn't joined to the divisor
+                bool afterDivide = list.Count > 0 && (list[^1] is { Kind: Tk.Op, Text: "/" } ||
+                    (list[^1].Kind == Tk.Ident && list[^1].Text.Equals("per", StringComparison.OrdinalIgnoreCase)));
+                list.Add(ReadIdent(s, ref i, afterDivide));
             }
             else if (CurrencySymbols.IndexOf(c) >= 0)
             {
@@ -49,6 +52,11 @@ public static class Lexer
             else if (Operators.IndexOf(c) >= 0)
             {
                 list.Add(new Token(Tk.Op, c.ToString()));
+                i++;
+            }
+            else if (c == '·')
+            {
+                list.Add(new Token(Tk.Op, "*"));
                 i++;
             }
             else
@@ -88,7 +96,9 @@ public static class Lexer
 
     private static bool IsDigit(char c) => c is >= '0' and <= '9';
     private static bool IsIdentStart(char c) => char.IsLetter(c) || c == '_' || c == '°';
-    private static bool IsIdentPart(char c) => char.IsLetterOrDigit(c) || c == '_' || c == '²' || c == '³' || c == '°';
+    private static bool IsIdentPart(char c) => char.IsLetterOrDigit(c) || c == '_' || c == '°' || Superscripts.IndexOf(c) >= 0;
+
+    private const string Superscripts = "⁰¹²³⁴⁵⁶⁷⁸⁹⁻";
 
 
 
@@ -142,25 +152,118 @@ public static class Lexer
         return new Token(Tk.Num, s[start..i], value);
     }
 
-    private static Token ReadIdent(string s, ref int i)
+    private static Token ReadIdent(string s, ref int i, bool afterDivide)
     {
         int start = i++;
         while (i < s.Length && IsIdentPart(s[i])) i++;
         var word = s[start..i];
+        if (afterDivide) return new Token(Tk.Ident, word);
 
-        // Compound units such as km/h, m/s, mi/h
-        if (i + 1 < s.Length && s[i] == '/' && char.IsLetter(s[i + 1]))
+        // Unit expressions such as km/h, m/s², kg·m/s², and m/s^2 (a power binds to the unit before it)
+        int end = i;
+        var expr = WithPowers(word, s, ref end);
+        if (expr == null) return new Token(Tk.Ident, word);
+
+        // A scale word such as k or M (5k/s) only joins a registered name
+        bool scaleWord = Parser.Scale(word) != null;
+
+        while (end + 1 < s.Length && (s[end] == '/' || s[end] == '·') && IsIdentStart(s[end + 1]))
         {
-            int j = i + 1;
+            int j = end + 1;
             while (j < s.Length && IsIdentPart(s[j])) j++;
-            var compound = s[start..j];
-            if (UnitTable.Lookup(compound) != null)
+
+            // A function call such as min(2, 4) isn't a unit
+            if (Functions.Table.ContainsKey(s[(end + 1)..j]) && NextNonSpace(s, j) == '(') break;
+
+            var factor = WithPowers(s[(end + 1)..j], s, ref j);
+            if (factor == null || !UnitTable.IsFactor(factor) || NumericPowerFollows(s, j)) break;
+
+            expr += s[end] + factor;
+            end = j;
+
+            // Keep scanning past a prefix that cancels (m/m/s) and settle on the last valid unit
+            if (scaleWord ? UnitTable.Lookup(expr) != null : UnitTable.Parse(expr) != null)
             {
-                word = compound;
-                i = j;
+                word = expr;
+                i = end;
             }
         }
 
         return new Token(Tk.Ident, word);
+    }
+
+    private static char NextNonSpace(string s, int i)
+    {
+        i = SkipSpaces(s, i);
+        return i < s.Length ? s[i] : '\0';
+    }
+
+    /// <summary>
+    /// Applies every caret power at i to the factor, so s^2^2 and s²^2 are both s⁴. Null when a power
+    /// can't apply, such as to m⁻ or past the largest unit power.
+    /// </summary>
+    private static string? WithPowers(string factor, string s, ref int i)
+    {
+        string? result = factor;
+        while (result != null && ReadPower(s, ref i) is { } power) result = WithPower(result, power);
+        return result;
+    }
+
+    /// <summary>Applies a caret power, multiplying any exponent the factor already has (s²^2 is s⁴).</summary>
+    private static string? WithPower(string factor, int power)
+    {
+        int split = factor.Length;
+        while (split > 0 && Superscripts.IndexOf(factor[split - 1]) >= 0) split--;
+
+        long exponent = power;
+        if (split < factor.Length)
+        {
+            if (!int.TryParse(FromSuperscripts(factor[split..]), out int existing)) return null;
+            exponent *= existing;
+        }
+
+        return Math.Abs(exponent) > UnitTable.MaxPower ? null : factor[..split] + ToSuperscripts((int)exponent);
+    }
+
+    private static string FromSuperscripts(string s) =>
+        string.Concat(s.Select(c => c == '⁻' ? '-' : (char)('0' + Superscripts.IndexOf(c))));
+
+    private static string ToSuperscripts(int n) =>
+        string.Concat(n.ToString(CultureInfo.InvariantCulture).Select(c => c == '-' ? '⁻' : Superscripts[c - '0']));
+
+    /// <summary>
+    /// Reads "^2", "^-1" or "^ 2" at i; null, leaving i alone, for anything but a whole number up to the
+    /// largest unit power. Spaces don't matter, so m/s ^ 2 is m/s² like m/s^2.
+    /// </summary>
+    private static int? ReadPower(string s, ref int i)
+    {
+        int j = SkipSpaces(s, i);
+        if (j >= s.Length || s[j] != '^') return null;
+        j = SkipSpaces(s, j + 1);
+        bool negative = j < s.Length && s[j] == '-';
+        if (negative || (j < s.Length && s[j] == '+')) j = SkipSpaces(s, j + 1);
+        if (j >= s.Length || !IsDigit(s[j])) return null;
+
+        var number = ReadNumber(s, ref j);
+        if (number.Num != Math.Floor(number.Num) || number.Num > UnitTable.MaxPower) return null;
+
+        i = j;
+        return (int)(negative ? -number.Num : number.Num);
+    }
+
+    /// <summary>Whether a numeric caret power (such as the fractional ^2.5) is next at i.</summary>
+    private static bool NumericPowerFollows(string s, int i)
+    {
+        int j = SkipSpaces(s, i);
+        if (j >= s.Length || s[j] != '^') return false;
+        j = SkipSpaces(s, j + 1);
+        if (j < s.Length && (s[j] == '-' || s[j] == '+')) j = SkipSpaces(s, j + 1);
+        return j < s.Length && (IsDigit(s[j]) || s[j] == '.');
+    }
+
+    private static int SkipSpaces(string s, int i)
+    {
+        while (i < s.Length && char.IsWhiteSpace(s[i])) i++;
+        return i;
     }
 }
