@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <VersionPrefix>1.2.0</VersionPrefix>
+    <VersionPrefix>1.2.1</VersionPrefix>
     <!-- <VersionSuffix>beta.1</VersionSuffix> -->
     <!-- MSI/bundle versions must be numeric (no suffix). Still overridable with -p:ProductVersion=... -->
     <ProductVersion Condition="'$(ProductVersion)' == ''">$(VersionPrefix)</ProductVersion>
