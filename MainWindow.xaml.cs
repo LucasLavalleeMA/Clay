@@ -468,6 +468,8 @@ public sealed partial class MainWindow : Window
         ANGLES          sin(30 deg)    asin(0.5) in deg
         AGGREGATES      sum  total  average  prev
                         (lines above, back to a blank line or heading)
+                        +5  *2  /4  ^2 at the start of a line use prev
+                        (-5 is just negative 5)
         COMMENTS        # Heading      // note
         WORDS           Unknown variables are errors.
                         "what is" is a shortcut: what is 20% of 150
