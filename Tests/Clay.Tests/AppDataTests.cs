@@ -8,12 +8,23 @@ public class AppDataTests
     [Fact]
     public void SettingsRoundTrip()
     {
-        var original = new Settings(8, "Degrees", false, "Sticky");
+        var original = new Settings(8, "Degrees", false, "Sticky", PhysicsUnits: true);
         var restored = JsonSerializer.Deserialize<Settings>(JsonSerializer.Serialize(original));
 
         Assert.NotNull(restored);
         restored.Validate();
         Assert.Equal(original, restored);
+    }
+
+    [Fact]
+    public void OlderSettingsLeavePhysicsUnitsOff()
+    {
+        var restored = JsonSerializer.Deserialize<Settings>(
+            """{"Decimals":6,"AngleMode":"Radians","GroupDigits":true,"Theme":"Default"}""");
+
+        Assert.NotNull(restored);
+        restored.Validate();
+        Assert.False(restored.PhysicsUnits);
     }
 
     [Theory]

@@ -8,6 +8,8 @@ See the [changelog](CHANGELOG.md) for the current version and release history.
 
 - Arithmetic, percentages, variables, labels, and comments
 - Units and conversions for length, mass, volume, time, temperature, data, speed, area, angle, energy, power, and pressure
+- Unit arithmetic that combines and cancels units, such as `5 m/s * 4 s` (`20 m`) and `2 kW * 3 h` (`6 kWh`)
+- Optional physics units (force, frequency, current, voltage, and resistance)
 - Currency conversion with built-in fallback rates and optional live rates from [open.er-api.com](https://open.er-api.com/)
 - Decimal, binary, octal, and hexadecimal number bases
 - Common mathematical functions and aggregates such as `sum`, `average`, and `prev`
@@ -27,7 +29,22 @@ Total
 72 °F in °C
 $100 in EUR
 255 in hex
+
+# Unit arithmetic
+5 m/s * 4 s
+100 km / 2 h
+60 miles per hour * 90 min
+$15 per hour * 40 h
+9.8 m/s^2 in ft/s^2
 ```
+
+## Unit arithmetic
+
+Multiplying, dividing, and raising values with units combines their units: `100 km / 2 h` is `50 km/h`, `3 m * 4 m` is `12 m²`, and `sqrt(9 m²)` is `3 m`. Units of the same kind cancel, so `5 m/s * 4 s` is `20 m`. When the two sides use different units of the same kind, the result uses the left unit: `2 m * 3 ft` is `1.8288 m²`, and `60 mph * 30 min` is `30 mi`. Results that match a named unit use that name (`2 kW * 3 h` is `6 kWh`, `100 J / 2 s` is `50 W`); other combinations are shown as compounds such as `kg·m/s²`. Use `in` to express a result in another unit.
+
+Write compound units without spaces (`m/s`, `m/s²`, `m/s^2`, `kg·m/s²`) or with `per` (`60 miles per hour`, `$15 per hour`). A whole-number power after a unit applies to that unit, with or without spaces, so `5 m^2` is `5 m²` and `5 m/s ^ 2` is `5 m/s²`, while `(5 m)^2` is `25 m²`. Unit powers go up to 20, units can be at most 1e300 times larger or smaller than their base units, and exponents can't have units. Unit arithmetic that would overflow or underflow reports an error instead of `∞` or `0`. Absolute temperatures (°C and °F) can't be multiplied, divided by other units, or raised to powers; use kelvin for those.
+
+Turn on **Settings → Physics units** to add newtons (`N`, `kN`, `lbf`), hertz (`Hz`, `kHz`, `MHz`, `GHz`), amperes (`A`, `mA`), volts (`V`, `mV`, `kV`), and ohms (`Ω`, `kΩ`). With the option on, results are also named with these units (`2 kg * 3 m/s^2` is `6 N`, `12 V / 2 Ω` is `6 A`), and their symbols are reserved; with it off, names such as `N` and `V` remain available as variables. Physics symbols are case-sensitive.
 
 ## Getting Clay for Windows
 

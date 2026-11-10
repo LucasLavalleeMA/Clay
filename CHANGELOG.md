@@ -4,6 +4,21 @@ All notable changes to Clay are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- Unit arithmetic: multiplying, dividing, and raising values combines and cancels units (`5 m/s * 4 s` is `20 m`), using the left unit when units are mixed.
+- Compound unit input and conversion targets such as `m/s^2`, `kg·m/s²`, and `miles per hour`.
+- Optional physics units (N, Hz, A, V, Ω) in Settings.
+
+### Fixed
+
+- Sticky note theme now colors the title bar dark orange-brown and keeps the minimize, maximize, and close buttons visible.
+
+### Open questions
+
+- A parenthesized or variable exponent after a unit raises the whole quantity (`5 m^(2)` and `5 m^x` with `x = 2` are `25 m²`), while a plain number raises only the unit (`5 m^2` is `5 m²`). Should both bind to the unit?
+- A typed product of same-dimension units stays as written (`5 m·ft`), while multiplying them combines into the left unit (`5 m * 1 ft` is `1.524 m²`). Should typed products combine too?
+
 ## [1.2.0] - 2026-11-09
 
 ### Added

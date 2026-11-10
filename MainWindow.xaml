@@ -31,7 +31,7 @@
         <Grid x:Name="AppTitleBar" Grid.Row="0" Height="40">
             <StackPanel Orientation="Horizontal" Spacing="10" Margin="14,0,0,0" VerticalAlignment="Center">
                 <Image Source="Icon/icon512.png" Width="18" Height="18" Stretch="Uniform" />
-                <TextBlock Text="Clay" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Center" />
+                <TextBlock x:Name="TitleText" Text="Clay" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Center" />
             </StackPanel>
         </Grid>
 
@@ -72,6 +72,7 @@
                             <RadioMenuFlyoutItem x:Name="DegreesOption" Text="Degrees" Tag="Deg" GroupName="AngleUnits" Click="OnDegrees" />
                         </MenuFlyoutSubItem>
                         <ToggleMenuFlyoutItem x:Name="GroupToggle" Text="Group digits (1,000)" IsChecked="True" Click="OnGroupDigits" />
+                        <ToggleMenuFlyoutItem x:Name="PhysicsToggle" Text="Physics units (N, Hz, A, V, Ω)" Click="OnPhysicsUnits" />
                         <MenuFlyoutSubItem Text="Theme">
                             <RadioMenuFlyoutItem x:Name="DefaultTheme" Text="Match system" Tag="Default" GroupName="Theme" Click="OnTheme" IsChecked="True" />
                             <RadioMenuFlyoutItem x:Name="LightTheme" Text="Light" Tag="Light" GroupName="Theme" Click="OnTheme" />
