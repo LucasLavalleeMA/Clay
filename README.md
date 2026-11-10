@@ -13,6 +13,7 @@ See the [changelog](CHANGELOG.md) for the current version and release history.
 - Currency conversion with built-in fallback rates and optional live rates from [open.er-api.com](https://open.er-api.com/)
 - Decimal, binary, octal, and hexadecimal number bases
 - Common mathematical functions and aggregates such as `sum`, `average`, and `prev`
+- Lines that start with `+`, `*`, `/`, or `^` continue from the previous result (`+5` is `prev + 5`); a leading `-` is a negative number
 - Plain-text open, save, save as, and autosave support
 
 Example:
