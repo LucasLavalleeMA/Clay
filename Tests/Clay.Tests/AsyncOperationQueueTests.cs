@@ -103,4 +103,28 @@ public class AsyncOperationQueueTests
         await Task.WhenAll(firstSave, secondSave, help).WaitAsync(TimeSpan.FromSeconds(5));
         Assert.Equal(3, shown);
     }
+
+    [Fact]
+    public async Task LatestOperationCancelsThePreviousEvaluation()
+    {
+        var queue = new AsyncOperationQueue();
+        var started = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        bool latestRan = false;
+
+        Task oldPass = queue.RunLatestAsync(async cancellationToken =>
+        {
+            started.SetResult();
+            await Task.Delay(Timeout.Infinite, cancellationToken);
+        });
+        await started.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+        Task latestPass = queue.RunLatestAsync(_ =>
+        {
+            latestRan = true;
+            return Task.CompletedTask;
+        });
+        await Task.WhenAll(oldPass, latestPass).WaitAsync(TimeSpan.FromSeconds(5));
+
+        Assert.True(latestRan);
+    }
 }

@@ -40,7 +40,7 @@ public sealed partial class MainWindow : Window
         50 as a % of 200
         """;
 
-    private readonly Calculator _calc = new();
+    private readonly QalcDocumentEvaluator _calc = new();
     private readonly DispatcherTimer _saveTimer = new() { Interval = TimeSpan.FromMilliseconds(700) };
     private static readonly string DataDirectory = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Clay");
@@ -50,6 +50,7 @@ public sealed partial class MainWindow : Window
     private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(8) };
     private readonly SemaphoreSlim _rateRefreshLock = new(1, 1);
     private readonly AsyncOperationQueue _documentOperations = new();
+    private readonly AsyncOperationQueue _evaluationOperations = new();
     private readonly AsyncOperationQueue _dialogs = new();
 
     private List<LineResult> _results = [];
@@ -77,7 +78,7 @@ public sealed partial class MainWindow : Window
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Icon", "icon.ico"));
         AppWindow.Resize(new SizeInt32(1040, 680));
         _saveTimer.Tick += (_, _) => { _saveTimer.Stop(); AutoSave(); };
-        Closed += (_, _) => AutoSave();
+        Closed += (_, _) => { AutoSave(); _evaluationOperations.CancelLatest(); _calc.Dispose(); };
         LayoutRoot.Loaded += OnLoaded;
         ResultsPanel.SizeChanged += (_, _) => SyncScroll();
 
@@ -140,15 +141,29 @@ public sealed partial class MainWindow : Window
         _saveTimer.Start();
     }
 
-    private void Recalculate()
+    private async void Recalculate()
     {
-        _results = _calc.Evaluate(Editor.Text);
-        RenderResults();
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        string document = Editor.Text;
+        try
         {
-            EnsureEditorScroll();
-            SyncScroll();
-        });
+            await _evaluationOperations.RunLatestAsync(async cancellationToken =>
+            {
+                var results = await _calc.EvaluateAsync(document, cancellationToken);
+                if (cancellationToken.IsCancellationRequested) return;
+                DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+                {
+                    if (cancellationToken.IsCancellationRequested || document != Editor.Text) return;
+                    _results = results;
+                    RenderResults();
+                    EnsureEditorScroll();
+                    SyncScroll();
+                });
+            });
+        }
+        catch (Exception ex) when (ex is IOException or InvalidOperationException or TimeoutException or System.ComponentModel.Win32Exception)
+        {
+            SetActivity($"Could not evaluate document: {ex.Message}");
+        }
     }
 
     private void RenderResults()

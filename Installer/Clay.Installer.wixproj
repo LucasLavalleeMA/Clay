@@ -3,6 +3,7 @@
     <OutputType>Package</OutputType>
     <OutputName>ClayInstaller</OutputName>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <PublishDir Condition="'$(PublishDir)' == ''">$(MSBuildProjectDirectory)\..\publish\win-$(Platform)</PublishDir>
     <DefineConstants>ProductVersion=$(ProductVersion);PublishDir=$(PublishDir)</DefineConstants>
     <SuppressIces>ICE03</SuppressIces>

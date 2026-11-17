@@ -103,18 +103,21 @@ To publish another supported architecture:
 .\publish-portable.ps1 -Architecture arm64
 ```
 
-The output is written to `publish\win-x64`, `publish\win-x86`, or `publish\win-arm64`. Run `Clay.exe` from the complete output folder. These builds are self-contained and do not require the .NET 8 runtime or a separately installed Windows App SDK runtime.
+The output is written to `publish\win-x64`, `publish\win-x86`, or `publish\win-arm64`. Run `Clay.exe` from the complete output folder. These builds are self-contained and do not require the .NET 8 runtime or a separately installed Windows App SDK runtime. The qalc-backed calculator is currently supported in x64 builds only.
+
+The x64 build includes the portable Qalculate 5.13.2 command-line runtime.
 
 ## GitHub release publishing
 
-A GitHub Actions workflow (`.github/workflows/release-installer.yml`) builds and uploads installer artifacts to Releases.
+A GitHub Actions workflow
 
 - Push a tag like `v1.0.1` to build and publish `ClayInstaller.msi` and `ClaySetup.exe`
 - Or run the workflow manually with **workflow_dispatch**
 
 ## Project structure
 
-- `Engine/` — calculator lexer, parser, values, units, and evaluation logic
+- `Engine/` — persistent qalc process host and top-to-bottom notepad preprocessor
+- `NativeLibs/win-x64/` — bundled qalc executable, runtime libraries, and definitions
 - `MainWindow.xaml(.cs)` — WinUI interface, persistence, and exchange-rate refresh
 - `Installer/` — WiX projects (`Clay.Installer.wixproj` for the MSI, `Clay.Bundle.wixproj` for the setup EXE)
 - `Directory.Build.props` — shared version number for the app and installers
@@ -122,7 +125,7 @@ A GitHub Actions workflow (`.github/workflows/release-installer.yml`) builds and
 
 Editable icon design files are intentionally excluded from the repository. The exported icons are included because they are required by the application.
 
-The calculator engine has no WinUI dependency and can be tested from a plain `net8.0` test project by linking the files in `Engine/`.
+The document evaluator has no WinUI dependency and is tested from the `net10.0` test project by linking the files in `Engine/` and copying the bundled qalc runtime.
 
 ## Data and network behavior
 

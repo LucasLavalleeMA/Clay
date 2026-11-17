@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Compile Include="..\..\Engine\*.cs" Link="Engine\%(Filename)%(Extension)" />
+    <Content Include="..\..\NativeLibs\win-x64\**\*" Link="%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Compile Include="..\..\AppData.cs" Link="AppData.cs" />
     <Compile Include="..\..\AsyncOperationQueue.cs" Link="AsyncOperationQueue.cs" />
     <Compile Include="..\..\AtomicFile.cs" Link="AtomicFile.cs" />

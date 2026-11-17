@@ -32,6 +32,8 @@
 		<None Remove="Directory.Build.props" />
 		<Content Include="Icon\icon.ico" CopyToOutputDirectory="PreserveNewest" />
 		<Content Include="Icon\icon512.png" CopyToOutputDirectory="PreserveNewest" />
+		<Content Include="NativeLibs\win-x64\**\*" Exclude="NativeLibs\win-x64\user\**\*" Link="%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Condition="'$(Platform)' == 'x64' or '$(RuntimeIdentifier)' == 'win-x64'" />
+		<Content Include="ThirdPartyNotices\Qalculate\**\*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Condition="'$(Platform)' == 'x64' or '$(RuntimeIdentifier)' == 'win-x64'" />
 		<None Include=".github\workflows\release.yml" />
 		<None Include="Installer\Clay.Bundle.wixproj" />
 		<None Include="Installer\Clay.Installer.wixproj" />
