@@ -109,10 +109,11 @@ The x64 build includes the portable Qalculate 5.13.2 command-line runtime.
 
 ## GitHub release publishing
 
-A GitHub Actions workflow
-
-- Push a tag like `v1.0.1` to build and publish `ClayInstaller.msi` and `ClaySetup.exe`
-- Or run the workflow manually with **workflow_dispatch**
+Run the **Release Qalc Backend** GitHub Actions workflow manually on the
+`qalc-backend` branch. It publishes the x64 build under a `qalc-v` tag without
+changing the latest main Clay release. The installer shares its installation
+identity and location with regular Clay; use the portable archive to keep the
+two builds separate.
 
 ## Project structure
 
