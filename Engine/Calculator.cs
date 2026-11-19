@@ -64,10 +64,11 @@ public sealed class Calculator
             return LineResult.Comment;
         }
 
-        // Pull from last expression if need be
+        // A line that starts with a binary operator continues from the previous result: "+5" is prev + 5.
+        // A leading "-" stays a negative number.
         if (scope.Prev != null &&
             t.Length > 0 &&
-            t[0] is '*' or '/' or '^')
+            t[0] is '*' or '/' or '^' or '+')
         {
             t = $"prev {t}";
         }

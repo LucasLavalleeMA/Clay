@@ -114,6 +114,25 @@ public class CalculatorTests
         Assert.Equal(LineKind.Error, result.Kind);
     }
 
+    [Theory]
+    [InlineData("3+2\n/5", "1")]
+    [InlineData("3+2\n*5", "25")]
+    [InlineData("3+2\n+5", "10")]
+    [InlineData("3+2\n+ 5", "10")]
+    [InlineData("3+2\n^2", "25")]
+    [InlineData("3+2\n-5", "-5")]
+    [InlineData("3+2\n- 5", "-5")]
+    [InlineData("100\n+ 15%", "115")]
+    [InlineData("3+2\n\n+5", "10")]
+    [InlineData("+5", "5")]
+    [InlineData("3 m\n+2 m", "5 m")]
+    public void LeadingOperatorsContinueFromPreviousResult(string document, string expected)
+    {
+        var result = new Calculator().Evaluate(document)[^1];
+        Assert.Equal(LineKind.Result, result.Kind);
+        Assert.Equal(expected, result.Text);
+    }
+
     [Fact]
     public void UnknownWordsRemainErrors()
     {
