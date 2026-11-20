@@ -9,6 +9,14 @@ All notable changes to Clay are documented here.
 - A parenthesized or variable exponent after a unit raises the whole quantity (`5 m^(2)` and `5 m^x` with `x = 2` are `25 m²`), while a plain number raises only the unit (`5 m^2` is `5 m²`). Should both bind to the unit?
 - A typed product of same-dimension units stays as written (`5 m·ft`), while multiplying them combines into the left unit (`5 m * 1 ft` is `1.524 m²`). Should typed products combine too?
 
+## [1.3.0] - 2026-11-20
+
+### Added
+
+- A standalone `Clay.Engine` library with expanded calculator functionality, including exact arithmetic, symbolic algebra, equation solving, calculus, statistics, matrices and vectors, complex numbers, intervals, dates, and extended units.
+- Qalculate compatibility coverage through 17 imported test suites.
+- UI controls for pinning the window, number and uncertainty settings, and positive-variable assumptions, plus improved result details, CSV loading, keyboard-accessible resizing, and mode indicators.
+
 ## [1.2.2] - 2026-11-10
 
 ### Added

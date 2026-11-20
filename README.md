@@ -86,7 +86,7 @@ Alternatively, open `ClayCalculator.slnx` or `Clay.UI.csproj` in Visual Studio, 
 
 ## Versioning
 
-The version is defined in one place: `VersionPrefix` in `Directory.Build.props`. The assembly and file versions, the MSI, the setup EXE, and the version shown in the title bar all come from it. To release a new version, change that value, update [CHANGELOG.md](CHANGELOG.md), and tag the release.
+The version is defined in one place: `VersionPrefix` in `Directory.Build.props`. The assembly and file versions, the MSI, the setup EXE, and the version shown in the title bar all come from it. To release a new version, change that value, update [CHANGELOG.md](CHANGELOG.md), and run the Release workflow.
 
 ## Portable builds
 
@@ -109,10 +109,9 @@ The output is written to `publish\win-x64`, `publish\win-x86`, or `publish\win-a
 
 ## GitHub release publishing
 
-A GitHub Actions workflow (`.github/workflows/release-installer.yml`) builds and uploads installer artifacts to Releases.
+A GitHub Actions workflow (`.github/workflows/release.yml`) builds the installers and portable archives for each supported architecture, then creates a GitHub release and tag.
 
-- Push a tag like `v1.0.1` to build and publish `ClayInstaller.msi` and `ClaySetup.exe`
-- Or run the workflow manually with **workflow_dispatch**
+- Run the workflow manually with **workflow_dispatch** after updating the version and changelog.
 
 ## Project structure
 
