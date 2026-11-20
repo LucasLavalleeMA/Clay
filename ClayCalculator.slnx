@@ -7,16 +7,17 @@
   <Folder Name="/Config/">
     <File Path="Directory.Build.props" />
   </Folder>
-  <Project Path="Clay.csproj">
+  <Project Path="Clay.UI.csproj">
     <Platform Solution="*|ARM64" Project="ARM64" />
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />
   </Project>
+  <Project Path="Engine/Clay.Engine.csproj" />
   <Project Path="Tests/Clay.Tests/Clay.Tests.csproj" />
   <Project Path="Installer/Clay.Bundle.wixproj">
     <BuildDependency Project="Installer/Clay.Installer.wixproj" />
   </Project>
   <Project Path="Installer/Clay.Installer.wixproj">
-    <BuildDependency Project="Clay.csproj" />
+    <BuildDependency Project="Clay.UI.csproj" />
   </Project>
 </Solution>

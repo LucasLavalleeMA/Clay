@@ -6,13 +6,14 @@ See the [changelog](CHANGELOG.md) for the current version and release history.
 
 ## Features
 
-- Arithmetic, percentages, variables, labels, and comments
-- Units and conversions for length, mass, volume, time, temperature, data, speed, area, angle, energy, power, and pressure
-- Unit arithmetic that combines and cancels units, such as `5 m/s * 4 s` (`20 m`) and `2 kW * 3 h` (`6 kWh`)
-- Optional physics units (force, frequency, current, voltage, and resistance)
+- Arithmetic, bitwise operators (`~`, `<<`, `>>`, `&`, `|`, `xor`/`^^`), percentages, variables (`=` or `:=`), labels, and comments (full-line `//` or `#`, inline `#`)
+- Word and symbol operator aliases (`plus`, `minus`, `times`, `per`, `rem`, `mod`/`%%`, `div`/`\`/`//`, `**`)
+- Units and conversions for length, mass, volume, time, temperature, data (including `b?byte` binary auto-prefix), speed, area, angle, energy, power, and pressure, plus `to base` SI expansion and reciprocal conversions (`m/s to s/m`)
+- Unit arithmetic that combines and cancels units, such as `5 m/s * 4 s` (`20 m`), `2 kW * 3 h` (`6 kWh`), and `10 N / 5 Pa` (`2 m²`)
+- Optional physics units (force, frequency, current, voltage, and resistance) and optional **Ignore spaces in numbers** (`123 456 789`)
 - Currency conversion with built-in fallback rates and optional live rates from [open.er-api.com](https://open.er-api.com/)
-- Decimal, binary, octal, and hexadecimal number bases
-- Common mathematical functions and aggregates such as `sum`, `average`, and `prev`
+- Number base conversions: `bin`, `bin4`–`bin64`, `oct`, `hex`, `base <2..36>`, `float` (IEEE-754 32-bit), `roman`, and `sexa`
+- Common mathematical and geometry functions, plus aggregates such as `sum`, `average`, and `prev`
 - Lines that start with `+`, `*`, `/`, or `^` continue from the previous result (`+5` is `prev + 5`); a leading `-` is a negative number
 - Plain-text open, save, save as, and autosave support
 
@@ -81,7 +82,7 @@ From the repository root:
 dotnet run --project . -p:Platform=x64
 ```
 
-Alternatively, open `ClayCalculator.slnx` or `Clay.csproj` in Visual Studio, select `x64`, `x86`, or `ARM64`, and press F5. The application is unpackaged and self-contained, so it does not require a separate Windows App SDK runtime installation.
+Alternatively, open `ClayCalculator.slnx` or `Clay.UI.csproj` in Visual Studio, select `x64`, `x86`, or `ARM64`, and press F5. The application is unpackaged and self-contained, so it does not require a separate Windows App SDK runtime installation.
 
 ## Versioning
 
@@ -115,8 +116,9 @@ A GitHub Actions workflow (`.github/workflows/release-installer.yml`) builds and
 
 ## Project structure
 
-- `Engine/` — calculator lexer, parser, values, units, and evaluation logic
-- `MainWindow.xaml(.cs)` — WinUI interface, persistence, and exchange-rate refresh
+- `Engine/` — standalone `Clay.Engine` (`net10.0`) class library with lexer, parser, values, units, and evaluation logic
+- `Clay.UI.csproj` / `MainWindow.xaml(.cs)` — WinUI front-end, persistence, and exchange-rate refresh
+- `Tests/Clay.Tests/` — xUnit test suite including ported Qalculate `.batch` tests
 - `Installer/` — WiX projects (`Clay.Installer.wixproj` for the MSI, `Clay.Bundle.wixproj` for the setup EXE)
 - `Directory.Build.props` — shared version number for the app and installers
 - `Icon/icon.ico` and `Icon/icon512.png` — exported application icons

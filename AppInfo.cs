@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Clay;
+namespace Clay.UI;
 
 public static class AppInfo
 {

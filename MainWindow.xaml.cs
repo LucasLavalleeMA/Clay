@@ -11,10 +11,11 @@ using Windows.Foundation;
 using Windows.Graphics;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.System;
 using Windows.UI;
 using WinRT.Interop;
 
-namespace Clay;
+namespace Clay.UI;
 
 public sealed partial class MainWindow : Window
 {
@@ -66,6 +67,10 @@ public sealed partial class MainWindow : Window
     private readonly Brush _stickyTitleBrush = new SolidColorBrush(Color.FromArgb(255, 139, 74, 18));
     private readonly Brush _stickyTitleTextBrush = new SolidColorBrush(Color.FromArgb(255, 255, 249, 183));
     private bool _stickyTheme;
+    private bool _alwaysOnTop;
+    private bool _draggingSplitter;
+    private double _splitterStartX;
+    private double _splitterStartEditorWidth;
 
     public MainWindow()
     {
@@ -73,11 +78,12 @@ public sealed partial class MainWindow : Window
 
         Title = $"Clay {AppInfo.DisplayVersion}";
         ExtendsContentIntoTitleBar = true;
-        SetTitleBar(AppTitleBar);
+        SetTitleBar(TitleBarDragRegion);
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Icon", "icon.ico"));
         AppWindow.Resize(new SizeInt32(1040, 680));
         _saveTimer.Tick += (_, _) => { _saveTimer.Stop(); AutoSave(); };
         Closed += (_, _) => AutoSave();
+        SizeChanged += (_, _) => UpdatePinButtonInset();
         LayoutRoot.Loaded += OnLoaded;
         ResultsPanel.SizeChanged += (_, _) => SyncScroll();
 
@@ -91,6 +97,7 @@ public sealed partial class MainWindow : Window
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
+        UpdatePinButtonInset();
         MeasureLineHeight();
         EnsureEditorScroll();
         Recalculate();
@@ -172,15 +179,18 @@ public sealed partial class MainWindow : Window
                     cell.Tag = r.Text;
                     cell.Style = (Style)LayoutRoot.Resources["ResultText"];
                     if (_stickyTheme) cell.Foreground = _stickyResultBrush;
+                    ToolTipService.SetToolTip(cell, r.Text);
                     break;
                 case LineKind.Error:
                     cell.Text = r.Text;
                     cell.Tag = null;
                     cell.Style = (Style)LayoutRoot.Resources["ErrorText"];
+                    ToolTipService.SetToolTip(cell, r.Text);
                     break;
                 default:
                     cell.Text = "";
                     cell.Tag = null;
+                    ToolTipService.SetToolTip(cell, null);
                     break;
             }
         }
@@ -251,8 +261,10 @@ public sealed partial class MainWindow : Window
                 if (file == null) return;
 
                 var text = await FileIO.ReadTextAsync(file);
-                Editor.Text = text;
                 _currentFile = file;
+                _calc.BaseDirectory = Path.GetDirectoryName(file.Path);
+                Editor.Text = text;
+                Recalculate();
                 SetActivity($"Opened {file.Name}");
             });
         }
@@ -295,6 +307,11 @@ public sealed partial class MainWindow : Window
 
                 await FileIO.WriteTextAsync(file, ToWindowsNewlines(Editor.Text));
                 _currentFile = file;
+                var newBaseDir = Path.GetDirectoryName(file.Path);
+                bool baseDirChanged = !string.Equals(_calc.BaseDirectory, newBaseDir, StringComparison.OrdinalIgnoreCase);
+                _calc.BaseDirectory = newBaseDir;
+                if (baseDirChanged)
+                    Recalculate();
                 SetActivity($"Saved {file.Name}");
             });
         }
@@ -339,6 +356,7 @@ public sealed partial class MainWindow : Window
     {
         _calc.AngleMode = AngleMode.Radians;
         Recalculate();
+        UpdateStatus();
         SaveSettings();
     }
 
@@ -346,7 +364,19 @@ public sealed partial class MainWindow : Window
     {
         _calc.AngleMode = AngleMode.Degrees;
         Recalculate();
+        UpdateStatus();
         SaveSettings();
+    }
+
+    private void OnIntervalMode(object sender, RoutedEventArgs e)
+    {
+        if (sender is RadioMenuFlyoutItem { Tag: string tag } && int.TryParse(tag, out int mode))
+        {
+            _calc.IntervalMode = mode;
+            Recalculate();
+            UpdateStatus();
+            SaveSettings();
+        }
     }
 
     private void OnGroupDigits(object sender, RoutedEventArgs e)
@@ -360,7 +390,108 @@ public sealed partial class MainWindow : Window
     {
         _calc.PhysicsUnits = PhysicsToggle.IsChecked;
         Recalculate();
+        UpdateStatus();
         SaveSettings();
+    }
+
+    private void OnIgnoreWhitespace(object sender, RoutedEventArgs e)
+    {
+        _calc.IgnoreWhitespace = IgnoreWhitespaceToggle.IsChecked;
+        Recalculate();
+        SaveSettings();
+    }
+
+    private void OnAssumePositive(object sender, RoutedEventArgs e)
+    {
+        _calc.AssumePositive = AssumePositiveToggle.IsChecked;
+        Recalculate();
+        UpdateStatus();
+        SaveSettings();
+    }
+
+    private void OnPinToggle(object sender, RoutedEventArgs e)
+    {
+        ApplyAlwaysOnTop(PinButton.IsChecked == true);
+        UpdateStatus();
+        SaveSettings();
+    }
+
+    private void ApplyAlwaysOnTop(bool pinned)
+    {
+        _alwaysOnTop = pinned;
+        PinButton.IsChecked = pinned;
+        PinIcon.Glyph = pinned ? "\uE840" : "\uE718";
+        if (AppWindow.Presenter is OverlappedPresenter presenter)
+            presenter.IsAlwaysOnTop = pinned;
+    }
+
+    private void UpdatePinButtonInset()
+    {
+        if (!AppWindowTitleBar.IsCustomizationSupported()) return;
+        double scale = LayoutRoot.XamlRoot?.RasterizationScale ?? 1.0;
+        double rightInset = scale > 0 ? AppWindow.TitleBar.RightInset / scale : AppWindow.TitleBar.RightInset;
+        PinButton.Margin = new Thickness(0, 0, Math.Max(0, rightInset), 0);
+    }
+
+    private void ResizeEditorPane(double editorWidth)
+    {
+        double total = ContentSurface.ActualWidth - PaneSplitter.ActualWidth;
+        if (total <= 320) return;
+        double clamped = Math.Clamp(editorWidth, 180, total - 140);
+        EditorColumn.Width = new GridLength(clamped, GridUnitType.Star);
+        ResultsColumn.Width = new GridLength(total - clamped, GridUnitType.Star);
+    }
+
+    private void OnSplitterPressed(object sender, PointerRoutedEventArgs e)
+    {
+        if (ContentSurface.ActualWidth <= 0) return;
+        _draggingSplitter = true;
+        _splitterStartX = e.GetCurrentPoint(ContentSurface).Position.X;
+        _splitterStartEditorWidth = EditorColumn.ActualWidth;
+        PaneSplitter.CapturePointer(e.Pointer);
+        e.Handled = true;
+    }
+
+    private void OnSplitterMoved(object sender, PointerRoutedEventArgs e)
+    {
+        if (!_draggingSplitter) return;
+        double delta = e.GetCurrentPoint(ContentSurface).Position.X - _splitterStartX;
+        ResizeEditorPane(_splitterStartEditorWidth + delta);
+        e.Handled = true;
+    }
+
+    private void OnSplitterKeyDown(object sender, KeyRoutedEventArgs e)
+    {
+        const double step = 24;
+        switch (e.Key)
+        {
+            case VirtualKey.Left:
+                ResizeEditorPane(EditorColumn.ActualWidth - step);
+                e.Handled = true;
+                break;
+            case VirtualKey.Right:
+                ResizeEditorPane(EditorColumn.ActualWidth + step);
+                e.Handled = true;
+                break;
+            case VirtualKey.Home:
+                EditorColumn.Width = new GridLength(62, GridUnitType.Star);
+                ResultsColumn.Width = new GridLength(38, GridUnitType.Star);
+                e.Handled = true;
+                break;
+        }
+    }
+
+    private void OnSplitterReleased(object sender, PointerRoutedEventArgs e)
+    {
+        if (!_draggingSplitter) return;
+        _draggingSplitter = false;
+        PaneSplitter.ReleasePointerCapture(e.Pointer);
+        e.Handled = true;
+    }
+
+    private void OnSplitterCaptureLost(object sender, PointerRoutedEventArgs e)
+    {
+        _draggingSplitter = false;
     }
 
     private void OnTheme(object sender, RoutedEventArgs e)
@@ -391,11 +522,24 @@ public sealed partial class MainWindow : Window
         {
             AppTitleBar.Background = _stickyTitleBrush;
             TitleText.Foreground = _stickyTitleTextBrush;
+            PinButton.Foreground = _stickyTitleTextBrush;
+            PinButton.Resources["ToggleButtonForegroundPointerOver"] = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+            PinButton.Resources["ToggleButtonForegroundPressed"] = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+            PinButton.Resources["ToggleButtonForegroundChecked"] = _stickyTitleTextBrush;
+            PinButton.Resources["ToggleButtonForegroundCheckedPointerOver"] = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+            PinButton.Resources["ToggleButtonForegroundCheckedPressed"] = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+            PinButton.Resources["ToggleButtonBackgroundPointerOver"] = new SolidColorBrush(Color.FromArgb(255, 166, 95, 31));
+            PinButton.Resources["ToggleButtonBackgroundPressed"] = new SolidColorBrush(Color.FromArgb(255, 107, 57, 14));
+            PinButton.Resources["ToggleButtonBackgroundChecked"] = new SolidColorBrush(Color.FromArgb(255, 166, 95, 31));
+            PinButton.Resources["ToggleButtonBackgroundCheckedPointerOver"] = new SolidColorBrush(Color.FromArgb(255, 166, 95, 31));
+            PinButton.Resources["ToggleButtonBackgroundCheckedPressed"] = new SolidColorBrush(Color.FromArgb(255, 107, 57, 14));
         }
         else
         {
             AppTitleBar.ClearValue(Panel.BackgroundProperty);
             TitleText.ClearValue(TextBlock.ForegroundProperty);
+            PinButton.ClearValue(Control.ForegroundProperty);
+            PinButton.Resources.Clear();
         }
 
         if (!AppWindowTitleBar.IsCustomizationSupported()) return;
@@ -452,27 +596,37 @@ public sealed partial class MainWindow : Window
     }
 
     private const string HelpText = """
-        MATH            2 + 3 * 4    (2 + 3)^2    10 mod 3    5!
-        PERCENT         20% of 150   100 + 15%   200 - 10%
-                        15% on 80    15% off 80  50 as a % of 200
-        VARIABLES       rent = 1200   then   rent * 12
+        MATH            2 + 3 * 4    (2 + 3)^2    10 mod 3    5 // 2    5!
+        PERCENT         20% of 150   100 + 15%    200 - 10%   10 - x% = 8
+                        15% on 80    15% off 80   50 as a % of 200
+        VARIABLES       rent = 1200  or  a := 5   delete a
         LABELS          Groceries: 45 + 12
         SCALES          5k   2.5M   3 million   1.2 billion
-        UNITS           10 km in miles    72 °F in °C
-                        5 ft + 12 in      60 mph in km/h
+        UNITS           10 km in miles    72 °F in °C    5 ft + 12 in
+                        60 mph in km/h    1000 N to base    1 GiB to b?byte
         CURRENCY        $100 in EUR   50 GBP to JPY
-        BASES           255 in hex   0b1010 + 1   42 in bin
-        FUNCTIONS       sqrt round(x, 2) abs ln log log2 exp
-                        sin cos tan asin acos atan min max pow
-                        sum(a, b) avg(a, b) fact
-        ANGLES          sin(30 deg)    asin(0.5) in deg
+        BASES & BITS    255 in hex   0b1010 & 0b1100 to bin8   42 to base 16
+                        2024 to roman   1.5 to sexa   hex(FF)   float(...)
+        STRINGS & DATES len("hello")   code("A")   65 to unicode
+                        "2024-01-15" + 10 d   addDays("2024-01-15"; 5)
+                        "2024-01-15T12:00Z" to utc-5   10h 30min to time
+        GEOMETRY        rect(3, 4)   circle(5)   hypot(3, 4)   sphere(2)
+        STATISTICS      mean stdev variance median mode quartile percentile
+                        quadraticfit([5 3 4 5 6 7 13 24])   normdist ttest
+                        load("data.csv")  (relative to open/saved file)
+        MATRICES        [1 2; 3 4]^2   [1 2; 3 4]^-1   det   rref   rk   .'
+                        dot([1 2], [3 4])   cross([1 0 0], [0 1 0])   norm
+        COMPLEX & ERR   (2 + 3i) * (1 - i)   10 +/- 0.5   Ei(2)   lambertw(1)
+        ALGEBRA         x^2 - 3x + 1 = 0   sin(x) + cos(x) = 1   5^x = 3
+                        factor x + 2*sqrt(x) + 1   coeff degree primpart
+                        newtonsolve(Ei(x) = 3, 1)   secantsolve(Ei(x) = 3, 1, 4)
+        CALCULUS        diff(6x^2)   integrate(6x^2; 1; 5)   romberg(5x, 1, 5)
+                        limit(sin(x)/x, 0)   fresnels(5)   gammainc   betainc
         AGGREGATES      sum  total  average  prev
                         (lines above, back to a blank line or heading)
                         +5  *2  /4  ^2 at the start of a line use prev
                         (-5 is just negative 5)
-        COMMENTS        # Heading      // note
-        WORDS           Unknown variables are errors.
-                        "what is" is a shortcut: what is 20% of 150
+        COMMENTS        # Heading      // full-line note      5 + 3 # inline
         """;
 
     // ------------------------------------------------------------ persistence
@@ -517,19 +671,29 @@ public sealed partial class MainWindow : Window
             _calc.AngleMode = Enum.Parse<AngleMode>(settings.AngleMode);
             _calc.GroupDigits = settings.GroupDigits;
             _calc.PhysicsUnits = settings.PhysicsUnits;
+            _calc.IgnoreWhitespace = settings.IgnoreWhitespace;
+            _calc.AssumePositive = settings.AssumePositive;
+            _calc.IntervalMode = settings.IntervalMode;
             Decimals2.IsChecked = settings.Decimals == 2;
             Decimals4.IsChecked = settings.Decimals == 4;
             Decimals6.IsChecked = settings.Decimals == 6;
             Decimals8.IsChecked = settings.Decimals == 8;
+            Decimals10.IsChecked = settings.Decimals == 10;
+            Decimals12.IsChecked = settings.Decimals == 12;
             RadiansOption.IsChecked = _calc.AngleMode == AngleMode.Radians;
             DegreesOption.IsChecked = _calc.AngleMode == AngleMode.Degrees;
+            IntervalModeGaussian.IsChecked = settings.IntervalMode == 1;
+            IntervalModeInterval.IsChecked = settings.IntervalMode == 2;
             GroupToggle.IsChecked = settings.GroupDigits;
             PhysicsToggle.IsChecked = settings.PhysicsUnits;
+            IgnoreWhitespaceToggle.IsChecked = settings.IgnoreWhitespace;
+            AssumePositiveToggle.IsChecked = settings.AssumePositive;
             DefaultTheme.IsChecked = settings.Theme == "Default";
             LightTheme.IsChecked = settings.Theme == "Light";
             DarkTheme.IsChecked = settings.Theme == "Dark";
             StickyTheme.IsChecked = settings.Theme == "Sticky";
             ApplyTheme(settings.Theme);
+            ApplyAlwaysOnTop(settings.AlwaysOnTop);
         }
         catch (Exception ex) when (ex is FileNotFoundException or DirectoryNotFoundException) { }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or InvalidDataException)
@@ -542,7 +706,16 @@ public sealed partial class MainWindow : Window
     {
         try
         {
-            var settings = new Settings(_calc.Decimals, _calc.AngleMode.ToString(), _calc.GroupDigits, _theme, _calc.PhysicsUnits);
+            var settings = new Settings(
+                _calc.Decimals,
+                _calc.AngleMode.ToString(),
+                _calc.GroupDigits,
+                _theme,
+                _calc.PhysicsUnits,
+                _calc.IgnoreWhitespace,
+                _alwaysOnTop,
+                _calc.AssumePositive,
+                _calc.IntervalMode);
             AtomicFile.WriteAllText(SettingsPath, JsonSerializer.Serialize(settings));
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
@@ -559,8 +732,19 @@ public sealed partial class MainWindow : Window
 
     private void UpdateStatus()
     {
+        var modes = new List<string>();
+        if (_calc.AngleMode == AngleMode.Degrees) modes.Add("Deg");
+        if (_calc.PhysicsUnits) modes.Add("Physics");
+        if (_calc.AssumePositive) modes.Add("Positive");
+        if (_calc.IntervalMode == 2) modes.Add("Interval");
+        if (_alwaysOnTop) modes.Add("Pinned");
+
         var rate = string.IsNullOrEmpty(_rateError) ? _rateStatus : $"{_rateStatus} (refresh failed: {_rateError})";
-        StatusText.Text = string.IsNullOrEmpty(_activityStatus) ? rate : $"{rate} | {_activityStatus}";
+        var parts = new List<string>();
+        if (modes.Count > 0) parts.Add(string.Join(" · ", modes));
+        parts.Add(rate);
+        if (!string.IsNullOrEmpty(_activityStatus)) parts.Add(_activityStatus);
+        StatusText.Text = string.Join(" | ", parts);
     }
 
     private async Task ShowErrorAsync(string title, Exception ex)

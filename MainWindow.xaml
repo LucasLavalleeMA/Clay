@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Window
-    x:Class="Clay.MainWindow"
+    x:Class="Clay.UI.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Clay">
@@ -29,10 +29,24 @@
 
         <!-- Title bar -->
         <Grid x:Name="AppTitleBar" Grid.Row="0" Height="40">
-            <StackPanel Orientation="Horizontal" Spacing="10" Margin="14,0,0,0" VerticalAlignment="Center">
-                <Image Source="Icon/icon512.png" Width="18" Height="18" Stretch="Uniform" />
-                <TextBlock x:Name="TitleText" Text="Clay" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Center" />
-            </StackPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="TitleBarDragRegion" Grid.Column="0" Background="Transparent">
+                <StackPanel Orientation="Horizontal" Spacing="10" Margin="14,0,0,0" VerticalAlignment="Center">
+                    <Image Source="Icon/icon512.png" Width="18" Height="18" Stretch="Uniform" />
+                    <TextBlock x:Name="TitleText" Text="Clay" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+            <ToggleButton x:Name="PinButton" Grid.Column="1"
+                          Width="46" Height="40" Padding="0"
+                          BorderThickness="0" CornerRadius="0"
+                          Background="Transparent"
+                          ToolTipService.ToolTip="Keep on top"
+                          Click="OnPinToggle">
+                <FontIcon x:Name="PinIcon" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Glyph="&#xE718;" />
+            </ToggleButton>
         </Grid>
 
         <!-- Commands -->
@@ -66,13 +80,21 @@
                             <RadioMenuFlyoutItem x:Name="Decimals4" Text="4" Tag="4" GroupName="Decimals" Click="OnDecimals" />
                             <RadioMenuFlyoutItem x:Name="Decimals6" Text="6" Tag="6" GroupName="Decimals" Click="OnDecimals" IsChecked="True" />
                             <RadioMenuFlyoutItem x:Name="Decimals8" Text="8" Tag="8" GroupName="Decimals" Click="OnDecimals" />
+                            <RadioMenuFlyoutItem x:Name="Decimals10" Text="10" Tag="10" GroupName="Decimals" Click="OnDecimals" />
+                            <RadioMenuFlyoutItem x:Name="Decimals12" Text="12" Tag="12" GroupName="Decimals" Click="OnDecimals" />
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSubItem Text="Angle Units">
                             <RadioMenuFlyoutItem x:Name="RadiansOption" Text="Radians" Tag="Rad" GroupName="AngleUnits" Click="OnRadians" IsChecked="True" />
                             <RadioMenuFlyoutItem x:Name="DegreesOption" Text="Degrees" Tag="Deg" GroupName="AngleUnits" Click="OnDegrees" />
                         </MenuFlyoutSubItem>
+                        <MenuFlyoutSubItem Text="Uncertainty mode">
+                            <RadioMenuFlyoutItem x:Name="IntervalModeGaussian" Text="Variance / Gaussian" Tag="1" GroupName="IntervalMode" Click="OnIntervalMode" IsChecked="True" />
+                            <RadioMenuFlyoutItem x:Name="IntervalModeInterval" Text="Interval arithmetic" Tag="2" GroupName="IntervalMode" Click="OnIntervalMode" />
+                        </MenuFlyoutSubItem>
                         <ToggleMenuFlyoutItem x:Name="GroupToggle" Text="Group digits (1,000)" IsChecked="True" Click="OnGroupDigits" />
                         <ToggleMenuFlyoutItem x:Name="PhysicsToggle" Text="Physics units (N, Hz, A, V, Ω)" Click="OnPhysicsUnits" />
+                        <ToggleMenuFlyoutItem x:Name="IgnoreWhitespaceToggle" Text="Ignore spaces in numbers" Click="OnIgnoreWhitespace" />
+                        <ToggleMenuFlyoutItem x:Name="AssumePositiveToggle" Text="Assume positive variables" Click="OnAssumePositive" />
                         <MenuFlyoutSubItem Text="Theme">
                             <RadioMenuFlyoutItem x:Name="DefaultTheme" Text="Match system" Tag="Default" GroupName="Theme" Click="OnTheme" IsChecked="True" />
                             <RadioMenuFlyoutItem x:Name="LightTheme" Text="Light" Tag="Light" GroupName="Theme" Click="OnTheme" />
@@ -90,9 +112,9 @@
         <!-- Editor | results -->
         <Grid x:Name="ContentSurface" Grid.Row="2" Background="{ThemeResource LayerFillColorDefaultBrush}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
+                <ColumnDefinition x:Name="EditorColumn" Width="3*" MinWidth="180" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition x:Name="ResultsColumn" Width="2*" MinWidth="140" />
             </Grid.ColumnDefinitions>
             <Border x:Name="StickyBackground" Grid.ColumnSpan="3" Background="#FFF9B7" Visibility="Collapsed" />
 
@@ -127,6 +149,20 @@
                     <Thickness x:Key="TextControlBorderThemeThicknessFocused">0</Thickness>
                 </TextBox.Resources>
             </TextBox>
+
+            <ContentControl x:Name="PaneSplitter" Grid.Column="1" Width="6"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                            IsTabStop="True" UseSystemFocusVisuals="True"
+                            AutomationProperties.Name="Resize editor and results panes"
+                            PointerPressed="OnSplitterPressed"
+                            PointerMoved="OnSplitterMoved"
+                            PointerReleased="OnSplitterReleased"
+                            PointerCaptureLost="OnSplitterCaptureLost"
+                            KeyDown="OnSplitterKeyDown"
+                            ToolTipService.ToolTip="Drag or use Left/Right arrows to resize">
+                <Border Background="Transparent" />
+            </ContentControl>
 
             <!-- Scrolled in lock-step with the editor from code-behind -->
             <ScrollViewer x:Name="ResultsScroll" Grid.Column="2"

@@ -68,7 +68,7 @@ jobs:
       - name: Publish app (${{ matrix.rid }})
         shell: pwsh
         run: |
-          dotnet publish .\Clay.csproj -c Release `
+          dotnet publish .\Clay.UI.csproj -c Release `
             -p:Platform=${{ matrix.arch }} `
             -r ${{ matrix.rid }} `
             --self-contained true `

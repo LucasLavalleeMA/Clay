@@ -1,6 +1,6 @@
 # Pinned window (keep on top)
 
-Status: proposed, not started.
+Status: implemented (pending manual UI verification).
 
 ## Goal
 
@@ -24,9 +24,9 @@ Let users keep Clay above other windows without PowerToys' Always On Top, using 
 
 ## Tasks
 
-- [ ] `AlwaysOnTop` setting with a default, plus round-trip and older-file tests in `AppDataTests.cs`
-- [ ] Pin button in the title bar, placed with `RightInset`
-- [ ] Presenter wiring in `LoadSettings`, `SaveSettings` and the click handler
-- [ ] Sticky theme colors for the button
+- [x] `AlwaysOnTop` setting with a default, plus round-trip and older-file tests in `AppDataTests.cs`
+- [x] Pin button in the title bar, placed with `RightInset`
+- [x] Presenter wiring in `LoadSettings`, `SaveSettings` and the click handler
+- [x] Sticky theme colors for the button
 - [ ] Manual check: placement, hover, click, drag, DPI change, restart persistence
 - [ ] README and CHANGELOG entries

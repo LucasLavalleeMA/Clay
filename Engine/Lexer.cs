@@ -1,19 +1,20 @@
 using System.Globalization;
 using System.Collections.ObjectModel;
+using System.Numerics;
 
 namespace Clay.Engine;
 
 public sealed class ParseException(string message) : Exception(message);
 public sealed class EvalException(string message) : Exception(message);
 
-public enum Tk { Num, Ident, Sym, Op, End }
+public enum Tk { Num, Ident, Sym, Op, Str, End }
 
-public readonly record struct Token(Tk Kind, string Text, double Num = 0);
+public readonly record struct Token(Tk Kind, string Text, double Num = 0, ExactNumber Exact = default);
 
 public static class Lexer
 {
     private const string CurrencySymbols = "$€£¥₹₩";
-    private const string Operators = "+-*/^(),%=![]";
+    private const string Operators = "+-*/\\^(),;:%=![]~&|?.";
 
     public static IReadOnlyDictionary<string, string> Shortcuts { get; } =
         new ReadOnlyDictionary<string, string>(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
@@ -22,22 +23,41 @@ public static class Lexer
             { "is", "=" }
         });
 
-    public static List<Token> Tokenize(string source)
+    public static List<Token> Tokenize(string source, bool ignoreWhitespace = false)
     {
-        var s = source.Replace('×', '*').Replace('÷', '/').Replace('−', '-').Replace('–', '-');
+        var s = source
+            .Replace('×', '*')
+            .Replace('⋅', '*')
+            .Replace('÷', '/')
+            .Replace('−', '-')
+            .Replace('–', '-')
+            .Replace('¬', '~')
+            .Replace('∧', '&')
+            .Replace('∨', '|');
         var list = new List<Token>();
         int i = 0;
+        int bracketDepth = 0;
 
         while (i < s.Length)
         {
             char c = s[i];
             if (char.IsWhiteSpace(c)) { i++; continue; }
 
-            if (IsDigit(c) || (c == '.' && i + 1 < s.Length && IsDigit(s[i + 1])))
+            bool mergeNumSpaces = ignoreWhitespace && bracketDepth == 0;
+            if (c == '.' && i + 1 < s.Length && s[i + 1] is '*' or '/' or '^' or '\'')
             {
-                list.Add(ReadNumber(s, ref i));
+                list.Add(new Token(Tk.Op, s.Substring(i, 2)));
+                i += 2;
             }
-            else if (IsIdentStart(c))
+            else if (c is '"' or '\'')
+            {
+                list.Add(ReadString(source, ref i));
+            }
+            else if (IsDigit(c) || (c == '.' && NextDigitIndex(s, i + 1, mergeNumSpaces) >= 0))
+            {
+                list.Add(ReadNumber(s, ref i, mergeNumSpaces));
+            }
+            else if (IsIdentStart(c) || char.IsHighSurrogate(c))
             {
                 // After a divide, m/m/s reads as (m/m)/s so the unit isn't joined to the divisor
                 bool afterDivide = list.Count > 0 && (list[^1] is { Kind: Tk.Op, Text: "/" } ||
@@ -49,8 +69,55 @@ public static class Lexer
                 list.Add(new Token(Tk.Sym, c.ToString()));
                 i++;
             }
+            else if (c == '+' && i + 2 < s.Length && s[i + 1] == '/' && s[i + 2] == '-')
+            {
+                list.Add(new Token(Tk.Op, "+/-"));
+                i += 3;
+            }
+            else if (c == '±')
+            {
+                list.Add(new Token(Tk.Op, "+/-"));
+                i++;
+            }
+            else if (c == '*' && i + 1 < s.Length && s[i + 1] == '*')
+            {
+                list.Add(new Token(Tk.Op, "^"));
+                i += 2;
+            }
+            else if (c == '/' && i + 1 < s.Length && s[i + 1] == '/')
+            {
+                list.Add(new Token(Tk.Op, "//"));
+                i += 2;
+            }
+            else if (c == '%' && i + 1 < s.Length && s[i + 1] == '%')
+            {
+                list.Add(new Token(Tk.Op, "%%"));
+                i += 2;
+            }
+            else if (c == '<' && i + 1 < s.Length && s[i + 1] == '<')
+            {
+                list.Add(new Token(Tk.Op, "<<"));
+                i += 2;
+            }
+            else if (c == '>' && i + 1 < s.Length && s[i + 1] == '>')
+            {
+                list.Add(new Token(Tk.Op, ">>"));
+                i += 2;
+            }
+            else if (c == '^' && i + 1 < s.Length && s[i + 1] == '^')
+            {
+                list.Add(new Token(Tk.Op, "^^"));
+                i += 2;
+            }
+            else if (c == '⊻')
+            {
+                list.Add(new Token(Tk.Op, "^^"));
+                i++;
+            }
             else if (Operators.IndexOf(c) >= 0)
             {
+                if (c == '[') bracketDepth++;
+                else if (c == ']' && bracketDepth > 0) bracketDepth--;
                 list.Add(new Token(Tk.Op, c.ToString()));
                 i++;
             }
@@ -98,11 +165,44 @@ public static class Lexer
     private static bool IsIdentStart(char c) => char.IsLetter(c) || c == '_' || c == '°';
     private static bool IsIdentPart(char c) => char.IsLetterOrDigit(c) || c == '_' || c == '°' || Superscripts.IndexOf(c) >= 0;
 
+    private static Token ReadString(string s, ref int i)
+    {
+        char quote = s[i++];
+        var sb = new System.Text.StringBuilder();
+        while (i < s.Length)
+        {
+            char c = s[i++];
+            if (c == '\\' && i < s.Length && (s[i] == quote || s[i] == '\\'))
+            {
+                sb.Append(s[i++]);
+                continue;
+            }
+            if (c == quote)
+                return new Token(Tk.Str, sb.ToString());
+            sb.Append(c);
+        }
+        throw new ParseException("Unterminated string literal");
+    }
+
     private const string Superscripts = "⁰¹²³⁴⁵⁶⁷⁸⁹⁻";
 
 
 
-    private static Token ReadNumber(string s, ref int i)
+    private static int NextDigitIndex(string s, int pos, bool ignoreWhitespace)
+    {
+        if (ignoreWhitespace)
+            while (pos < s.Length && s[pos] == ' ') pos++;
+        return pos < s.Length && IsDigit(s[pos]) ? pos : -1;
+    }
+
+    private static int NextCharIndex(string s, int pos, char target, bool ignoreWhitespace)
+    {
+        if (ignoreWhitespace)
+            while (pos < s.Length && s[pos] == ' ') pos++;
+        return pos < s.Length && s[pos] == target ? pos : -1;
+    }
+
+    private static Token ReadNumber(string s, ref int i, bool ignoreWhitespace = false)
     {
         int start = i;
 
@@ -111,50 +211,84 @@ public static class Lexer
         {
             char p = char.ToLowerInvariant(s[i + 1]);
             if (p == 'x' && Uri.IsHexDigit(s[i + 2]))
-                return ReadBase(s, ref i, start, 16, Uri.IsHexDigit);
+                return ReadBase(s, ref i, start, 16, Uri.IsHexDigit, ignoreWhitespace);
             if (p == 'b' && (s[i + 2] == '0' || s[i + 2] == '1'))
-                return ReadBase(s, ref i, start, 2, ch => ch == '0' || ch == '1');
+                return ReadBase(s, ref i, start, 2, ch => ch == '0' || ch == '1', ignoreWhitespace);
             if (p == 'o' && s[i + 2] is >= '0' and <= '7')
-                return ReadBase(s, ref i, start, 8, ch => ch is >= '0' and <= '7');
+                return ReadBase(s, ref i, start, 8, ch => ch is >= '0' and <= '7', ignoreWhitespace);
         }
 
-        while (i < s.Length && (IsDigit(s[i]) || s[i] == '_')) i++;
-        if (i + 1 < s.Length && s[i] == '.' && IsDigit(s[i + 1]))
+        var sb = new System.Text.StringBuilder();
+        while (i < s.Length)
         {
-            i++;
-            while (i < s.Length && IsDigit(s[i])) i++;
+            if (IsDigit(s[i])) { sb.Append(s[i++]); }
+            else if (s[i] == '_') { i++; }
+            else if (ignoreWhitespace && s[i] == ' ' && NextDigitIndex(s, i + 1, true) is int next and >= 0) { i = next; }
+            else break;
         }
+
+        int dot = NextCharIndex(s, i, '.', ignoreWhitespace);
+        if (dot >= 0)
+        {
+            i = dot + 1;
+            sb.Append('.');
+            while (i < s.Length)
+            {
+                if (IsDigit(s[i])) { sb.Append(s[i++]); }
+                else if (ignoreWhitespace && s[i] == ' ' && NextDigitIndex(s, i + 1, true) is int next and >= 0) { i = next; }
+                else break;
+            }
+        }
+
         if (i < s.Length && (s[i] == 'e' || s[i] == 'E'))
         {
             int j = i + 1;
             if (j < s.Length && (s[j] == '+' || s[j] == '-')) j++;
             if (j < s.Length && IsDigit(s[j]))
             {
+                sb.Append(s[i..j]);
                 i = j;
-                while (i < s.Length && IsDigit(s[i])) i++;
+                while (i < s.Length && IsDigit(s[i])) sb.Append(s[i++]);
             }
         }
 
-        var text = s[start..i];
-        double.TryParse(text.Replace("_", ""), NumberStyles.Float, CultureInfo.InvariantCulture, out var value);
-        return new Token(Tk.Num, text, value);
+        var text = sb.ToString();
+        if (ExactNumber.TryParseDecimal(text, out var exact))
+            return new Token(Tk.Num, s[start..i], exact.ToDouble(), exact);
+        double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out var value);
+        return new Token(Tk.Num, s[start..i], value, ExactNumber.FromDouble(value));
     }
 
-    private static Token ReadBase(string s, ref int i, int start, int radix, Func<char, bool> isDigit)
+    private static Token ReadBase(string s, ref int i, int start, int radix, Func<char, bool> isDigit, bool mergeSpaces)
     {
         i += 2;
-        double value = 0;
-        while (i < s.Length && isDigit(s[i]))
+        BigInteger value = BigInteger.Zero;
+        while (i < s.Length)
         {
-            value = value * radix + Uri.FromHex(s[i]);
-            i++;
+            if (isDigit(s[i]))
+            {
+                value = value * radix + Uri.FromHex(s[i]);
+                i++;
+            }
+            else if (s[i] == '_' || (mergeSpaces && radix == 2 && s[i] == ' ' && i + 1 < s.Length && isDigit(s[i + 1])))
+            {
+                i++;
+            }
+            else break;
         }
-        return new Token(Tk.Num, s[start..i], value);
+        var exact = ExactNumber.FromBigInteger(value);
+        return new Token(Tk.Num, s[start..i], exact.ToDouble(), exact);
     }
 
     private static Token ReadIdent(string s, ref int i, bool afterDivide)
     {
-        int start = i++;
+        int start = i;
+        if (char.IsHighSurrogate(s[i]) && i + 1 < s.Length && char.IsLowSurrogate(s[i + 1]))
+        {
+            i += 2;
+            return new Token(Tk.Ident, s[start..i]);
+        }
+        i++;
         while (i < s.Length && IsIdentPart(s[i])) i++;
         var word = s[start..i];
         if (afterDivide) return new Token(Tk.Ident, word);
@@ -235,11 +369,20 @@ public static class Lexer
     /// Reads "^2", "^-1" or "^ 2" at i; null, leaving i alone, for anything but a whole number up to the
     /// largest unit power. Spaces don't matter, so m/s ^ 2 is m/s² like m/s^2.
     /// </summary>
+    private static int MatchPowerOp(string s, int j)
+    {
+        if (j >= s.Length) return 0;
+        if (s[j] == '^') return 1;
+        if (s[j] == '*' && j + 1 < s.Length && s[j + 1] == '*') return 2;
+        return 0;
+    }
+
     private static int? ReadPower(string s, ref int i)
     {
         int j = SkipSpaces(s, i);
-        if (j >= s.Length || s[j] != '^') return null;
-        j = SkipSpaces(s, j + 1);
+        int opLen = MatchPowerOp(s, j);
+        if (opLen == 0) return null;
+        j = SkipSpaces(s, j + opLen);
         bool negative = j < s.Length && s[j] == '-';
         if (negative || (j < s.Length && s[j] == '+')) j = SkipSpaces(s, j + 1);
         if (j >= s.Length || !IsDigit(s[j])) return null;
@@ -255,8 +398,9 @@ public static class Lexer
     private static bool NumericPowerFollows(string s, int i)
     {
         int j = SkipSpaces(s, i);
-        if (j >= s.Length || s[j] != '^') return false;
-        j = SkipSpaces(s, j + 1);
+        int opLen = MatchPowerOp(s, j);
+        if (opLen == 0) return false;
+        j = SkipSpaces(s, j + opLen);
         if (j < s.Length && (s[j] == '-' || s[j] == '+')) j = SkipSpaces(s, j + 1);
         return j < s.Length && (IsDigit(s[j]) || s[j] == '.');
     }
