@@ -660,4 +660,34 @@ public class CalculatorTests
         Assert.NotEqual("0", qf.Text);
         Assert.Contains("x^2", qf.Text);
     }
+
+    [Fact]
+    public void UpstreamPr5ReviewRegressions()
+    {
+        var calc = new Calculator { GroupDigits = false };
+        var ic2 = new Calculator { GroupDigits = false, IntervalMode = 2 };
+
+        // Mode-2 betainc encloses monotone real intervals and rejects unsupported domains
+        var biIc2 = Assert.Single(ic2.Evaluate("betainc(0.5 +/- 0.4, 2, 1)"));
+        Assert.Equal(LineKind.Result, biIc2.Kind);
+        var biVal = biIc2.Value!.ComplexValue!.Value;
+        Assert.Equal(0.41, biVal.Re, 10);
+        Assert.Equal(0.40, biVal.ReErr, 10);
+        Assert.Equal(LineKind.Error, Assert.Single(ic2.Evaluate("betainc(0.5 + (0 +/- 0.1)*i, 2, 1)")).Kind);
+
+        // Large Fresnel arguments use bounded asymptotic expansion
+        var fsLarge = Assert.Single(calc.Evaluate("fresnels(10000)"));
+        Assert.Equal(LineKind.Result, fsLarge.Kind);
+        Assert.InRange(fsLarge.Value!.Frac, 0.4999, 0.5001);
+
+        // Incomplete beta resolves endpoint singularity for a < 1
+        var biSing = Assert.Single(calc.Evaluate("betainc(0.5, 0.1, 1)"));
+        Assert.Equal(LineKind.Result, biSing.Kind);
+        Assert.Equal(Math.Pow(0.5, 0.1), biSing.Value!.Frac, 10);
+
+        // Numerical integration supports inverse-trig functions
+        var intAtan = Assert.Single(calc.Evaluate("integrate(atan(x), 0, 1)"));
+        Assert.Equal(LineKind.Result, intAtan.Kind);
+        Assert.Equal(Math.PI / 4.0 - Math.Log(2.0) / 2.0, intAtan.Value!.Frac, 6);
+    }
 }

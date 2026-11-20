@@ -319,9 +319,40 @@ public static class Calculus
     /// <summary>Normalized Fresnel sine integral S(x) = ∫_0^x sin(π/2 * t^2) dt.</summary>
     public static double FresnelS(double x)
     {
+        if (!double.IsFinite(x)) throw new EvalException("fresnels requires a finite argument");
         if (x == 0) return 0;
         double sign = x < 0 ? -1 : 1;
         double ax = Math.Abs(x);
+
+        if (ax >= 10.0)
+        {
+            // Asymptotic expansion S(x) = 1/2 - f(x)*cos(π/2*x^2) - g(x)*sin(π/2*x^2)
+            double pix2 = Math.PI * ax * ax;
+            double invPix2Sq = 1.0 / (pix2 * pix2);
+            double fSum = 1.0, fTerm = 1.0;
+            double gSum = 1.0, gTerm = 1.0;
+            for (int k = 1; k <= 12; k++)
+            {
+                double nextF = -fTerm * (4 * k - 3) * (4 * k - 1) * invPix2Sq;
+                if (Math.Abs(nextF) > Math.Abs(fTerm)) break;
+                fTerm = nextF;
+                fSum += fTerm;
+                if (Math.Abs(fTerm) <= 1e-16 * Math.Abs(fSum)) break;
+            }
+            for (int k = 1; k <= 12; k++)
+            {
+                double nextG = -gTerm * (4 * k - 1) * (4 * k + 1) * invPix2Sq;
+                if (Math.Abs(nextG) > Math.Abs(gTerm)) break;
+                gTerm = nextG;
+                gSum += gTerm;
+                if (Math.Abs(gTerm) <= 1e-16 * Math.Abs(gSum)) break;
+            }
+            double f = fSum / (Math.PI * ax);
+            double g = gSum / (Math.PI * Math.PI * ax * ax * ax);
+            double phase = 0.5 * Math.PI * ((ax * ax) % 4.0);
+            return sign * (0.5 - f * Math.Cos(phase) - g * Math.Sin(phase));
+        }
+
         // Subdivide [0, ax] so each panel has at most ~0.5 oscillation, then apply Romberg per panel.
         int panels = Math.Max(4, (int)Math.Ceiling(ax * ax));
         double total = 0;
@@ -386,41 +417,103 @@ public static class Calculus
     public static Value BetaInc(ComplexInterval zIn, double a, double b)
     {
         if (a <= 0 || b <= 0) throw new EvalException("betainc requires a > 0 and b > 0");
-        var z = new Complex(zIn.Re, zIn.Im);
         double logBeta = LogGamma(a) + LogGamma(b) - LogGamma(a + b);
 
-        Complex result;
-        if (z == Complex.Zero) result = Complex.Zero;
-        else if (z == Complex.One) result = Complex.One;
-        else
+        if (zIn.HasError && Ops.IntervalMode == 2)
         {
-            var integral = ComplexGaussLegendre(u =>
+            if (!zIn.IsComplex)
             {
-                double ua = Math.Pow(u, a - 1.0);
-                var oneMinusUz = Complex.Pow(Complex.One - u * z, b - 1.0);
-                return ua * oneMinusUz;
-            }, 0.0, 1.0, panels: 32);
-            result = Complex.Exp(a * Complex.Log(z) - logBeta) * integral;
+                double lo = zIn.Re - zIn.ReErr;
+                double hi = zIn.Re + zIn.ReErr;
+                if (lo >= 0 && hi <= 1)
+                {
+                    double vLo = EvalBetaInc(new Complex(lo, 0), a, b, logBeta).Real;
+                    double vHi = EvalBetaInc(new Complex(hi, 0), a, b, logBeta).Real;
+                    return Value.Complex(ComplexInterval.FromReal(0.5 * (vLo + vHi), 0.5 * Math.Abs(vHi - vLo)));
+                }
+            }
+            throw new EvalException("Interval mode 2 does not support uncertain betainc on this domain");
         }
+
+        var z = new Complex(zIn.Re, zIn.Im);
+        var result = EvalBetaInc(z, a, b, logBeta);
 
         if (zIn.HasError)
         {
             if ((z == Complex.Zero && a < 1) || (z == Complex.One && b < 1))
                 throw new EvalException("betainc derivative is singular at this point");
             var deriv = Complex.Pow(z, a - 1.0) * Complex.Pow(Complex.One - z, b - 1.0) * Math.Exp(-logBeta);
-            int mode = Ops.IntervalMode;
-            double reErr = mode == 2
-                ? Math.Abs(deriv.Real) * zIn.ReErr + Math.Abs(deriv.Imaginary) * zIn.ImErr
-                : Math.Sqrt(Math.Pow(deriv.Real * zIn.ReErr, 2) + Math.Pow(deriv.Imaginary * zIn.ImErr, 2));
-            double imErr = mode == 2
-                ? Math.Abs(deriv.Imaginary) * zIn.ReErr + Math.Abs(deriv.Real) * zIn.ImErr
-                : Math.Sqrt(Math.Pow(deriv.Imaginary * zIn.ReErr, 2) + Math.Pow(deriv.Real * zIn.ImErr, 2));
+            double reErr = Math.Sqrt(Math.Pow(deriv.Real * zIn.ReErr, 2) + Math.Pow(deriv.Imaginary * zIn.ImErr, 2));
+            double imErr = Math.Sqrt(Math.Pow(deriv.Imaginary * zIn.ReErr, 2) + Math.Pow(deriv.Real * zIn.ImErr, 2));
             return Value.Complex(ComplexInterval.FromComplex(result, reErr, imErr));
         }
 
         if (!zIn.IsComplex && Math.Abs(result.Imaginary) < 1e-12 * Math.Max(1.0, Math.Abs(result.Real)))
             return new Value(result.Real);
         return Value.Complex(new ComplexInterval(result.Real, result.Imaginary));
+    }
+
+    private static Complex EvalBetaInc(Complex z, double a, double b, double logBeta)
+    {
+        if (z == Complex.Zero) return Complex.Zero;
+        if (z == Complex.One) return Complex.One;
+
+        if (z.Imaginary == 0 && z.Real > 0 && z.Real < 1)
+            return new Complex(BetaIncReal(z.Real, a, b, logBeta), 0);
+
+        Func<double, Complex> integrand = a < 1.0
+            ? t => Complex.Pow(Complex.One - Math.Pow(t, 1.0 / a) * z, b - 1.0) / a
+            : u => Math.Pow(u, a - 1.0) * Complex.Pow(Complex.One - u * z, b - 1.0);
+
+        var scale = Complex.Exp(a * Complex.Log(z) - logBeta);
+        Complex prev = scale * ComplexGaussLegendre(integrand, 0.0, 1.0, panels: 32);
+        for (int panels = 64; panels <= 256; panels *= 2)
+        {
+            Complex curr = scale * ComplexGaussLegendre(integrand, 0.0, 1.0, panels);
+            if (!double.IsFinite(curr.Real) || !double.IsFinite(curr.Imaginary))
+                throw new EvalException("betainc did not converge");
+            if ((curr - prev).Magnitude <= 1e-10 * Math.Max(1.0, curr.Magnitude))
+                return curr;
+            prev = curr;
+        }
+        throw new EvalException("betainc did not converge");
+    }
+
+    private static double BetaIncReal(double x, double a, double b, double logBeta)
+    {
+        double bt = Math.Exp(a * Math.Log(x) + b * Math.Log(1.0 - x) - logBeta);
+        if (x < (a + 1.0) / (a + b + 2.0))
+            return bt * BetaIncCf(x, a, b) / a;
+        return 1.0 - bt * BetaIncCf(1.0 - x, b, a) / b;
+    }
+
+    private static double BetaIncCf(double x, double a, double b)
+    {
+        const double fpMin = 1e-30;
+        double qab = a + b, qap = a + 1.0, qam = a - 1.0;
+        double c = 1.0;
+        double d = 1.0 - qab * x / qap;
+        if (Math.Abs(d) < fpMin) d = fpMin;
+        d = 1.0 / d;
+        double h = d;
+        for (int m = 1; m <= 500; m++)
+        {
+            int m2 = 2 * m;
+            double aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+            d = 1.0 + aa * d; if (Math.Abs(d) < fpMin) d = fpMin;
+            c = 1.0 + aa / c; if (Math.Abs(c) < fpMin) c = fpMin;
+            d = 1.0 / d;
+            h *= d * c;
+
+            aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+            d = 1.0 + aa * d; if (Math.Abs(d) < fpMin) d = fpMin;
+            c = 1.0 + aa / c; if (Math.Abs(c) < fpMin) c = fpMin;
+            d = 1.0 / d;
+            double del = d * c;
+            h *= del;
+            if (Math.Abs(del - 1.0) < 1e-15) return h;
+        }
+        throw new EvalException("betainc did not converge");
     }
 
     private static readonly double[] GlNodes =
@@ -510,9 +603,17 @@ public static class Calculus
         SymExpr.Func { Name: "sin", Args.Count: 1 } f => Math.Sin(EvalDouble(f.Args[0], v, val)),
         SymExpr.Func { Name: "cos", Args.Count: 1 } f => Math.Cos(EvalDouble(f.Args[0], v, val)),
         SymExpr.Func { Name: "tan", Args.Count: 1 } f => Math.Tan(EvalDouble(f.Args[0], v, val)),
+        SymExpr.Func { Name: "cot", Args.Count: 1 } f => 1.0 / Math.Tan(EvalDouble(f.Args[0], v, val)),
+        SymExpr.Func { Name: "asin", Args.Count: 1 } f => Math.Asin(EvalDouble(f.Args[0], v, val)),
+        SymExpr.Func { Name: "acos", Args.Count: 1 } f => Math.Acos(EvalDouble(f.Args[0], v, val)),
+        SymExpr.Func { Name: "atan", Args.Count: 1 } f => Math.Atan(EvalDouble(f.Args[0], v, val)),
+        SymExpr.Func { Name: "acot", Args.Count: 1 } f => Math.Atan(1.0 / EvalDouble(f.Args[0], v, val)),
         SymExpr.Func { Name: "sinh", Args.Count: 1 } f => Math.Sinh(EvalDouble(f.Args[0], v, val)),
         SymExpr.Func { Name: "cosh", Args.Count: 1 } f => Math.Cosh(EvalDouble(f.Args[0], v, val)),
         SymExpr.Func { Name: "tanh", Args.Count: 1 } f => Math.Tanh(EvalDouble(f.Args[0], v, val)),
+        SymExpr.Func { Name: "asinh", Args.Count: 1 } f => Math.Asinh(EvalDouble(f.Args[0], v, val)),
+        SymExpr.Func { Name: "acosh", Args.Count: 1 } f => Math.Acosh(EvalDouble(f.Args[0], v, val)),
+        SymExpr.Func { Name: "atanh", Args.Count: 1 } f => Math.Atanh(EvalDouble(f.Args[0], v, val)),
         SymExpr.Func { Name: "ln", Args.Count: 1 } f => Math.Log(EvalDouble(f.Args[0], v, val)),
         SymExpr.Func { Name: "exp", Args.Count: 1 } f => Math.Exp(EvalDouble(f.Args[0], v, val)),
         SymExpr.Func { Name: "abs", Args.Count: 1 } f => Math.Abs(EvalDouble(f.Args[0], v, val)),
