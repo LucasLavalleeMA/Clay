@@ -1,6 +1,6 @@
 using Microsoft.UI.Xaml;
 
-namespace Clay;
+namespace Clay.UI;
 
 public partial class App : Application
 {

@@ -15,11 +15,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\Engine\*.cs" Link="Engine\%(Filename)%(Extension)" />
+    <ProjectReference Include="..\..\Engine\Clay.Engine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\..\AppData.cs" Link="AppData.cs" />
     <Compile Include="..\..\AsyncOperationQueue.cs" Link="AsyncOperationQueue.cs" />
     <Compile Include="..\..\AtomicFile.cs" Link="AtomicFile.cs" />
     <None Include="..\..\MainWindow.xaml" Link="MainWindow.xaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Qalculate\*.batch" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Qalculate\*.csv" CopyToOutputDirectory="PreserveNewest" />
     <Using Include="Xunit" />
   </ItemGroup>
 

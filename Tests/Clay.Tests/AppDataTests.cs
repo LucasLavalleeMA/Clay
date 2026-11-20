@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Clay.Engine;
+using Clay.UI;
 
 namespace Clay.Tests;
 
@@ -8,7 +9,10 @@ public class AppDataTests
     [Fact]
     public void SettingsRoundTrip()
     {
-        var original = new Settings(8, "Degrees", false, "Sticky", PhysicsUnits: true);
+        var original = new Settings(
+            12, "Degrees", false, "Sticky",
+            PhysicsUnits: true, IgnoreWhitespace: true,
+            AlwaysOnTop: true, AssumePositive: true, IntervalMode: 2);
         var restored = JsonSerializer.Deserialize<Settings>(JsonSerializer.Serialize(original));
 
         Assert.NotNull(restored);
@@ -25,15 +29,22 @@ public class AppDataTests
         Assert.NotNull(restored);
         restored.Validate();
         Assert.False(restored.PhysicsUnits);
+        Assert.False(restored.IgnoreWhitespace);
+        Assert.False(restored.AlwaysOnTop);
+        Assert.False(restored.AssumePositive);
+        Assert.Equal(1, restored.IntervalMode);
     }
 
     [Theory]
-    [InlineData(3, "Radians", "Default")]
-    [InlineData(6, "Invalid", "Default")]
-    [InlineData(6, "Degrees", "Invalid")]
-    public void InvalidSettingsAreRejected(int decimals, string angleMode, string theme)
+    [InlineData(3, "Radians", "Default", 1)]
+    [InlineData(6, "Invalid", "Default", 1)]
+    [InlineData(6, "Degrees", "Invalid", 1)]
+    [InlineData(6, "Radians", "Default", 0)]
+    [InlineData(6, "Radians", "Default", 3)]
+    public void InvalidSettingsAreRejected(int decimals, string angleMode, string theme, int intervalMode)
     {
-        Assert.Throws<InvalidDataException>(() => new Settings(decimals, angleMode, true, theme).Validate());
+        Assert.Throws<InvalidDataException>(() =>
+            new Settings(decimals, angleMode, true, theme, IntervalMode: intervalMode).Validate());
     }
 
     [Fact]

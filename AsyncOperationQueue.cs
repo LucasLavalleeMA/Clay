@@ -1,4 +1,4 @@
-namespace Clay;
+namespace Clay.UI;
 
 internal sealed class AsyncOperationQueue
 {

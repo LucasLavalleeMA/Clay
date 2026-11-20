@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Clay;
+namespace Clay.UI;
 
 internal static class AtomicFile
 {

@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Numerics;
 
 namespace Clay.Engine;
 
@@ -9,12 +10,44 @@ namespace Clay.Engine;
 public sealed class Value
 {
     private readonly double _number;
+    private readonly ExactNumber _exact;
 
     public IReadOnlyList<Value>? Items { get; }
     public bool IsArray => Items != null;
 
+    public string? StringValue { get; }
+    public bool IsString => StringValue != null;
+
+    public CalcDate? DateValue { get; }
+    public bool IsDate => DateValue.HasValue;
+
+    public ComplexInterval? ComplexValue { get; }
+    public bool IsComplex => ComplexValue.HasValue;
+
+    public SymExpr? SymValue { get; }
+    public bool IsSymbolic => SymValue != null;
+
     public double Number =>
-        Items == null ? _number : throw new EvalException("Expected a single number, not a list");
+        Items != null ? throw new EvalException("Expected a single number, not a list") :
+        StringValue != null ? throw new EvalException("Expected a number, not text") :
+        DateValue.HasValue ? throw new EvalException("Expected a number, not a date") :
+        SymValue != null ? throw new EvalException("Expected a number, not a symbolic expression") :
+        ComplexValue.HasValue ? (
+            ComplexValue.Value.IsComplex ? throw new EvalException("Expected a real number") :
+            ComplexValue.Value.HasError ? throw new EvalException("Expected an exact real number, not an interval") :
+            ComplexValue.Value.Re) :
+        _number;
+
+    public ExactNumber Exact =>
+        Items != null ? throw new EvalException("Expected a single number, not a list") :
+        StringValue != null ? throw new EvalException("Expected a number, not text") :
+        DateValue.HasValue ? throw new EvalException("Expected a number, not a date") :
+        SymValue != null ? throw new EvalException("Expected a number, not a symbolic expression") :
+        ComplexValue.HasValue ? (
+            ComplexValue.Value.IsComplex ? throw new EvalException("Expected a real number") :
+            ComplexValue.Value.HasError ? throw new EvalException("Expected an exact real number, not an interval") :
+            ExactNumber.FromDouble(ComplexValue.Value.Re)) :
+        _exact;
 
     public Unit? Unit { get; }
     public bool IsPercent { get; }
@@ -25,18 +58,56 @@ public sealed class Value
     public Value(double number, Unit? unit = null, bool isPercent = false)
     {
         _number = number;
+        _exact = ExactNumber.FromDouble(number);
+        Unit = unit;
+        IsPercent = isPercent;
+    }
+
+    public Value(ExactNumber exact, Unit? unit = null, bool isPercent = false)
+    {
+        _exact = exact;
+        _number = exact.ToDouble();
         Unit = unit;
         IsPercent = isPercent;
     }
 
     private Value(IReadOnlyList<Value> items) => Items = items;
+    private Value(string text) => StringValue = text;
+    private Value(CalcDate date) => DateValue = date;
+    private Value(ComplexInterval complex) => ComplexValue = complex;
+    private Value(SymExpr sym, bool isPercent = false) { SymValue = sym; IsPercent = isPercent; }
 
     public static Value List(IEnumerable<Value> items) => new(items.ToList());
+    public static Value Str(string text) => new(text);
+    public static Value Date(CalcDate date) => new(date);
+    public static Value Complex(ComplexInterval complex) => new(complex);
+    public static Value Sym(SymExpr sym) => new(sym);
+    public static Value FromSym(SymExpr sym) =>
+        sym is SymExpr.Num n ? new Value(n.Value) : new Value(sym);
+    public static Value Pct(SymExpr sym) => new(sym, isPercent: true);
+
+    public SymExpr ToSym()
+    {
+        if (Unit != null) throw new EvalException("Symbolic expressions do not support units");
+        return SymValue != null
+            ? (IsPercent ? Symbolic.Div(SymValue, Symbolic.FromLong(100), Ops.AssumePositive) : SymValue)
+            : Symbolic.FromExact(ExactFrac);
+    }
+
+    public ComplexInterval ToComplexInterval()
+    {
+        if (Unit != null) throw new EvalException("Complex numbers do not support units");
+        return ComplexValue ?? ComplexInterval.FromReal(Frac);
+    }
 
     public static Value Pct(double number) => new(number, null, true);
+    public static Value Pct(ExactNumber number) => new(number, null, true);
 
     /// <summary>The number as a plain quantity (20% becomes 0.2).</summary>
     public double Frac => IsPercent ? Number / 100 : Number;
+
+    /// <summary>The exact number as a plain quantity (20% becomes 1/5).</summary>
+    public ExactNumber ExactFrac => IsPercent ? Exact / ExactNumber.FromLong(100) : Exact;
 
 }
 
@@ -63,7 +134,7 @@ public static class Ops
         if (a.Items != null) return Value.List(a.Items.Select(x => Broadcast(x, b, f)));
         if (b.Items != null) return Value.List(b.Items.Select(y => Broadcast(a, y, f)));
         var result = f(a, b);
-        if (!result.IsArray && double.IsNaN(result.Number)) throw new EvalException("Not a number");
+        if (!result.IsArray && !result.IsString && !result.IsDate && !result.IsComplex && !result.IsSymbolic && double.IsNaN(result.Number)) throw new EvalException("Not a number");
         return result;
     }
 
@@ -80,7 +151,31 @@ public static class Ops
     }
 
     public static Value ConvertTo(Value v, Unit target) =>
-        Map(v, x => new Value(In(x, target), target));
+        Map(v, x =>
+        {
+            if (x.Unit != null && x.Unit.Offset == 0 && target.Offset == 0 &&
+                x.Unit.Dimension != target.Dimension &&
+                x.Unit.Dimension.Pow(-1) == target.Dimension)
+            {
+                if (x.Number == 0) throw new EvalException("Division by zero");
+                double result = 1.0 / (x.Number * x.Unit.Factor) / target.Factor;
+                if (Lost(result, x.Number, 1))
+                {
+                    double log = -Math.Log(Math.Abs(x.Number)) - Unit.LogProduct(x.Unit.Leaves) - Unit.LogProduct(target.Leaves);
+                    result = Math.CopySign(Math.Exp(log), x.Number);
+                }
+                return new Value(Checked(result, x.Number, 1), target);
+            }
+            return new Value(In(x, target), target);
+        });
+
+    public static Value ToBaseUnits(Value v) =>
+        Map(v, x =>
+        {
+            if (x.Unit == null) return x;
+            var baseUnit = UnitTable.ToBaseUnits(x.Unit, out double scale);
+            return new Value(x.Number * scale, baseUnit);
+        });
 
     // ------------------------------------------------------------- arithmetic
     //
@@ -94,21 +189,146 @@ public static class Ops
     //   keep plain double behavior (1e200 * 1e200 is ∞).
     // - Addition and "in" conversions keep plain double behavior, where a negligible term rounds to 0.
 
+    [ThreadStatic] private static int _intervalMode;
+    internal static int IntervalMode => _intervalMode == 0 ? 1 : _intervalMode;
+
+    [ThreadStatic] private static bool _assumePositive;
+    internal static bool AssumePositive => _assumePositive;
+
+    internal static IDisposable UseIntervalMode(int mode)
+    {
+        int prev = _intervalMode;
+        _intervalMode = mode;
+        return new ScopeReset(prev);
+    }
+
+    internal static IDisposable UseAssumePositive(bool assume)
+    {
+        bool prev = _assumePositive;
+        _assumePositive = assume;
+        return new AssumeReset(prev);
+    }
+
+    private sealed class ScopeReset(int prev) : IDisposable
+    {
+        public void Dispose() => _intervalMode = prev;
+    }
+
+    private sealed class AssumeReset(bool prev) : IDisposable
+    {
+        public void Dispose() => _assumePositive = prev;
+    }
+
     public static Value Add(Value a, Value b, int sign) =>
         Broadcast(a, b, (x, y) => AddScalar(x, y, sign));
 
-    public static Value Mul(Value a, Value b) => Broadcast(a, b, MulScalar);
+    public static Value Uncertainty(Value a, Value b) =>
+        Broadcast(a, b, (x, y) =>
+        {
+            var cx = x.ToComplexInterval();
+            if (y.Unit != null) throw new EvalException("Uncertainty does not support units");
+            return Value.Complex(new ComplexInterval(cx.Re, cx.Im, Math.Abs(y.Frac), cx.ImErr));
+        });
+
+    public static Value Mul(Value a, Value b) =>
+        a.IsArray && b.IsArray && (LinearAlgebra.IsMatrix(a) || LinearAlgebra.IsMatrix(b))
+            ? LinearAlgebra.MatMul(a, b)
+            : Broadcast(a, b, MulScalar);
     public static Value Div(Value a, Value b) => Broadcast(a, b, DivScalar);
+    public static Value ElementWiseMul(Value a, Value b) =>
+        !a.IsArray && !b.IsArray ? Mul(a, b) : LinearAlgebra.ElementWise(a, b, (x, y) => x * y);
+    public static Value ElementWiseDiv(Value a, Value b) =>
+        !a.IsArray && !b.IsArray ? Div(a, b) : LinearAlgebra.ElementWise(a, b, (x, y) => x / y);
+    public static Value ElementWisePow(Value a, Value b) =>
+        !a.IsArray && !b.IsArray ? Pow(a, b) : LinearAlgebra.ElementWise(a, b, ExactNumber.Pow);
+    public static Value IntDiv(Value a, Value b) => Broadcast(a, b, IntDivScalar);
     public static Value Mod(Value a, Value b) => Broadcast(a, b, ModScalar);
-    public static Value Pow(Value a, Value b) => Broadcast(a, b, PowScalar);
+    public static Value FloorMod(Value a, Value b) => Broadcast(a, b, FloorModScalar);
+    public static Value Pow(Value a, Value b)
+    {
+        if (LinearAlgebra.IsMatrix(a) && !b.IsArray && b.Unit == null && b.ExactFrac.TryGetBigInteger(out var exp))
+        {
+            if (exp < -1000 || exp > 1000)
+                throw new EvalException("Matrix exponent must be between -1000 and 1000");
+            return LinearAlgebra.MatrixPow(a, (long)exp);
+        }
+        return Broadcast(a, b, PowScalar);
+    }
+    public static Value EntryWisePow(Value a, Value b) => Broadcast(a, b, PowScalar);
     public static Value Factorial(Value v) => Map(v, FactorialScalar);
+    public static Value BitNot(Value v) => Map(v, x => new Value(ExactNumber.BitNot(RequirePlain(x))));
+    public static Value BitAnd(Value a, Value b) => Broadcast(a, b, (x, y) => new Value(ExactNumber.BitAnd(RequirePlain(x), RequirePlain(y))));
+    public static Value BitOr(Value a, Value b) => Broadcast(a, b, (x, y) => new Value(ExactNumber.BitOr(RequirePlain(x), RequirePlain(y))));
+    public static Value BitXor(Value a, Value b) => Broadcast(a, b, (x, y) => new Value(ExactNumber.BitXor(RequirePlain(x), RequirePlain(y))));
+    public static Value ShiftLeft(Value a, Value b) => Broadcast(a, b, (x, y) => new Value(ExactNumber.ShiftLeft(RequirePlain(x), RequirePlain(y))));
+    public static Value ShiftRight(Value a, Value b) => Broadcast(a, b, (x, y) => new Value(ExactNumber.ShiftRight(RequirePlain(x), RequirePlain(y))));
+
+    private static ExactNumber RequirePlain(Value v)
+    {
+        if (v.Unit != null) throw new EvalException("Bitwise operators require plain numbers");
+        return v.ExactFrac;
+    }
 
     private static Value AddScalar(Value a, Value b, int sign)
     {
-        if (a.IsPercent && b.IsPercent) return Value.Pct(a.Number + sign * b.Number);
-        if (b.IsPercent) return new Value(a.Number * (1 + sign * b.Number / 100), a.Unit);
+        if (a.DateValue is { } da)
+        {
+            if (b.DateValue is { } db)
+            {
+                if (sign > 0) throw new EvalException("Can't add two dates");
+                var days = (da.Instant - db.Instant).TotalDays;
+                return new Value(days, UnitTable.Lookup("d"));
+            }
+            if (b.Unit?.Dimension != Dim.Time)
+                throw new EvalException("Date arithmetic requires a time duration");
+            double seconds = In(b, UnitTable.Lookup("s")!) * sign;
+            return Value.Date(da.AddSeconds(seconds));
+        }
+        if (b.DateValue is { } db2 && sign > 0)
+        {
+            if (a.Unit?.Dimension != Dim.Time)
+                throw new EvalException("Date arithmetic requires a time duration");
+            double seconds = In(a, UnitTable.Lookup("s")!);
+            return Value.Date(db2.AddSeconds(seconds));
+        }
 
-        if (a.Unit == null && b.Unit == null) return new Value(a.Frac + sign * b.Number);
+        if (a.IsSymbolic || b.IsSymbolic)
+        {
+            if (a.IsPercent && b.IsPercent)
+            {
+                var aPct = a.SymValue ?? Symbolic.FromExact(a.Exact);
+                var bPct = b.SymValue ?? Symbolic.FromExact(b.Exact);
+                return Value.Pct(Symbolic.Add(aPct, bPct, sign, AssumePositive));
+            }
+            if (b.IsPercent)
+            {
+                var pct = b.ToSym();
+                var factor = Symbolic.Add(Symbolic.One, pct, sign, AssumePositive);
+                return Value.FromSym(Symbolic.Mul(a.ToSym(), factor, AssumePositive));
+            }
+            return Value.FromSym(Symbolic.Add(a.ToSym(), b.ToSym(), sign, AssumePositive));
+        }
+
+        if (a.IsComplex || b.IsComplex)
+        {
+            if (b.IsPercent && !a.IsPercent)
+            {
+                var factor = ComplexInterval.Add(ComplexInterval.FromReal(1), b.ToComplexInterval(), sign, IntervalMode);
+                return Value.Complex(ComplexInterval.Mul(a.ToComplexInterval(), factor, IntervalMode));
+            }
+            return Value.Complex(ComplexInterval.Add(a.ToComplexInterval(), b.ToComplexInterval(), sign, IntervalMode));
+        }
+
+        if (a.IsPercent && b.IsPercent)
+            return Value.Pct(sign > 0 ? a.Exact + b.Exact : a.Exact - b.Exact);
+        if (b.IsPercent)
+        {
+            var factor = sign > 0 ? ExactNumber.One + b.ExactFrac : ExactNumber.One - b.ExactFrac;
+            return new Value(a.Exact * factor, a.Unit);
+        }
+
+        if (a.Unit == null && b.Unit == null)
+            return new Value(sign > 0 ? a.ExactFrac + b.Exact : a.ExactFrac - b.Exact);
         var u = a.Unit ?? b.Unit!;
         if (a.Unit?.Dimension == Dim.Temperature && b.Unit?.Dimension == Dim.Temperature)
             return new Value(a.Number + sign * b.Number * b.Unit.Factor / a.Unit.Factor, a.Unit);
@@ -117,6 +337,11 @@ public static class Ops
 
     private static Value MulScalar(Value a, Value b)
     {
+        if (a.IsSymbolic || b.IsSymbolic)
+            return Value.FromSym(Symbolic.Mul(a.ToSym(), b.ToSym(), AssumePositive));
+        if (a.IsComplex || b.IsComplex)
+            return Value.Complex(ComplexInterval.Mul(a.ToComplexInterval(), b.ToComplexInterval(), IntervalMode));
+        if (a.Unit == null && b.Unit == null) return new Value(a.ExactFrac * b.ExactFrac);
         if (a.Unit != null && b.Unit != null) return Combine(a, b, 1);
         var unit = a.Unit ?? b.Unit;
         double r = a.Frac * b.Frac;
@@ -125,7 +350,12 @@ public static class Ops
 
     private static Value DivScalar(Value a, Value b)
     {
-        if (b.Frac == 0) throw new EvalException("Division by zero");
+        if (a.IsSymbolic || b.IsSymbolic)
+            return Value.FromSym(Symbolic.Div(a.ToSym(), b.ToSym(), AssumePositive));
+        if (a.IsComplex || b.IsComplex)
+            return Value.Complex(ComplexInterval.Div(a.ToComplexInterval(), b.ToComplexInterval(), IntervalMode));
+        if (b.ExactFrac.IsZero) throw new EvalException("Division by zero");
+        if (a.Unit == null && b.Unit == null) return new Value(a.ExactFrac / b.ExactFrac);
         if (a.Unit != null && b.Unit != null && a.Unit.Dimension == b.Unit.Dimension)
         {
             if (a.Number == 0 && a.Unit.Offset == 0 && b.Unit.Offset == 0) return new Value(0);
@@ -231,17 +461,42 @@ public static class Ops
 
     private static Value ModScalar(Value a, Value b)
     {
+        if (a.Unit == null && b.Unit == null) return new Value(ExactNumber.Rem(a.ExactFrac, b.ExactFrac));
         if (b.Unit != null && a.Unit == null) throw new EvalException("Can't divide by a unit");
         double divisor = a.Unit != null ? In(b, a.Unit) : b.Frac;
         if (divisor == 0) throw new EvalException("Division by zero");
         return new Value(a.Frac % divisor, a.Unit);
     }
 
+    private static Value FloorModScalar(Value a, Value b)
+    {
+        if (a.Unit == null && b.Unit == null) return new Value(ExactNumber.FloorMod(a.ExactFrac, b.ExactFrac));
+        if (b.Unit != null && a.Unit == null) throw new EvalException("Can't divide by a unit");
+        double divisor = a.Unit != null ? In(b, a.Unit) : b.Frac;
+        if (divisor == 0) throw new EvalException("Division by zero");
+        double r = a.Frac % divisor;
+        if (r != 0 && (r < 0) != (divisor < 0))
+            r += divisor;
+        return new Value(r, a.Unit);
+    }
+
+    private static Value IntDivScalar(Value a, Value b)
+    {
+        if (a.Unit == null && b.Unit == null) return new Value(ExactNumber.IntDiv(a.ExactFrac, b.ExactFrac));
+        var q = DivScalar(a, b);
+        return new Value(Math.Truncate(q.Number), q.Unit);
+    }
+
     private static Value PowScalar(Value a, Value b)
     {
+        if (a.IsSymbolic || b.IsSymbolic)
+            return Value.FromSym(Symbolic.Pow(a.ToSym(), b.ToSym(), AssumePositive));
+        if (a.IsComplex || b.IsComplex)
+            return Value.Complex(ComplexInterval.Pow(a.ToComplexInterval(), b.ToComplexInterval(), IntervalMode));
         if (b.Unit != null) throw new EvalException("An exponent can't have a unit");
+        if (a.Unit == null) return new Value(ExactNumber.Pow(a.ExactFrac, b.ExactFrac));
         double e = b.Frac;
-        if (a.Unit != null && e != 1) return UnitPow(a, e, x => Math.Pow(x, e));
+        if (e != 1) return UnitPow(a, e, x => Math.Pow(x, e));
         double result = Math.Pow(a.Frac, e);
         if (double.IsNaN(result)) throw new EvalException("Not a number");
         return new Value(result, a.Unit);
@@ -315,12 +570,8 @@ public static class Ops
 
     private static Value FactorialScalar(Value v)
     {
-        double n = v.Frac;
-        if (n < 0 || n != Math.Floor(n) || n > 170)
-            throw new EvalException("Factorial needs a whole number from 0 to 170");
-        double r = 1;
-        for (int i = 2; i <= n; i++) r *= i;
-        return new Value(r);
+        if (v.Unit != null) throw new EvalException("Factorial needs a plain whole number");
+        return new Value(ExactNumber.Factorial(v.ExactFrac));
     }
 }
 
@@ -333,11 +584,27 @@ public static class Formatter
         if (v.Items != null)
             return "[" + string.Join(", ", v.Items.Select(i => Format(i, decimals, group))) + "]";
 
+        if (v.StringValue != null)
+        {
+            char q = v.StringValue.EnumerateRunes().Count() == 1 ? '\'' : '"';
+            var escaped = v.StringValue.Replace("\\", "\\\\").Replace(q.ToString(), "\\" + q);
+            return $"{q}{escaped}{q}";
+        }
+
+        if (v.DateValue is { } date)
+            return date.Format();
+
+        if (v.ComplexValue is { } cx)
+            return cx.Format(decimals, group);
+
+        if (v.SymValue is { } sym)
+            return v.IsPercent ? Symbolic.Format(sym, decimals) + "%" : Symbolic.Format(sym, decimals);
+
         if (v.Text != null) return v.Text;
-        if (v.IsPercent) return Number(v.Number, decimals, group) + "%";
+        if (v.IsPercent) return FormatExact(v.Exact, decimals, group) + "%";
 
         var u = v.Unit;
-        if (u == null) return Number(v.Number, decimals, group);
+        if (u == null) return FormatExact(v.Exact, decimals, group);
 
         if (u.IsCurrency)
         {
@@ -347,7 +614,7 @@ public static class Formatter
             return u.Prefix != null ? sign + u.Prefix + body : sign + body + " " + u.Symbol;
         }
 
-        string n = Number(v.Number, decimals, group);
+        string n = FormatExact(v.Exact, decimals, group);
 
         // Currency rates such as $15/h keep the currency's prefix
         var money = u.Leaves.Where(t => t.Unit.IsCurrency).ToList();
@@ -359,6 +626,46 @@ public static class Formatter
         }
 
         return u.Symbol == "°" ? n + "°" : n + " " + u.Symbol;
+    }
+
+    private static string FormatExact(ExactNumber x, int decimals, bool group)
+    {
+        double d = x.ToDouble();
+        if (!x.IsExact || x.IsZero || (double.IsFinite(d) && d != 0))
+            return Number(d, decimals, group);
+
+        bool neg = x.Num.Sign < 0;
+        var absNum = BigInteger.Abs(x.Num);
+        var den = x.Den;
+        int exp10 = (int)Math.Floor(BigInteger.Log10(absNum) - BigInteger.Log10(den));
+
+        static BigInteger ScaleAndRound(BigInteger n, BigInteger d, int shift)
+        {
+            BigInteger sNum = shift >= 0 ? n * BigInteger.Pow(10, shift) : n;
+            BigInteger sDen = shift >= 0 ? d : d * BigInteger.Pow(10, -shift);
+            var (q, r) = BigInteger.DivRem(sNum, sDen);
+            if (r * 2 >= sDen) q += 1;
+            return q;
+        }
+
+        var scaled = ScaleAndRound(absNum, den, 6 - exp10);
+        if (scaled < 1_000_000)
+        {
+            exp10--;
+            scaled = ScaleAndRound(absNum, den, 6 - exp10);
+        }
+        while (scaled >= 10_000_000)
+        {
+            scaled = (scaled + 5) / 10;
+            exp10++;
+        }
+
+        string digits = scaled.ToString(Inv);
+        string frac = digits.Length > 1 ? digits[1..].TrimEnd('0') : "";
+        string mantissa = frac.Length > 0 ? $"{digits[0]}.{frac}" : digits[0].ToString();
+        string sign = neg ? "-" : "";
+        string expSign = exp10 >= 0 ? "+" : "";
+        return $"{sign}{mantissa}E{expSign}{exp10}";
     }
 
     public static string Number(double x, int decimals, bool group)

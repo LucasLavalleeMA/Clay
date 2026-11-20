@@ -19,7 +19,7 @@
   </ItemGroup>
   <!-- Publish the app into PublishDir so a normal Build is enough. Pass -p:SkipPublish=true if your script already published. -->
   <Target Name="PublishApp" Condition="'$(SkipPublish)' != 'true'">
-    <MSBuild Projects="$(MSBuildProjectDirectory)\..\Clay.csproj" Targets="Publish" Properties="Configuration=$(Configuration);Platform=$(Platform);RuntimeIdentifier=$(ClayRid);SelfContained=true;PublishDir=$(PublishDir)\" />
+    <MSBuild Projects="$(MSBuildProjectDirectory)\..\Clay.UI.csproj" Targets="Publish" Properties="Configuration=$(Configuration);Platform=$(Platform);RuntimeIdentifier=$(ClayRid);SelfContained=true;PublishDir=$(PublishDir)\" />
   </Target>
   <Target Name="GenerateHarvestedFiles" DependsOnTargets="PublishApp" BeforeTargets="CoreCompile">
     <PropertyGroup>

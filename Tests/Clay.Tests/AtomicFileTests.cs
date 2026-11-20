@@ -1,3 +1,5 @@
+using Clay.UI;
+
 namespace Clay.Tests;
 
 public class AtomicFileTests

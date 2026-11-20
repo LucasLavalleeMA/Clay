@@ -258,6 +258,41 @@ public static class UnitTable
         return terms;
     }
 
+    /// <summary>Expands a unit to coherent SI base units without collapsing back to a named derived unit.</summary>
+    public static Unit? ToBaseUnits(Unit unit, out double scale)
+    {
+        var terms = new List<Term>();
+        foreach (var leaf in unit.Leaves)
+        {
+            var coherent = Coherent(leaf.Unit)
+                ?? throw new EvalException($"Can't expand {unit.Symbol} to base units");
+            foreach (var c in coherent)
+                terms.Add(c with { Power = c.Power * leaf.Power });
+        }
+
+        var merged = Merge(terms);
+        scale = Unit.Product(unit.Leaves) / Unit.Product(merged);
+        if (merged.Count == 0) return null;
+        if (merged.Count == 1 && merged[0].Power == 1) return merged[0].Unit;
+        return new Unit(SymbolFor(merged), merged);
+    }
+
+    private static readonly string[] BinaryByteSymbols = ["B", "KiB", "MiB", "GiB", "TiB", "PiB"];
+
+    /// <summary>Selects the largest IEC binary byte unit (B through PiB) whose factor does not exceed |bytes|.</summary>
+    public static Unit BestBinaryByte(double bytes)
+    {
+        double abs = Math.Abs(bytes);
+        Unit best = Get("B");
+        foreach (var sym in BinaryByteSymbols)
+        {
+            var u = Get(sym);
+            if (abs >= u.Factor) best = u;
+            else break;
+        }
+        return best;
+    }
+
     /// <summary>Raises a unit to an integer power; scale is non-1 only for named results.</summary>
     public static Unit? Pow(Unit unit, int n, out double scale)
     {
@@ -414,6 +449,7 @@ public static class UnitTable
         // Length (base: meter)
         Def(Dim.Length, "m", 1, "m", "meter", "meters", "metre", "metres");
         Def(Dim.Length, "km", 1000, "km", "kilometer", "kilometers", "kilometre", "kilometres");
+        Def(Dim.Length, "dm", 0.1, "dm", "decimeter", "decimeters", "decimetre", "decimetres");
         Def(Dim.Length, "cm", 0.01, "cm", "centimeter", "centimeters", "centimetre", "centimetres");
         Def(Dim.Length, "mm", 0.001, "mm", "millimeter", "millimeters", "millimetre", "millimetres");
         Def(Dim.Length, "µm", 1e-6, "µm", "um", "micrometer", "micrometers");
@@ -459,6 +495,10 @@ public static class UnitTable
 
         // Data (base: byte)
         Def(Dim.Data, "bit", 0.125, "bit", "bits");
+        Def(Dim.Data, "kbit", 125, "kbit", "kilobit", "kilobits");
+        Def(Dim.Data, "Mbit", 125e3, "Mbit", "megabit", "megabits");
+        Def(Dim.Data, "Gbit", 125e6, "Gbit", "gigabit", "gigabits");
+        Def(Dim.Data, "Tbit", 125e9, "Tbit", "terabit", "terabits");
         Def(Dim.Data, "B", 1, "B", "byte", "bytes");
         Def(Dim.Data, "KB", 1e3, "KB", "kilobyte", "kilobytes");
         Def(Dim.Data, "MB", 1e6, "MB", "megabyte", "megabytes");
@@ -469,14 +509,17 @@ public static class UnitTable
         Def(Dim.Data, "MiB", 1024.0 * 1024, "MiB");
         Def(Dim.Data, "GiB", 1024.0 * 1024 * 1024, "GiB");
         Def(Dim.Data, "TiB", 1024.0 * 1024 * 1024 * 1024, "TiB");
+        Def(Dim.Data, "PiB", 1024.0 * 1024 * 1024 * 1024 * 1024, "PiB");
 
         // Area and volume from lengths, plus leaf areas (base: m²)
         Derive("m²", [T("m", 2)], "m2", "m²", "sqm");
+        Derive("dm²", [T("dm", 2)], "dm2", "dm²");
         Derive("cm²", [T("cm", 2)], "cm2", "cm²");
         Derive("km²", [T("km", 2)], "km2", "km²", "sqkm");
         Derive("ft²", [T("ft", 2)], "ft2", "ft²", "sqft");
         Derive("mi²", [T("mi", 2)], "mi2", "mi²", "sqmi");
         Derive("m³", [T("m", 3)], "m3", "m³");
+        Derive("dm³", [T("dm", 3)], "dm3", "dm³");
         Def(Dim.Area, "ha", 1e4, "ha", "hectare", "hectares");
         Def(Dim.Area, "acre", 4046.8564224, "acre", "acres");
 
@@ -555,6 +598,7 @@ public static class UnitTable
         Alias("J", T("N"), T("m"));
         Alias("m", T("J"), T("N", -1));
         Alias("Pa", T("N"), T("m", -2));
+        Alias("m²", T("N"), T("Pa", -1));
         Alias("Hz", T("s", -1));
         Alias("W", T("V"), T("A"));
         Alias("V", T("W"), T("A", -1));
