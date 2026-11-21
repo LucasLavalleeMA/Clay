@@ -12,7 +12,7 @@ public sealed class ClayApp : IDisposable
 {
     private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(15);
 
-    private readonly Application _app;
+    private readonly Application? _app;
     private readonly UIA3Automation _automation = new();
 
     public string DataDirectory { get; } = Path.Combine(Path.GetTempPath(), "Clay.UITests", Guid.NewGuid().ToString("N"));
@@ -21,15 +21,23 @@ public sealed class ClayApp : IDisposable
     /// <param name="settingsJson">Optional settings.json contents to start with (PascalCase <c>Settings</c> fields).</param>
     public ClayApp(string? settingsJson = null)
     {
-        Directory.CreateDirectory(DataDirectory);
-        if (settingsJson != null)
-            File.WriteAllText(Path.Combine(DataDirectory, "settings.json"), settingsJson);
-        var start = new ProcessStartInfo(ExePath) { UseShellExecute = false };
-        start.Environment["CLAY_DATA_DIR"] = DataDirectory;
+        try
+        {
+            Directory.CreateDirectory(DataDirectory);
+            if (settingsJson != null)
+                File.WriteAllText(Path.Combine(DataDirectory, "settings.json"), settingsJson);
+            var start = new ProcessStartInfo(ExePath) { UseShellExecute = false };
+            start.Environment["CLAY_DATA_DIR"] = DataDirectory;
 
-        _app = Application.Launch(start);
-        Window = _app.GetMainWindow(_automation, Timeout)
-            ?? throw new InvalidOperationException("Clay did not show its main window");
+            _app = Application.Launch(start);
+            Window = _app.GetMainWindow(_automation, Timeout)
+                ?? throw new InvalidOperationException("Clay did not show its main window");
+        }
+        catch
+        {
+            Dispose();
+            throw;
+        }
     }
 
     public TextBox Editor => Find("Editor").AsTextBox();
@@ -59,11 +67,11 @@ public sealed class ClayApp : IDisposable
     {
         try
         {
-            _app.Close();
+            _app?.Close();
         }
         finally
         {
-            _app.Dispose();
+            _app?.Dispose();
             _automation.Dispose();
             try { Directory.Delete(DataDirectory, recursive: true); }
             catch (IOException) { }
