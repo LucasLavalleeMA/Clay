@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
@@ -43,8 +44,7 @@ public sealed partial class MainWindow : Window
 
     private readonly Calculator _calc = new();
     private readonly DispatcherTimer _saveTimer = new() { Interval = TimeSpan.FromMilliseconds(700) };
-    private static readonly string DataDirectory = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Clay");
+    private static readonly string DataDirectory = AppInfo.DataDirectory;
     private static readonly string AutosavePath = Path.Combine(DataDirectory, "document.txt");
     private static readonly string SettingsPath = Path.Combine(DataDirectory, "settings.json");
     private static readonly string RatesPath = Path.Combine(DataDirectory, "rates.json");
@@ -168,6 +168,7 @@ public sealed partial class MainWindow : Window
         {
             var cell = (TextBlock)cells[i];
             var r = _results[i];
+            AutomationProperties.SetAutomationId(cell, $"Result{i}");
 
             cell.Height = cell.LineHeight = _lineHeight;
             cell.ClearValue(TextBlock.ForegroundProperty);

@@ -32,7 +32,7 @@ public class AsyncOperationQueueTests
             return Task.CompletedTask;
         });
 
-        Assert.False(open.IsCompleted);
+        open.IsCompleted.ShouldBeFalse();
         finishSave.SetResult();
         await Task.WhenAll(firstSave, open).WaitAsync(TimeSpan.FromSeconds(5));
         await queue.RunAsync(() =>
@@ -41,15 +41,15 @@ public class AsyncOperationQueueTests
             return Task.CompletedTask;
         }).WaitAsync(TimeSpan.FromSeconds(5));
 
-        Assert.Equal("contents of A", files["A"]);
-        Assert.Equal("contents of B", files["B"]);
+        files["A"].ShouldBe("contents of A");
+        files["B"].ShouldBe("contents of B");
     }
 
     [Fact]
     public async Task FailedOperationReleasesQueue()
     {
         var queue = new AsyncOperationQueue();
-        await Assert.ThrowsAsync<IOException>(() => queue.RunAsync(() => throw new IOException("failed")));
+        await Should.ThrowAsync<IOException>(() => queue.RunAsync(() => throw new IOException("failed")));
 
         bool ran = false;
         await queue.RunAsync(() =>
@@ -57,7 +57,7 @@ public class AsyncOperationQueueTests
             ran = true;
             return Task.CompletedTask;
         }).WaitAsync(TimeSpan.FromSeconds(5));
-        Assert.True(ran);
+        ran.ShouldBeTrue();
     }
 
     [Fact]
@@ -98,11 +98,11 @@ public class AsyncOperationQueueTests
             return Task.CompletedTask;
         });
 
-        Assert.False(secondSave.IsCompleted);
-        Assert.False(help.IsCompleted);
-        Assert.Equal(1, Volatile.Read(ref shown));
+        secondSave.IsCompleted.ShouldBeFalse();
+        help.IsCompleted.ShouldBeFalse();
+        Volatile.Read(ref shown).ShouldBe(1);
         closeFirstDialog.SetResult();
         await Task.WhenAll(firstSave, secondSave, help).WaitAsync(TimeSpan.FromSeconds(5));
-        Assert.Equal(3, shown);
+        shown.ShouldBe(3);
     }
 }

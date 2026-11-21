@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <ClayPlatform Condition="'$(ClayPlatform)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">ARM64</ClayPlatform>
+    <ClayPlatform Condition="'$(ClayPlatform)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X86'">x86</ClayPlatform>
+    <ClayPlatform Condition="'$(ClayPlatform)' == ''">x64</ClayPlatform>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Engine\Clay.Engine.csproj" />
+    <ProjectReference Include="..\..\Clay.UI.csproj" ReferenceOutputAssembly="false" SkipGetTargetFrameworkProperties="true" SetPlatform="Platform=$(ClayPlatform)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyMetadata Include="ClayExe" Value="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\..\bin\$(ClayPlatform)\$(Configuration)\net10.0-windows10.0.19041.0\Clay.exe'))" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FlaUI.UIA3" Version="5.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="Shouldly" Version="4.3.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+    <Compile Include="..\Clay.Tests\Qalculate\BatchFileParser.cs" Link="Qalculate\BatchFileParser.cs" />
+    <None Include="..\Clay.Tests\Qalculate\units.batch" Link="Qalculate\units.batch" CopyToOutputDirectory="PreserveNewest" />
+    <Using Include="Shouldly" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

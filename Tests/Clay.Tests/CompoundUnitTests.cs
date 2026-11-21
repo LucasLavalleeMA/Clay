@@ -238,7 +238,7 @@ public class CompoundUnitTests
     [InlineData("1 m/s⁻²¹⁴⁷⁴⁸³⁶⁴⁸")]
     [InlineData("1 m⁻²¹⁴⁷⁴⁸³⁶⁴⁸^2")]
     public void RejectsInvalidUnitArithmetic(string expression) =>
-        Assert.Equal(LineKind.Error, Eval(expression).Kind);
+        Eval(expression).Kind.ShouldBe(LineKind.Error);
 
     [Theory]
     [InlineData("5 N * 2 m", "10 J")]
@@ -260,12 +260,11 @@ public class CompoundUnitTests
     [Fact]
     public void PoweredResultsDoNotUnderflow()
     {
-        Assert.Equal(1e-286, Eval("1e-200 km^20 / 1e200 mm^19").Value!.Number, 1e-295);
-        Assert.Equal(3.1622776601683885e-8, Eval("sqrt(1e-300 PB^19·B)").Value!.Number, 1e-17);
-        Assert.Equal(1e-304, Eval("(1e-36 ha)^9.5").Value!.Number, 1e-313);
-        var big = UnitTable.Parse("PB²⁰·TB¹⁰·mg²⁰·µm²⁰");
-        Assert.NotNull(big);
-        Assert.Equal(1.0, big.Factor / 1e180, 1e-9);
+        Eval("1e-200 km^20 / 1e200 mm^19").Value!.Number.ShouldBe(1e-286, 1e-295);
+        Eval("sqrt(1e-300 PB^19·B)").Value!.Number.ShouldBe(3.1622776601683885e-8, 1e-17);
+        Eval("(1e-36 ha)^9.5").Value!.Number.ShouldBe(1e-304, 1e-313);
+        var big = UnitTable.Parse("PB²⁰·TB¹⁰·mg²⁰·µm²⁰").ShouldNotBeNull();
+        (big.Factor / 1e180).ShouldBe(1.0, 1e-9);
     }
 
     [Fact]
@@ -278,7 +277,7 @@ public class CompoundUnitTests
     [Fact]
     public void ReservedPhysicsSymbolDoesNotResolveToDifferentlyCasedVariable()
     {
-        Assert.NotEqual(LineKind.Result, Eval("v = 3\nV * 2", physics: true).Kind);
+        Eval("v = 3\nV * 2", physics: true).Kind.ShouldNotBe(LineKind.Result);
         AssertResult(Eval("v = 3\nv * 2", physics: true), "6");
     }
 
@@ -286,21 +285,21 @@ public class CompoundUnitTests
     public void PhysicsSymbolsAreReservedWhenEnabled()
     {
         var result = Eval("N = 5", physics: true);
-        Assert.Equal(LineKind.Error, result.Kind);
-        Assert.Contains("reserved", result.Text);
+        result.Kind.ShouldBe(LineKind.Error);
+        result.Text.ShouldContain("reserved");
     }
 
     [Fact]
     public void PhysicsSettingDoesNotLeakBetweenEvaluations()
     {
         AssertResult(Eval("5 N * 2 m", physics: true), "10 J");
-        Assert.False(UnitTable.PhysicsEnabled);
-        Assert.Null(UnitTable.Lookup("N"));
+        UnitTable.PhysicsEnabled.ShouldBeFalse();
+        UnitTable.Lookup("N").ShouldBeNull();
     }
 
     private static void AssertResult(LineResult result, string expected)
     {
-        Assert.True(result.Kind == LineKind.Result, $"{result.Kind}: {result.Text}");
-        Assert.Equal(expected, result.Text);
+        (result.Kind == LineKind.Result).ShouldBeTrue($"{result.Kind}: {result.Text}");
+        result.Text.ShouldBe(expected);
     }
 }

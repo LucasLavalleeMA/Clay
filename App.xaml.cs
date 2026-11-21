@@ -17,7 +17,7 @@ public partial class App : Application
         System.Diagnostics.Debug.WriteLine(e.Exception);
         try
         {
-            string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Clay");
+            string directory = AppInfo.DataDirectory;
             Directory.CreateDirectory(directory);
             File.AppendAllText(Path.Combine(directory, "errors.log"), $"{DateTimeOffset.Now:O} {e.Exception}{Environment.NewLine}");
         }

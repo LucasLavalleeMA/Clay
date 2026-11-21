@@ -18,9 +18,9 @@ public class AtomicFileTests
             using (new FileStream(otherTemporary, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
                 AtomicFile.WriteAllText(destination, "new contents");
 
-            Assert.Equal("new contents", File.ReadAllText(destination));
-            Assert.Equal("another instance", File.ReadAllText(otherTemporary));
-            Assert.Equal(2, Directory.GetFiles(directory).Length);
+            File.ReadAllText(destination).ShouldBe("new contents");
+            File.ReadAllText(otherTemporary).ShouldBe("another instance");
+            Directory.GetFiles(directory).Length.ShouldBe(2);
         }
         finally
         {
@@ -42,8 +42,8 @@ public class AtomicFileTests
         try
         {
             await Task.WhenAll(contents.Select(text => Task.Run(() => AtomicFile.WriteAllText(destination, text))));
-            Assert.Contains(File.ReadAllText(destination), contents);
-            Assert.Single(Directory.GetFiles(directory));
+            contents.ShouldContain(File.ReadAllText(destination));
+            Directory.GetFiles(directory).ShouldHaveSingleItem();
         }
         finally
         {
@@ -69,7 +69,7 @@ public class AtomicFileTests
             {
                 barrier.SignalAndWait();
                 for (int i = 0; i < 50; i++)
-                    Assert.Contains(AtomicFile.ReadAllText(destination), new[] { original, replacement });
+                    new[] { original, replacement }.ShouldContain(AtomicFile.ReadAllText(destination));
             });
             var writer = Task.Run(() =>
             {
@@ -78,7 +78,7 @@ public class AtomicFileTests
                     AtomicFile.WriteAllText(destination, i % 2 == 0 ? replacement : original);
             });
             await Task.WhenAll(reader, writer).WaitAsync(TimeSpan.FromSeconds(30));
-            Assert.Single(Directory.GetFiles(directory));
+            Directory.GetFiles(directory).ShouldHaveSingleItem();
         }
         finally
         {
@@ -98,8 +98,8 @@ public class AtomicFileTests
         try
         {
             var error = Record.Exception(() => AtomicFile.WriteAllText(destination, "contents"));
-            Assert.True(error is IOException or UnauthorizedAccessException);
-            Assert.Empty(Directory.GetFiles(directory));
+            (error is IOException or UnauthorizedAccessException).ShouldBeTrue();
+            Directory.GetFiles(directory).ShouldBeEmpty();
         }
         finally
         {
