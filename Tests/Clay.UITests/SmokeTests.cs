@@ -87,23 +87,24 @@ public sealed class SmokeTests
         bool realExistedBefore = File.Exists(realDoc);
         DateTime? realLastWriteBefore = realExistedBefore ? File.GetLastWriteTimeUtc(realDoc) : null;
 
-        using var app = new ClayApp();
-
-        app.SetDocument("1 + 1");
-        app.WaitForResult(0, "2").ShouldBe("2");
-
-        string customDoc = Path.Combine(app.DataDirectory, "document.txt");
-        string? savedContent = null;
-        Retry.WhileFalse(() =>
+        using (var app = new ClayApp())
         {
-            if (!File.Exists(customDoc))
-                return false;
-            savedContent = File.ReadAllText(customDoc);
-            return savedContent.Contains("1 + 1");
-        }, TimeSpan.FromSeconds(5), ignoreException: true);
+            app.SetDocument("1 + 1");
+            app.WaitForResult(0, "2").ShouldBe("2");
 
-        File.Exists(customDoc).ShouldBeTrue($"Expected autosave file at {customDoc}");
-        (savedContent ?? "").ShouldContain("1 + 1");
+            string customDoc = Path.Combine(app.DataDirectory, "document.txt");
+            string? savedContent = null;
+            Retry.WhileFalse(() =>
+            {
+                if (!File.Exists(customDoc))
+                    return false;
+                savedContent = File.ReadAllText(customDoc);
+                return savedContent.Contains("1 + 1");
+            }, TimeSpan.FromSeconds(5), ignoreException: true);
+
+            File.Exists(customDoc).ShouldBeTrue($"Expected autosave file at {customDoc}");
+            (savedContent ?? "").ShouldContain("1 + 1");
+        }
 
         if (realExistedBefore)
             File.GetLastWriteTimeUtc(realDoc).ShouldBe(realLastWriteBefore!.Value);
