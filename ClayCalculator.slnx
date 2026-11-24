@@ -14,6 +14,7 @@
   </Project>
   <Project Path="Engine/Clay.Engine.csproj" />
   <Project Path="Tests/Clay.Tests/Clay.Tests.csproj" />
+  <Project Path="Tests/Clay.UITests/Clay.UITests.csproj" />
   <Project Path="Installer/Clay.Bundle.wixproj">
     <BuildDependency Project="Installer/Clay.Installer.wixproj" />
   </Project>

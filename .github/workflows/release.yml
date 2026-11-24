@@ -1,6 +1,6 @@
 name: Release
 
-# Started by publish-release.ps1 (gh workflow run) or manually from the Actions tab.
+# Started manually from the Actions tab or with `gh workflow run release.yml`.
 # Version comes from Directory.Build.props; the tag is created by the release job.
 on:
   workflow_dispatch:

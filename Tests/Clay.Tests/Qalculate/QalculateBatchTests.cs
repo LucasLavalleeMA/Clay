@@ -133,8 +133,7 @@ public class QalculateBatchTests
         var results = calc.Evaluate(document);
         var actual = results[^1];
 
-        Assert.True(
-            actual.Kind == LineKind.Result,
+        (actual.Kind == LineKind.Result).ShouldBeTrue(
             $"{Key(testCase)} `{testCase.Expression}` expected `{testCase.Expected}` but got {actual.Kind}: `{actual.Text}`");
 
         var normalized = NormalizeForQalculate(actual, testCase.Expected);
@@ -182,7 +181,7 @@ public class QalculateBatchTests
             }
         }
 
-        Assert.Equal(testCase.Expected, normalized);
+        normalized.ShouldBe(testCase.Expected);
     }
 
     /// <summary>
@@ -458,13 +457,13 @@ public class QalculateBatchTests
 
         var cases = BatchFileParser.Parse("sample.batch", lines);
 
-        Assert.Equal(2, cases.Count);
-        Assert.Equal("alpha := 5", cases[0].Expression);
-        Assert.Equal("5", cases[0].Expected);
-        Assert.Empty(cases[0].PriorExpressions);
+        cases.Count.ShouldBe(2);
+        cases[0].Expression.ShouldBe("alpha := 5");
+        cases[0].Expected.ShouldBe("5");
+        cases[0].PriorExpressions.ShouldBeEmpty();
 
-        Assert.Equal("alpha + beta", cases[1].Expression);
-        Assert.Equal("7", cases[1].Expected);
-        Assert.Equal(["alpha := 5", "beta := 2"], cases[1].PriorExpressions);
+        cases[1].Expression.ShouldBe("alpha + beta");
+        cases[1].Expected.ShouldBe("7");
+        cases[1].PriorExpressions.ShouldBe(["alpha := 5", "beta := 2"]);
     }
 }

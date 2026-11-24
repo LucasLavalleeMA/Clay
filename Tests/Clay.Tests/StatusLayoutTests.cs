@@ -9,10 +9,12 @@ public class StatusLayoutTests
     {
         XNamespace x = "http://schemas.microsoft.com/winfx/2006/xaml";
         var document = XDocument.Load(Path.Combine(AppContext.BaseDirectory, "MainWindow.xaml"));
-        var status = Assert.Single(document.Descendants(), element => (string?)element.Attribute(x + "Name") == "StatusText");
+        var status = document.Descendants()
+            .Where(element => (string?)element.Attribute(x + "Name") == "StatusText")
+            .ShouldHaveSingleItem();
 
-        Assert.Equal("NoWrap", (string?)status.Attribute("TextWrapping"));
-        Assert.Equal("CharacterEllipsis", (string?)status.Attribute("TextTrimming"));
-        Assert.Equal("1", (string?)status.Attribute("MaxLines"));
+        ((string?)status.Attribute("TextWrapping")).ShouldBe("NoWrap");
+        ((string?)status.Attribute("TextTrimming")).ShouldBe("CharacterEllipsis");
+        ((string?)status.Attribute("MaxLines")).ShouldBe("1");
     }
 }

@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="Shouldly" Version="4.3.0" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
   </ItemGroup>
@@ -25,6 +26,7 @@
     <None Include="..\..\MainWindow.xaml" Link="MainWindow.xaml" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Qalculate\*.batch" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Qalculate\*.csv" CopyToOutputDirectory="PreserveNewest" />
+    <Using Include="Shouldly" />
     <Using Include="Xunit" />
   </ItemGroup>
 
